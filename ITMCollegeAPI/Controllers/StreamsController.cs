@@ -44,7 +44,7 @@ namespace ITMCollegeAPI.Controllers
         // PUT: api/Streams/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStream(int id, Stream stream)
+        public async Task<IActionResult> PutStream(int id,[FromForm] Stream stream)
         {
             if (id != stream.StreamId)
             {
@@ -75,7 +75,7 @@ namespace ITMCollegeAPI.Controllers
         // POST: api/Streams
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Stream>> PostStream(Stream stream)
+        public async Task<ActionResult<Stream>> PostStream([FromForm] Stream stream)
         {
             _context.Streams.Add(stream);
             await _context.SaveChangesAsync();
