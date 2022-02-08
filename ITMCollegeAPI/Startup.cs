@@ -1,4 +1,5 @@
 using ITMCollegeAPI.Models;
+using ITMCollegeAPI.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,7 @@ namespace ITMCollegeAPI
             });
             services.AddDbContext<ITMCollegeContext>(option => option.UseSqlServer(Configuration.GetConnectionString("itmcon")));
             services.AddCors();
+            services.AddScoped<ICourseRepository, CourseRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

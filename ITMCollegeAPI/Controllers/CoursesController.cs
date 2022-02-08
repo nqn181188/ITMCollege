@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ITMCollegeAPI.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using ITMCollegeAPI.Repository;
 
 namespace ITMCollegeAPI.Controllers
 {
@@ -17,36 +18,95 @@ namespace ITMCollegeAPI.Controllers
     {
         private readonly ITMCollegeContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+        ICourseRepository _courseRepository;
 
-        public CoursesController(ITMCollegeContext context, IWebHostEnvironment hostEnvironment)
+        public CoursesController(ITMCollegeContext context, IWebHostEnvironment hostEnvironment, ICourseRepository courseRepository)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
+            _courseRepository = courseRepository;
         }
 
+        [HttpGet]
+        [Route("GetFields")]
+        public async Task<IActionResult> GetFields()
+        {
+            try
+            {
+                var fields = await _courseRepository.GetFields();
+                if (fields == null)
+                {
+                    return NotFound();
+                }
+                return Ok(fields);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet]
+        [Route("GetStreams")]
+        public async Task<IActionResult> GetStreams()
+        {
+            try
+            {
+                var streams = await _courseRepository.GetStreams();
+                if (streams == null)
+                {
+                    return NotFound();
+                }
+                return Ok(streams);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
         // GET: api/Courses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
-            return await _context.Courses.ToListAsync();
+            try
+            {
+                var courses = await _courseRepository.GetCourses();
+                if (courses == null)
+                {
+                    return NotFound();
+                }
+                return Ok(courses);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
-
-            if (course == null)
+            if (id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-            return Ok(course);
+            try
+            {
+                var course = await _courseRepository.GetCourse(id);
+                if (course == null)
+                {
+                    return NotFound();
+                }
+                return Ok(course);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Courses/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from overCourseing attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, [FromForm] Course course)
         {
@@ -76,16 +136,35 @@ namespace ITMCollegeAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Courses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // Course: api/Courses
+        // To protect from overCourseing attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse([FromForm]Course course)
         {
-            course.Image = await SaveImage(course.ImageFile);
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync();
+           
+            
 
-            return StatusCode(201);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    course.Image = await SaveImage(course.ImageFile);
+                    var courseId = await _courseRepository.AddCourse(course);
+                    if (courseId > 0)
+                    {
+                        return Ok(courseId);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
         }
 
         // DELETE: api/Courses/5
