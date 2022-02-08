@@ -1,5 +1,7 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -17,6 +19,8 @@ namespace ITMCollegeAPI.Models
         public string Description { get; set; }
         public string Image { get; set; }
 
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
         public virtual ICollection<Faculty> Faculties { get; set; }
     }
 }
