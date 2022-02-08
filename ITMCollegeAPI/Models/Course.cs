@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -14,6 +16,8 @@ namespace ITMCollegeAPI.Models
         public int FieldId { get; set; }
         public string Image { get; set; }
 
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
         public virtual Field Field { get; set; }
         public virtual Stream Stream { get; set; }
     }
