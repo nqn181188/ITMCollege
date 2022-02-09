@@ -19,8 +19,8 @@ namespace ITMCollegeAPI.Models
         public string Description { get; set; }
         public string Image { get; set; }
 
-        [NotMapped]
-        public IFormFile ImageFile { get; set; }
+        //[NotMapped]
+        //public IFormFile ImageFile { get; set; }
         public virtual ICollection<Faculty> Faculties { get; set; }
     }
 }

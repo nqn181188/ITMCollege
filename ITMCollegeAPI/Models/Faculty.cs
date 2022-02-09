@@ -16,8 +16,8 @@ namespace ITMCollegeAPI.Models
         public int DepId { get; set; }
         public string Image { get; set; }
 
-        [NotMapped]
-        public IFormFile ImageFile { get; set; }
+        //[NotMapped]
+        //public IFormFile ImageFile { get; set; }
         public virtual Department Dep { get; set; }
     }
 }

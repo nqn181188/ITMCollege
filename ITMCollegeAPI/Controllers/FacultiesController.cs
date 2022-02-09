@@ -16,12 +16,10 @@ namespace ITMCollegeAPI.Controllers
     public class FacultiesController : ControllerBase
     {
         private readonly ITMCollegeContext _context;
-        private readonly IWebHostEnvironment _hostEnvironment;
-
-        public FacultiesController(ITMCollegeContext context, IWebHostEnvironment hostEnvironment)
+      
+        public FacultiesController(ITMCollegeContext context)
         {
-            _context = context;
-            _hostEnvironment = hostEnvironment;
+            _context = context;        
         }
 
         // GET: api/Faculties
@@ -48,13 +46,12 @@ namespace ITMCollegeAPI.Controllers
         // PUT: api/Faculties/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFaculty(int id,[FromForm] Faculty faculty)
+        public async Task<IActionResult> PutFaculty(int id,Faculty faculty)
         {
             if (id != faculty.FacultyId)
             {
                 return BadRequest();
             }
-            faculty.Image = await SaveImage(faculty.ImageFile);
             _context.Entry(faculty).State = EntityState.Modified;
 
             try
@@ -79,9 +76,8 @@ namespace ITMCollegeAPI.Controllers
         // POST: api/Faculties
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Faculty>> PostFaculty([FromForm]Faculty faculty)
+        public async Task<ActionResult<Faculty>> PostFaculty(Faculty faculty)
         {
-            faculty.Image = await SaveImage(faculty.ImageFile);
             _context.Facultys.Add(faculty);
             await _context.SaveChangesAsync();
 
@@ -107,19 +103,6 @@ namespace ITMCollegeAPI.Controllers
         private bool FacultyExists(int id)
         {
             return _context.Facultys.Any(e => e.FacultyId == id);
-        }
-
-        [NonAction]
-        public async Task<string> SaveImage(IFormFile imageFile)
-        {
-            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
         }
     }
 }

@@ -16,12 +16,10 @@ namespace ITMCollegeAPI.Controllers
     public class DepartmentsController : ControllerBase
     {
         private readonly ITMCollegeContext _context;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public DepartmentsController(ITMCollegeContext context, IWebHostEnvironment hostEnvironment)
+        public DepartmentsController(ITMCollegeContext context)
         {
             _context = context;
-            _hostEnvironment = hostEnvironment;
         }
 
         // GET: api/Departments
@@ -48,13 +46,12 @@ namespace ITMCollegeAPI.Controllers
         // PUT: api/Departments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDepartment(int id,[FromForm] Department department)
+        public async Task<IActionResult> PutDepartment(int id, Department department)
         {
             if (id != department.DepId)
             {
                 return BadRequest();
             }
-            department.Image = await SaveImage(department.ImageFile);
             _context.Entry(department).State = EntityState.Modified;
 
             try
@@ -79,13 +76,12 @@ namespace ITMCollegeAPI.Controllers
         // POST: api/Departments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Department>> PostDepartment([FromForm]Department department)
+        public async Task<ActionResult<Department>> PostDepartment(Department department)
         {
-            department.Image = await SaveImage(department.ImageFile);
             _context.Departments.Add(department);
             await _context.SaveChangesAsync();
 
-            return StatusCode(201);
+            return CreatedAtAction("GetDepartment", new { id = department.DepId }, department);
         }
 
         // DELETE: api/Departments/5
@@ -109,17 +105,5 @@ namespace ITMCollegeAPI.Controllers
             return _context.Departments.Any(e => e.DepId == id);
         }
 
-        [NonAction]
-        public async Task<string> SaveImage(IFormFile imageFile)
-        {
-            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
-        }
     }
 }
