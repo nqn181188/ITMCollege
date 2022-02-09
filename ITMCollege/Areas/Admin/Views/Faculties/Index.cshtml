@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ITMCollege.Models.Faculty>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Faculties List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FacultyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FalcultyName)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Dob)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Degree)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.DepId)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FacultyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FalcultyName)
+            </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.Dob)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Degree)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.DepId)
+            </td>*@
+            <td>
+                <img src="~/@item.Image" width="200" height="200" />
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.FacultyId  }) |
+                @Html.ActionLink("Details", "Details", new {  id=item.FacultyId  }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.FacultyId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
