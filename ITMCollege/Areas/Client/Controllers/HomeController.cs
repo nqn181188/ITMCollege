@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ITMCollege.Controllers
+namespace ITMCollege.Areas.Client.Controllers
 {
-    public class LoginController : Controller
+    [Area("Client")]
+    public class HomeController : Controller
     {
-        public IActionResult Login()
+        public IActionResult Index()
         {
             return View();
         }

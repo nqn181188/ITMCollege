@@ -36,6 +36,7 @@ namespace ITMCollegeAPI.Models
 
         public virtual Field Field { get; set; }
         public virtual Stream Stream { get; set; }
+        public byte Status { get; set; }
         public virtual ICollection<Registration> Registrations { get; set; }
     }
 }

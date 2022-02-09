@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ITMCollege.Controllers
 {
+    [Area("Admin")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
