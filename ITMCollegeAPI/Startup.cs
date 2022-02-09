@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ITMCollegeAPI
@@ -30,7 +31,8 @@ namespace ITMCollegeAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ITMCollegeContext>(Option => Option.UseSqlServer(Configuration.GetConnectionString("itmcon")));
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve) ;
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ITMCollegeAPI", Version = "v1" });

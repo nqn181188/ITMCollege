@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ITMCollegeAPI.Models;
-using Microsoft.AspNetCore.Hosting;
 using System.IO;
-using ITMCollegeAPI.Repository;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ITMCollegeAPI.Controllers
 {
@@ -18,107 +17,57 @@ namespace ITMCollegeAPI.Controllers
     {
         private readonly ITMCollegeContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
-        ICourseRepository _courseRepository;
 
-        public CoursesController(ITMCollegeContext context, IWebHostEnvironment hostEnvironment, ICourseRepository courseRepository)
+        public CoursesController(ITMCollegeContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
-            _hostEnvironment = hostEnvironment;
-            _courseRepository = courseRepository;
+            _hostEnvironment = webHostEnvironment;
         }
 
-        [HttpGet]
-        [Route("GetFields")]
-        public async Task<IActionResult> GetFields()
-        {
-            try
-            {
-                var fields = await _courseRepository.GetFields();
-                if (fields == null)
-                {
-                    return NotFound();
-                }
-                return Ok(fields);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-        [HttpGet]
-        [Route("GetStreams")]
-        public async Task<IActionResult> GetStreams()
-        {
-            try
-            {
-                var streams = await _courseRepository.GetStreams();
-                if (streams == null)
-                {
-                    return NotFound();
-                }
-                return Ok(streams);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
         // GET: api/Courses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
-            try
-            {
-                var courses = await _courseRepository.GetCourses();
-                if (courses == null)
-                {
-                    return NotFound();
-                }
-                return Ok(courses);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+            return await _context.Courses
+                .AsNoTracking()
+                .Include(i=>i.Field)
+                .Include(i=>i.Stream)
+                .ToListAsync();
         }
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
-            if (id == null)
+            var course = await _context.Courses
+                 .AsNoTracking()
+                .Include(i => i.Field)
+                .Include(i => i.Stream)
+                .SingleOrDefaultAsync(w => w.CourseId == id);
+
+            if (course == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            try
-            {
-                var course = await _courseRepository.GetCourse(id);
-                if (course == null)
-                {
-                    return NotFound();
-                }
-                return Ok(course);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+
+            return course;
         }
 
         // PUT: api/Courses/5
-        // To protect from overCourseing attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, [FromForm] Course course)
+        public async Task<IActionResult> PutCourse(int id, Course course)
         {
             if (id != course.CourseId)
             {
                 return BadRequest();
             }
-            course.Image = await SaveImage(course.ImageFile);
+
             _context.Entry(course).State = EntityState.Modified;
 
             try
             {
+                course.Image = await SaveImage(course.ImageFile);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -136,35 +85,16 @@ namespace ITMCollegeAPI.Controllers
             return NoContent();
         }
 
-        // Course: api/Courses
-        // To protect from overCourseing attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: api/Courses
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse([FromForm]Course course)
+        public async Task<ActionResult<Course>> PostCourse(Course course)
         {
-           
-            
+            course.Image = await SaveImage(course.ImageFile);
+            _context.Courses.Add(course);
+            await _context.SaveChangesAsync();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    course.Image = await SaveImage(course.ImageFile);
-                    var courseId = await _courseRepository.AddCourse(course);
-                    if (courseId > 0)
-                    {
-                        return Ok(courseId);
-                    }
-                    else
-                    {
-                        return NotFound();
-                    }
-                }
-                catch (Exception)
-                {
-                    return BadRequest();
-                }
-            }
-            return BadRequest();
+            return StatusCode(201);
         }
 
         // DELETE: api/Courses/5
@@ -194,7 +124,7 @@ namespace ITMCollegeAPI.Controllers
             string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
             imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
             var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using(var fileStream = new FileStream(imagePath, FileMode.Create))
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
             {
                 await imageFile.CopyToAsync(fileStream);
             }

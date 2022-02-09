@@ -24,7 +24,10 @@ namespace ITMCollegeAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Field>>> GetFields()
         {
-            return await _context.Fields.ToListAsync();
+            return await _context.Fields
+                .AsNoTracking()
+                .Include(i=>i.Stream)
+                .ToListAsync();
         }
 
         // GET: api/Fields/5
