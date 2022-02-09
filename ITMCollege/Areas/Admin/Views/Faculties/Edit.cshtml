@@ -1,23 +1,25 @@
-﻿@model  ITMCollege.Models.Faculty
+﻿@model ITMCollege.Models.Faculty
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
 <h4>Faculty</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           @* <div class="form-group">
+            <input type="hidden" asp-for="FacultyId" />
+            <input type="hidden" asp-for="Image" />
+            <div class="form-group">
                 <label asp-for="FacultyId" class="control-label"></label>
                 <input asp-for="FacultyId" class="form-control" />
                 <span asp-validation-for="FacultyId" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <label asp-for="FalcultyName" class="control-label"></label>
                 <input asp-for="FalcultyName" class="form-control" />
@@ -30,17 +32,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Degree" class="control-label"></label>
-                <select asp-for="Degree" name="Degree">
+                @*<input asp-for="Degree" class="form-control" />*@
+                 <select asp-for="Degree" name="Degree">
                     <option  value="Master" >Master</option>
                     <option  value="Advisor" >Advisor</option>
                 </select>
-                @*<input asp-for="Degree" class="form-control" />*@
                 <span asp-validation-for="Degree" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DepId" class="control-label"></label>
                 @*<input asp-for="DepId" class="form-control" />*@
-                <select name="DepId">
+                <select asp-for="DepId" name="DepId">
                     @foreach(var item in @ViewBag.ListDep)
                     {
                         <option class="list list-danger" value="@item.DepId">@item.DepName</option>
@@ -52,10 +54,11 @@
                 <label asp-for="Image" class="control-label"></label>
                 @*<input asp-for="Image" class="form-control" />*@
                 <input type="file" name="file" class="form-control"/>
+                <img src="~/@Model.Image" alt="Alternate Text" width="200" height="200" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

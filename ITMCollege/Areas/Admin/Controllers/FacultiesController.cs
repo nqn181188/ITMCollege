@@ -22,6 +22,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly INotyfService _notyf;
 
         private readonly string uri = "http://localhost:20646/api/faculties/";
+        private readonly string uri2 = "http://localhost:20646/api/departments/";
         private HttpClient httpclient = new HttpClient();
 
         public FacultiesController(ILogger<HomeController> logger, INotyfService notyf)
@@ -48,6 +49,8 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FacultiesController/Create
         public ActionResult Create()
         {
+            ViewBag.ListDep = JsonConvert.DeserializeObject<IEnumerable<Department>>(httpclient.GetStringAsync(uri2).Result);
+            httpclient.Dispose();
             return View();
         }
 
@@ -84,17 +87,41 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FacultiesController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ViewBag.ListDep = JsonConvert.DeserializeObject<IEnumerable<Department>>(httpclient.GetStringAsync(uri2).Result);
+            var model = JsonConvert.DeserializeObject<Faculty>(httpclient.GetStringAsync(uri + id).Result);
+            httpclient.Dispose();
+            return View(model);
         }
 
         // POST: FacultiesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("FacultyId,FalcultyName,Dob,Degree,DepId,Image")] Faculty faculty, IFormFile file)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (file != null)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string file_path = Path.Combine
+                        (Directory.GetCurrentDirectory(), @"wwwroot/Images/Faculty", fileName);
+                    using (var stream = new FileStream(file_path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    faculty.Image = "Images/Faculty/" + fileName;
+                    _notyf.Success("Edit Succesfully");
+                    var model = httpclient.PutAsJsonAsync(uri + id, faculty).Result;
+                    httpclient.Dispose();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    _notyf.Success("Edit Succesfully");
+                    var model = httpclient.PutAsJsonAsync(uri + id, faculty).Result;
+                    httpclient.Dispose();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch
             {
@@ -105,7 +132,8 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FacultiesController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var data = JsonConvert.DeserializeObject<Faculty>(httpclient.GetStringAsync(uri + id).Result);
+            return View(data);
         }
 
         // POST: FacultiesController/Delete/5
@@ -115,6 +143,9 @@ namespace ITMCollege.Areas.Admin.Controllers
         {
             try
             {
+                _notyf.Success("Delete Succesfully");
+                var data = httpclient.DeleteAsync(uri + id).Result;
+                httpclient.Dispose();
                 return RedirectToAction(nameof(Index));
             }
             catch
