@@ -181,11 +181,11 @@ namespace ITMCollegeAPI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Courses__FieldID__3D5E1FD2");
 
-                entity.HasOne(d => d.Stream)
-                    .WithMany(p => p.Courses)
-                    .HasForeignKey(d => d.StreamId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Courses__StreamI__3C69FB99");
+                //entity.HasOne(d => d.Stream)
+                //    .WithMany(p => p.Courses)
+                //    .HasForeignKey(d => d.StreamId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__Courses__StreamI__3C69FB99");
             });
 
             modelBuilder.Entity<Department>(entity =>

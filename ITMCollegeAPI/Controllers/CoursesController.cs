@@ -31,7 +31,6 @@ namespace ITMCollegeAPI.Controllers
             return await _context.Courses
                 .AsNoTracking()
                 .Include(i=>i.Field)
-                .Include(i=>i.Stream)
                 .ToListAsync();
         }
 
@@ -42,7 +41,6 @@ namespace ITMCollegeAPI.Controllers
             var course = await _context.Courses
                  .AsNoTracking()
                 .Include(i => i.Field)
-                .Include(i => i.Stream)
                 .SingleOrDefaultAsync(w => w.CourseId == id);
 
             if (course == null)
@@ -56,7 +54,7 @@ namespace ITMCollegeAPI.Controllers
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, Course course)
+        public async Task<IActionResult> PutCourse(int id,[FromForm] Course course)
         {
             if (id != course.CourseId)
             {
@@ -67,7 +65,7 @@ namespace ITMCollegeAPI.Controllers
 
             try
             {
-                course.Image = await SaveImage(course.ImageFile);
+                //course.Image = await SaveImage(course.ImageFile);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -88,14 +86,26 @@ namespace ITMCollegeAPI.Controllers
         // POST: api/Courses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse(Course course)
+        public async Task<ActionResult<Course>> PostCourse([FromForm] Course course)
         {
-            course.Image = await SaveImage(course.ImageFile);
+            //course.Image = await SaveImage(course.ImageFile);
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
 
             return StatusCode(201);
         }
+        //[NonAction]
+        //public async Task<string> SaveImage(IFormFile imageFile)
+        //{
+        //    string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+        //    imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+        //    var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
+        //    using (var fileStream = new FileStream(imagePath, FileMode.Create))
+        //    {
+        //        await imageFile.CopyToAsync(fileStream);
+        //    }
+        //    return imageName;
+        //}
 
         // DELETE: api/Courses/5
         [HttpDelete("{id}")]
@@ -118,17 +128,6 @@ namespace ITMCollegeAPI.Controllers
             return _context.Courses.Any(e => e.CourseId == id);
         }
 
-        [NonAction]
-        public async Task<string> SaveImage(IFormFile imageFile)
-        {
-            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
-        }
+       
     }
 }
