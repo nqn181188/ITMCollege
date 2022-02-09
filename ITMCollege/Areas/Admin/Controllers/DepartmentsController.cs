@@ -59,12 +59,12 @@ namespace ITMCollege.Controllers
             {
                 string fileName = Path.GetFileName(file.FileName);
                 string file_path = Path.Combine
-                    (Directory.GetCurrentDirectory(), @"wwwroot/Images", fileName);
+                    (Directory.GetCurrentDirectory(), @"wwwroot/Images/Department", fileName);
                 using (var stream = new FileStream(file_path, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
-                department.Image = "Images/" + fileName;
+                department.Image = "Images/Department/" + fileName;
                 var data = httpclient.PostAsJsonAsync<Department>(uri, department).Result;
                 if (data.IsSuccessStatusCode)
                 {
@@ -99,12 +99,12 @@ namespace ITMCollege.Controllers
                 {
                     string fileName = Path.GetFileName(file.FileName);
                     string file_path = Path.Combine
-                        (Directory.GetCurrentDirectory(), @"wwwroot/Images", fileName);
+                        (Directory.GetCurrentDirectory(), @"wwwroot/Images/Department", fileName);
                     using (var stream = new FileStream(file_path, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
                     }
-                    department.Image = "Images/" + fileName;
+                    department.Image = "Images/Department/" + fileName;
                     _notyf.Success("Edit Succesfully");
                     var model = httpclient.PutAsJsonAsync(uri + id, department).Result;
                     httpclient.Dispose();
