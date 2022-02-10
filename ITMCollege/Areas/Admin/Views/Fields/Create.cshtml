@@ -2,8 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
-    //Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/View/Shared/Admin/_Layout.cshtml";
+
 }
 
 <h1>Create </h1>
@@ -30,12 +30,7 @@
                 <select name="StreamId" id="StreamId" asp-for="StreamId" asp-items="@(new SelectList(ViewBag.ListStream,"StreamId","StreamName"))">
                   
                 </select>
-                @*<select name="StreamId">
-                    @foreach (var item in @ViewBag.ListStream)
-                    {
-                        <option class="list list-danger" value="@item.StreamId">@item.StreamName</option>
-                    }
-                </select>*@
+             
                 <span asp-validation-for="StreamId" class="text-danger"></span>
             </div>
             <div class="form-group">

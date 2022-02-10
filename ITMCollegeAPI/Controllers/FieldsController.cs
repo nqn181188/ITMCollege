@@ -30,6 +30,16 @@ namespace ITMCollegeAPI.Controllers
                 .ToListAsync();
         }
 
+        [HttpGet]
+        [Route("GetFieldsByStreamId/{id}")]
+        public async Task<ActionResult<IEnumerable<Field>>> GetFieldsByStreamId(int id)
+        {
+            return await _context.Fields
+                .AsNoTracking()
+                .Include(i => i.Stream).Where(i=>i.StreamId==id)
+                .ToListAsync();
+        }
+
         // GET: api/Fields/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Field>> GetField(int id)
@@ -47,7 +57,7 @@ namespace ITMCollegeAPI.Controllers
         // PUT: api/Fields/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutField(int id, [FromForm] Field field)
+        public async Task<IActionResult> PutField(int id, Field field)
         {
             if (id != field.FieldId)
             {
@@ -78,7 +88,7 @@ namespace ITMCollegeAPI.Controllers
         // POST: api/Fields
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Field>> PostField([FromForm]Field field)
+        public async Task<ActionResult<Field>> PostField(Field field)
         {
             _context.Fields.Add(field);
             await _context.SaveChangesAsync();
