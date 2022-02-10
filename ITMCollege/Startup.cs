@@ -58,6 +58,10 @@ namespace ITMCollege
                     name: "default",
                     areaName: "Client",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                    name: "default",
+                    areaName: "Admin",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
