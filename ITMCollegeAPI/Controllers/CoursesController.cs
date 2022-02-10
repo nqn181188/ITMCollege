@@ -55,7 +55,7 @@ namespace ITMCollegeAPI.Controllers
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id,[FromForm] Course course)
+        public async Task<IActionResult> PutCourse(int id,Course course)
         {
             if (id != course.CourseId)
             {
@@ -87,7 +87,7 @@ namespace ITMCollegeAPI.Controllers
         // POST: api/Courses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse([FromForm] Course course)
+        public async Task<ActionResult<Course>> PostCourse(Course course)
         {
             //course.Image = await SaveImage(course.ImageFile);
             _context.Courses.Add(course);

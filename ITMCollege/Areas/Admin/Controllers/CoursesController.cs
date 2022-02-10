@@ -3,10 +3,12 @@ using ITMCollege.Areas.Client.Controllers;
 using ITMCollege.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -23,6 +25,7 @@ namespace ITMCollege.Areas.Admin.Controllers
 
         private readonly string uri = "http://localhost:20646/api/courses/";
         private readonly string uri1 = "http://localhost:20646/api/fields/";
+        private readonly string uri11 = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
         private readonly string uri2 = "http://localhost:20646/api/streams/";
         private HttpClient httpclient = new HttpClient();
 
@@ -47,10 +50,16 @@ namespace ITMCollege.Areas.Admin.Controllers
             return View(model);
         }
 
+        public JsonResult getfieldsFromDatabaseByStream(int id)
+        {
+            var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri11 + id).Result);
+            httpclient.Dispose();
+            return Json(new SelectList(model,"FieldId","FieldName"));
+        }
+
         // GET: CoursesController/Create
         public ActionResult Create()
         {
-            ViewBag.ListField = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri1).Result);
             ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
             httpclient.Dispose();
             return View();
@@ -89,7 +98,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: CoursesController/Edit/5
         public ActionResult Edit(int id)
         {
-            ViewBag.ListField = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri1).Result);
+           
             ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
             var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
             httpclient.Dispose();
@@ -156,5 +165,8 @@ namespace ITMCollege.Areas.Admin.Controllers
                 return View();
             }
         }
+
+
+      
     }
 }
