@@ -54,7 +54,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // POST: StreamsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StreamId,StreamName")] ITMCollege.Models.Stream st)
+        public ActionResult Create(ITMCollege.Models.Stream st)
         {
             try
             {

@@ -75,7 +75,7 @@ namespace ITMCollegeAPI.Controllers
         // POST: api/Streams
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Stream>> PostStream([FromForm] Stream stream)
+        public async Task<ActionResult<Stream>> PostStream(Stream stream)
         {
             _context.Streams.Add(stream);
             await _context.SaveChangesAsync();
