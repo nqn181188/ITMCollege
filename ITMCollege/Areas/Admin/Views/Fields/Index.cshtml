@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.FieldName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StreamId)
+                @Html.DisplayNameFor(model => model.Stream.StreamName)
             </th>
             <th></th>
         </tr>
@@ -35,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.FieldName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StreamId)
+                @Html.DisplayFor(modelItem => item.Stream.StreamName)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.FieldId }) |

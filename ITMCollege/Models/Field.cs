@@ -17,7 +17,6 @@ namespace ITMCollege.Models
         public int FieldId { get; set; }
         public string FieldName { get; set; }
         public int StreamId { get; set; }
-
         public virtual Stream Stream { get; set; }
         //public virtual ICollection<Admission> Admissions { get; set; }
         //public virtual ICollection<Course> Courses { get; set; }
