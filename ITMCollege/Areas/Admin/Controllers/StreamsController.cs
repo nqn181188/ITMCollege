@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -31,7 +32,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: StreamsController
         public ActionResult Index()
         {
-            var model = JsonConvert.DeserializeObject<IEnumerable<Stream>>(httpclient.GetStringAsync(uri).Result);
+            var model = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
             return View(model);
         }
@@ -39,7 +40,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: StreamsController/Details/5
         public ActionResult Details(int id)
         {
-            var model = JsonConvert.DeserializeObject<Stream>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uri + id).Result);
             httpclient.Dispose();
             return View(model);
         }
@@ -53,12 +54,12 @@ namespace ITMCollege.Areas.Admin.Controllers
         // POST: StreamsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StreamId,StreamName")] Stream stream)
+        public async Task<IActionResult> Create([Bind("StreamId,StreamName")] ITMCollege.Models.Stream st)
         {
             try
             {
 
-                var data = httpclient.PostAsJsonAsync<Stream>(uri, stream).Result;
+                var data = httpclient.PostAsJsonAsync<ITMCollege.Models.Stream>(uri, st).Result;
                 if (data.IsSuccessStatusCode)
                 {
                     _notyf.Success("Create Succesfully");
@@ -71,12 +72,14 @@ namespace ITMCollege.Areas.Admin.Controllers
             {
                 return View();
             }
+
+          
         }
 
         // GET: StreamsController/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = JsonConvert.DeserializeObject<Stream>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uri + id).Result);
             httpclient.Dispose();
             return View(model);
         }
@@ -84,7 +87,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // POST: StreamsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StreamId,StreamName")] Stream stream)
+        public async Task<IActionResult> Edit(int id, [Bind("StreamId,StreamName")] ITMCollege.Models.Stream stream)
         {
             try
             {
@@ -111,7 +114,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: StreamsController/Delete/5
         public ActionResult Delete(int id)
         {
-            var data = JsonConvert.DeserializeObject<Stream>(httpclient.GetStringAsync(uri + id).Result);
+            var data = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uri + id).Result);
             return View(data);
         }
 

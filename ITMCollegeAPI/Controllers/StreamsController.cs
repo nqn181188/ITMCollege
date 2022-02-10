@@ -24,7 +24,7 @@ namespace ITMCollegeAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stream>>> GetStreams()
         {
-            return await _context.Streams.ToListAsync();
+            return await _context.Streams.OrderByDescending(i=>i.StreamId).ToListAsync();
         }
 
         // GET: api/Streams/5
@@ -79,8 +79,7 @@ namespace ITMCollegeAPI.Controllers
         {
             _context.Streams.Add(stream);
             await _context.SaveChangesAsync();
-
-            return StatusCode(201);
+            return CreatedAtAction("GetStream", new { id = stream.StreamId }, stream);
         }
 
         // DELETE: api/Streams/5

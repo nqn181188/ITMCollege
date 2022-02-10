@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Create </h1>
 
 <h4>Field</h4>
 <hr />
@@ -26,12 +26,16 @@
             </div>
             <div class="form-group">
                 <label asp-for="StreamId" class="control-label"></label>
-                <select name="StreamId">
+
+                <select name="StreamId" id="StreamId" asp-for="StreamId" asp-items="@(new SelectList(ViewBag.ListStream,"StreamId","StreamName"))">
+                  
+                </select>
+                @*<select name="StreamId">
                     @foreach (var item in @ViewBag.ListStream)
                     {
                         <option class="list list-danger" value="@item.StreamId">@item.StreamName</option>
                     }
-                </select>
+                </select>*@
                 <span asp-validation-for="StreamId" class="text-danger"></span>
             </div>
             <div class="form-group">

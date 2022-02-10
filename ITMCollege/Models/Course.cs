@@ -18,7 +18,7 @@ namespace ITMCollege.Models
 
         //[NotMapped]
         //public IFormFile ImageFile { get; set; }
-        //public virtual Field Field { get; set; }
-        //public virtual Stream Stream { get; set; }
+        public virtual Field Field { get; set; }
+        public virtual Stream Stream { get; set; }
     }
 }

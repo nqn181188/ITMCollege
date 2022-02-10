@@ -31,6 +31,7 @@ namespace ITMCollegeAPI.Controllers
             return await _context.Courses
                 .AsNoTracking()
                 .Include(i=>i.Field)
+                
                 .ToListAsync();
         }
 
