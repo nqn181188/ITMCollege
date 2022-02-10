@@ -26,7 +26,10 @@ namespace ITMCollegeAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Faculty>>> GetFacultys()
         {
-            return await _context.Facultys.ToListAsync();
+            return await _context.Facultys
+                .AsNoTracking()
+                .Include(i => i.Dep)
+                .ToListAsync();
         }
 
         // GET: api/Faculties/5
