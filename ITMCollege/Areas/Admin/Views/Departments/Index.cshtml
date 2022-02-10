@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Departments List</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -41,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>*@
             <td>
-                <img src="~/@item.Image" width="200" height="200" />
+                <img src="~/@item.Image" width="220" height="200" />
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new {  id=item.DepId }) |
