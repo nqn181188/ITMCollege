@@ -25,9 +25,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Degree)
             </th>
-            @*<th>
+            <th>
                 @Html.DisplayNameFor(model => model.DepId)
-            </th>*@
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Image)
             </th>
@@ -49,9 +49,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Degree)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.DepId)
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Dep.DepName)
+            </td>
             <td>
                 <img src="~/@item.Image" width="220" height="200" />
             </td>
