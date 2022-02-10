@@ -60,8 +60,8 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: CoursesController/Create
         public ActionResult Create()
         {
-            var model = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
-            ViewBag.ListStream = new SelectList(model, "StreamId", "StreamName");
+            var data = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
+            ViewBag.ListStream = new SelectList(data, "StreamId", "StreamName");
             httpclient.Dispose();
             return View();
         }
@@ -99,8 +99,9 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: CoursesController/Edit/5
         public ActionResult Edit(int id)
         {
-           
-            ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
+
+            var data = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
+            ViewBag.ListStream = new SelectList(data, "StreamId", "StreamName");
             var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
             httpclient.Dispose();
             return View(model);
@@ -147,6 +148,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         {
             var data = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
             return View(data);
+
         }
 
         // POST: CoursesController/Delete/5

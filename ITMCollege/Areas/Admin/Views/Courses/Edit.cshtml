@@ -11,13 +11,13 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CourseId" class="control-label"></label>
-                <input asp-for="CourseId" class="form-control" />
-                <span asp-validation-for="CourseId" class="text-danger"></span>
-            </div>
+           
+            <input asp-for="CourseId" type="hidden" class="form-control" />
+            <input asp-for="StreamId" type="hidden" class="form-control" />
+            <input asp-for="FieldId" type="hidden" class="form-control" />   
+            
             <div class="form-group">
                 <label asp-for="CourseName" class="control-label"></label>
                 <input asp-for="CourseName" class="form-control" />
@@ -29,18 +29,15 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StreamId" class="control-label"></label>
-                <input asp-for="StreamId" class="form-control" />
-                <span asp-validation-for="StreamId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="FieldId" class="control-label"></label>
-                <input asp-for="FieldId" class="form-control" />
+                <input class="form-control" value="@Model.Field.FieldName" disabled>
                 <span asp-validation-for="FieldId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <input type="file" name="file" class="form-control" />
+                <img src="~/@Model.Image" alt="Alternate Text" width="200" height="200" />
+                @*<input asp-for="Image" class="form-control" />*@
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -56,4 +53,30 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $(document).ready(function () {
+        $("#StreamId").on("change", function () {
+            $("#FieldId").empty;
+            $.ajax({
+                url: "/admin/courses/getfieldsFromDatabaseByStream",
+                @* url: '@Url.Action("getfieldsFromDatabaseByStream")',*@
+            type: "GET",
+                dataType: 'json',
+                    data: { id: $("#StreamId").val() },
+
+            traditional: true,
+                success: function (Fields) {
+                    /*  $("#FieldId").append('<option value="' + -1 + '"> ' + 'Select Field' + ' </option>');*/
+                    $.each(Fields, function (i, field) {
+                        $("#FieldId").append('<option value="' + field.value + '"> ' + field.text + ' </option>');
+                    });
+                },
+            error: function () {
+                alert("Something went wrong call the police");
+            }
+        });
+    });
+    });
+</script>
 }

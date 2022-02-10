@@ -5,16 +5,12 @@
     Layout = "~/Views/Shared/Admin/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Course</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-@if (TempData["CheckDelete"] != null) { 
-<div class="text-danger">
-    TempData["CheckDelete"]
-</div>
-}
+
 <table class="table">
     <thead>
         <tr>
@@ -43,32 +39,32 @@
         @{ var count = 0;}
         @foreach (var item in Model)
         {
-            <tr>
-                @{ count++;}
-                <td>
-                    @count
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.Stream.StreamName)
-                </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.Field.FieldName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Image)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.CourseId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
-                </td>
-            </tr>
+        <tr>
+            @{ count++;}
+            <td>
+                @count
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Stream.StreamName)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Field.FieldName)
+            </td>
+            <td>
+                <img src="~/@item.Image" width="220" height="200" />
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CourseId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
+            </td>
+        </tr>
         }
     </tbody>
 </table>
