@@ -16,53 +16,62 @@ using System.Threading.Tasks;
 namespace ITMCollege.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class FieldsController : Controller
+    public class CoursesController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
 
-        private readonly string uri = "http://localhost:20646/api/fields/";
+        private readonly string uri = "http://localhost:20646/api/courses/";
+        private readonly string uri1 = "http://localhost:20646/api/fields/";
         private readonly string uri2 = "http://localhost:20646/api/streams/";
         private HttpClient httpclient = new HttpClient();
 
-        public FieldsController(ILogger<HomeController> logger, INotyfService notyf)
+        public CoursesController(ILogger<HomeController> logger, INotyfService notyf)
         {
             _logger = logger;
             _notyf = notyf;
         }
-        // GET: FieldsController
+        // GET: CoursesController
         public ActionResult Index()
         {
-            var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri).Result);
+            var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
             return View(model);
         }
 
-        // GET: FieldsController/Details/5
+        // GET: CoursesController/Details/5
         public ActionResult Details(int id)
         {
-            var model = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
             httpclient.Dispose();
             return View(model);
         }
 
-        // GET: FieldsController/Create
+        // GET: CoursesController/Create
         public ActionResult Create()
         {
+            ViewBag.ListField = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri1).Result);
             ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
             httpclient.Dispose();
             return View();
         }
 
-        // POST: FieldsController/Create
+        // POST: CoursesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FieldId,FieldName,StreamId")] Field field)
+        public async Task<IActionResult> Create([Bind("CourseId,CourseName,Description,FieldId,StreamId,Image")] Course course, IFormFile file)
         {
             try
             {
-               
-                var data = httpclient.PostAsJsonAsync<Field>(uri, field).Result;
+                string fileName = Path.GetFileName(file.FileName);
+                string file_path = Path.Combine
+                    (Directory.GetCurrentDirectory(), @"wwwroot/Images/Course", fileName);
+                using (var stream = new FileStream(file_path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                course.Image = "Images/Course/" + fileName;
+                var data = httpclient.PostAsJsonAsync<Course>(uri, course).Result;
                 if (data.IsSuccessStatusCode)
                 {
                     _notyf.Success("Create Succesfully");
@@ -77,33 +86,43 @@ namespace ITMCollege.Areas.Admin.Controllers
             }
         }
 
-        // GET: FieldsController/Edit/5
+        // GET: CoursesController/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.ListField = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri1).Result);
             ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
-            var model = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
             httpclient.Dispose();
             return View(model);
         }
 
-        // POST: FieldsController/Edit/5
+        // POST: CoursesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FieldId,FieldName,StreamId")] Field field)
+        public async Task<IActionResult> Edit(int id, [Bind("CourseId,CourseName,Description,FieldId,StreamId,Image")] Course course, IFormFile file)
         {
             try
             {
-                if (field != null)
+                if (file != null)
                 {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string file_path = Path.Combine
+                        (Directory.GetCurrentDirectory(), @"wwwroot/Images/Course", fileName);
+                    using (var stream = new FileStream(file_path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    course.Image = "Images/Course/" + fileName;
                     _notyf.Success("Edit Succesfully");
-                    var model = httpclient.PutAsJsonAsync(uri + id, field).Result;
+                    var model = httpclient.PutAsJsonAsync(uri + id, course).Result;
                     httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    _notyf.Success("Edit fail");
-                
+                    _notyf.Success("Edit Succesfully");
+                    var model = httpclient.PutAsJsonAsync(uri + id, course).Result;
+                    httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -113,14 +132,14 @@ namespace ITMCollege.Areas.Admin.Controllers
             }
         }
 
-        // GET: FieldsController/Delete/5
+        // GET: CoursesController/Delete/5
         public ActionResult Delete(int id)
         {
-            var data = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uri + id).Result);
+            var data = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
             return View(data);
         }
 
-        // POST: FieldsController/Delete/5
+        // POST: CoursesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

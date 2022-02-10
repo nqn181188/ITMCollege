@@ -20,7 +20,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
 
-        private readonly string uri = "http://localhost:20646/api/fields/";
+        private readonly string uri = "http://localhost:20646/api/streams/";
         private HttpClient httpclient = new HttpClient();
 
         public StreamsController(ILogger<HomeController> logger, INotyfService notyf)
