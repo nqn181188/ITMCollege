@@ -25,6 +25,7 @@ namespace ITMCollegeAPI.Controllers
         public async Task<ActionResult<IEnumerable<Field>>> GetFields()
         {
             return await _context.Fields
+                .OrderByDescending(i => i.FieldId)
                 .AsNoTracking()
                 .Include(i=>i.Stream)
                 .ToListAsync();
@@ -35,6 +36,7 @@ namespace ITMCollegeAPI.Controllers
         public async Task<ActionResult<IEnumerable<Field>>> GetFieldsByStreamId(int id)
         {
             return await _context.Fields
+               
                 .AsNoTracking()
                 .Include(i => i.Stream).Where(i=>i.StreamId==id)
                 .ToListAsync();

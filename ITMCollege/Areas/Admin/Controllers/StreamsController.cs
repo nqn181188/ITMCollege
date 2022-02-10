@@ -22,6 +22,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly INotyfService _notyf;
 
         private readonly string uri = "http://localhost:20646/api/streams/";
+        private readonly string uri11 = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
         private HttpClient httpclient = new HttpClient();
 
         public StreamsController(ILogger<HomeController> logger, INotyfService notyf)
@@ -114,8 +115,17 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: StreamsController/Delete/5
         public ActionResult Delete(int id)
         {
-            var data = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uri + id).Result);
-            return View(data);
+            var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri11 + id).Result);
+            if (model.Count() < 1)
+            {
+                var data = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uri + id).Result);
+                return View(data);
+            }
+            else
+            {
+                _notyf.Warning("Cant delete this record right now");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: StreamsController/Delete/5
@@ -125,15 +135,19 @@ namespace ITMCollege.Areas.Admin.Controllers
         {
             try
             {
-                _notyf.Success("Delete Succesfully");
-                var data = httpclient.DeleteAsync(uri + id).Result;
-                httpclient.Dispose();
-                return RedirectToAction(nameof(Index));
+                
+                    _notyf.Success("Delete Succesfully");
+                    var data = httpclient.DeleteAsync(uri + id).Result;
+                    httpclient.Dispose();
+                    return RedirectToAction(nameof(Index));
+            
             }
             catch
             {
+              
                 return View();
             }
         }
+       
     }
 }

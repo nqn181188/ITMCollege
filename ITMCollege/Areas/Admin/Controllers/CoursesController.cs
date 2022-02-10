@@ -60,7 +60,8 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: CoursesController/Create
         public ActionResult Create()
         {
-            ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
+            var model = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
+            ViewBag.ListStream = new SelectList(model, "StreamId", "StreamName");
             httpclient.Dispose();
             return View();
         }

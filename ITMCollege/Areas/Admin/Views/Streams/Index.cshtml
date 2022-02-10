@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/View/Shared/Admin/_Layout.cshtml";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
 
 }
 
@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StreamId)
+                No.
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StreamName)
@@ -24,20 +24,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @{ var count = 0;}
+        @foreach (var item in Model)
+        {
         <tr>
+            @{ count++;}
             <td>
-                @Html.DisplayFor(modelItem => item.StreamId)
+                @count
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StreamName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.StreamId}) |
-                @Html.ActionLink("Details", "Details", new { id=item.StreamId}) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.StreamId})
+                @Html.ActionLink("Edit", "Edit", new { id = item.StreamId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.StreamId }) |
+                @*@{if (count) { } ;  }*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.StreamId })
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

@@ -24,7 +24,10 @@ namespace ITMCollegeAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stream>>> GetStreams()
         {
-            return await _context.Streams.OrderByDescending(i=>i.StreamId).ToListAsync();
+          
+            return await _context.Streams
+                .OrderByDescending(i=>i.StreamId)
+                .ToListAsync();
         }
 
         // GET: api/Streams/5
@@ -44,7 +47,7 @@ namespace ITMCollegeAPI.Controllers
         // PUT: api/Streams/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStream(int id,[FromForm] Stream stream)
+        public async Task<IActionResult> PutStream(int id,Stream stream)
         {
             if (id != stream.StreamId)
             {

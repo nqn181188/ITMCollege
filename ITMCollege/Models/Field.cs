@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +16,10 @@ namespace ITMCollege.Models
         //}
 
         public int FieldId { get; set; }
+        [Required]
+        [Display(Name = "Field")]
         public string FieldName { get; set; }
+
         public int StreamId { get; set; }
         public virtual Stream Stream { get; set; }
         //public virtual ICollection<Admission> Admissions { get; set; }

@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/View/Shared/Admin/_Layout.cshtml";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -10,11 +10,16 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@if (TempData["CheckDelete"] != null) { 
+<div class="text-danger">
+    TempData["CheckDelete"]
+</div>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CourseId)
+                No.
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CourseName)
@@ -22,11 +27,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Stream.StreamName)
+            </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.StreamId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FieldId)
+                @Html.DisplayNameFor(model => model.Field.FieldName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Image)
@@ -35,32 +40,35 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StreamId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FieldId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.CourseId}) |
-                @Html.ActionLink("Details", "Details", new { id=item.CourseId}) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.CourseId})
-            </td>
-        </tr>
-}
+        @{ var count = 0;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                @{ count++;}
+                <td>
+                    @count
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Stream.StreamName)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Field.FieldName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.CourseId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

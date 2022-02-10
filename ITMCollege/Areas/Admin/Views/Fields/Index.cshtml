@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FieldId)
+                No.
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FieldName)
@@ -27,10 +27,12 @@
         </tr>
     </thead>
     <tbody>
+               @{ var count = 0;}
 @foreach (var item in Model) {
         <tr>
+            @{ count++;}
             <td>
-                @Html.DisplayFor(modelItem => item.FieldId)
+                @count
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FieldName)
@@ -39,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Stream.StreamName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.FieldId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.FieldId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.FieldId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.FieldId })
             </td>
