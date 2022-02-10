@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ITMCollege.Models.Facility>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FacilityId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FacilityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FacilityId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FacilityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <img src="~/@item.Image" width="200" height="200" />
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.FacilityId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.FacilityId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.FacilityId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
