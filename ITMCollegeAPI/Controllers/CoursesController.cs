@@ -53,6 +53,16 @@ namespace ITMCollegeAPI.Controllers
             return course;
         }
 
+        [HttpGet]
+        [Route("GetCoursesByFieldId/{id}")]
+        public async Task<ActionResult<IEnumerable<Course>>> GetCoursesByFieldId(int id)
+        {
+            return await _context.Courses
+                .AsNoTracking()
+                .Include(i => i.Field).Where(i => i.FieldId == id)
+                .ToListAsync();
+        }
+
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
