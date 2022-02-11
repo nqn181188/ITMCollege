@@ -43,70 +43,10 @@ namespace ITMCollege.Areas.Admin.Controllers
             return View(model);
         }
 
-        // GET: FeedBacksController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+       
 
-        // POST: FeedBacksController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Email,Subject,Message")] Feedback feedback)
-        {
-            try
-            {
-               
-                var data = httpclient.PostAsJsonAsync<Feedback>(uri, feedback).Result;
-                if (data.IsSuccessStatusCode)
-                {
-                    _notyf.Success("Create Succesfully");
-                    httpclient.Dispose();
-                    return RedirectToAction(nameof(Index));
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+     
 
-        // GET: FeedBacksController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            var model = JsonConvert.DeserializeObject< ITMCollege.Models.Feedback> (httpclient.GetStringAsync(uri + id).Result);
-            httpclient.Dispose();
-            return View(model);
-          
-        }
-
-        // POST: FeedBacksController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public  ActionResult Edit(int id, [Bind("FirstName,LastName,Email,Subject,Message")] Feedback feedback)
-        {
-            try
-            {
-                if (feedback != null)
-                {
-                    _notyf.Success("Edit Succesfully");
-                    var model = httpclient.PutAsJsonAsync(uri + id, feedback).Result;
-                    httpclient.Dispose();
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    _notyf.Success("Edit fail");
-
-                    return RedirectToAction(nameof(Index));
-                }
-            }
-            catch
-            {
-                return View();
-            }
-        }
         // GET: FeedBacksController/Delete/5
         public ActionResult Delete(int id)
         {

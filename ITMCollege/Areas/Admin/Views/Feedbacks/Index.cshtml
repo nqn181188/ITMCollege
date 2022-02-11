@@ -7,9 +7,9 @@
 
 <h1>Index</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -56,7 +56,7 @@
                 @Html.DisplayFor(modelItem => item.Message)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.FeedbackId  }) |
+                @*@Html.ActionLink("Edit", "Edit", new {  id=item.FeedbackId  }) |*@
                 @Html.ActionLink("Details", "Details", new { id = item.FeedbackId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.FeedbackId })
             </td>
