@@ -13,5 +13,10 @@ namespace ITMCollege.Areas.Client.Controllers
         {
             return View();
         }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
     }
 }
