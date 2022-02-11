@@ -20,6 +20,8 @@ namespace ITMCollege.Controllers
 
         private readonly string uridep = "http://localhost:20646/api/departments/";
         private readonly string urifacul = "http://localhost:20646/api/faculties/";
+        private readonly string urifaci = "http://localhost:20646/api/facilities/";
+        private readonly string urifeed = "http://localhost:20646/api/feedbacks/";
         private HttpClient httpclient = new HttpClient();
 
         public HomeController(ILogger<HomeController> logger, INotyfService notyf)
@@ -32,6 +34,8 @@ namespace ITMCollege.Controllers
         {
             ViewBag.ListDep = JsonConvert.DeserializeObject<IEnumerable<Department>>(httpclient.GetStringAsync(uridep).Result);
             ViewBag.ListFacul = JsonConvert.DeserializeObject<IEnumerable<Faculty>>(httpclient.GetStringAsync(urifacul).Result);
+            ViewBag.ListFacil = JsonConvert.DeserializeObject<IEnumerable<Facility>>(httpclient.GetStringAsync(urifaci).Result);
+            ViewBag.ListFeed = JsonConvert.DeserializeObject<IEnumerable<Feedback>>(httpclient.GetStringAsync(urifeed).Result);
             _notyf.Success("Success Notification");
             return View();
         }
