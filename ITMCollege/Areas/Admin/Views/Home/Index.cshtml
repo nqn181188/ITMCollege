@@ -4,6 +4,19 @@
 @{
     Layout = "~/Views/Shared/Admin/_Layout.cshtml";
 }
+@{
+    //count quantity list block code
+    var countDep = 0;
+    var countFacul = 0;
+    foreach(var item in ViewBag.ListDep)
+    {
+        countDep++;
+    }
+    foreach(var item in ViewBag.ListFacul)
+    {
+        countFacul++;
+    }
+}
 <div class="container-fluid">
     <!-- Small boxes (Stat box) -->
     <div class="row">
@@ -41,8 +54,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>100/10</h3>
-
+                    <h3>@countFacul/@countDep</h3>
                     <p> Faculty/Department</p>
                 </div>
                 <div class="icon">
