@@ -14,6 +14,7 @@ namespace ITMCollege.Areas.Client.Controllers
     public class DepartmentsController : Controller
     {
         private readonly string uri = "http://localhost:20646/api/departments/";
+        private readonly string uri2 = "http://localhost:20646/api/faculties/";
         private HttpClient httpclient = new HttpClient();
         // GET: DepartmentsController
         public ActionResult Index()
@@ -27,6 +28,8 @@ namespace ITMCollege.Areas.Client.Controllers
         public ActionResult Details(int id)
         {
             var model = JsonConvert.DeserializeObject<Department>(httpclient.GetStringAsync(uri + id).Result);
+            var listfacul = JsonConvert.DeserializeObject<IEnumerable<Faculty>>(httpclient.GetStringAsync(uri2).Result);
+            ViewBag.listfacul = listfacul.Where(m => m.DepId == id);
             httpclient.Dispose();
             return View(model);
         }
