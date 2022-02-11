@@ -10,6 +10,11 @@
     var countFacul = 0;
     var countFaci = 0;
     var countFeed = 0;
+    var countAcc = 0;
+    foreach (var item in ViewBag.ListAcc)
+    {
+        countAcc++;
+    }
     foreach (var item in ViewBag.ListFacil)
     {
         countFaci++;
@@ -91,7 +96,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>10</h3>
+                    <h3>@countAcc</h3>
                     <p>Account On Admin System</p>
                 </div>
                 <div class="icon">

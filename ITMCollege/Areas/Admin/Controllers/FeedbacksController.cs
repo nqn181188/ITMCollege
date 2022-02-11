@@ -19,7 +19,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
 
-        private readonly string uri = "http://localhost:20646/api/feedbacks/";
+        private readonly string uri = "http://localhost:20646/api/accounts/";
         private HttpClient httpclient = new HttpClient();
 
         public FeedbacksController(ILogger<HomeController> logger, INotyfService notyf)
