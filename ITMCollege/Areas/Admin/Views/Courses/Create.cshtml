@@ -66,7 +66,7 @@
 
     $(document).ready(function () {
         $("#StreamId").on("change", function () {
-            $("#FieldId").empty;
+            $list = $("#FieldId");
             $.ajax({
                 url: "/admin/courses/getfieldsFromDatabaseByStream",
                 @*url: '@Url.Action("getfieldsFromDatabaseByStream")',*@
@@ -74,11 +74,12 @@
                 dataType:'json',
                 data: { id: $("#StreamId").val() },
 
-                traditional: true,
+               
                 success: function (Fields) {
-                  /*  $("#FieldId").append('<option value="' + -1 + '"> ' + 'Select Field' + ' </option>');*/
+                    $list.empty();
+                    $list.append('<option value="' + -1 + '"> ' + 'Select Field' + ' </option>');
                     $.each(Fields, function (i, field) {
-                        $("#FieldId").append('<option value="' + field.value + '"> ' + field.text + ' </option>');
+                        $list.append('<option value="' + field.value + '"> ' + field.text + ' </option>');
                     });
                 },
                 error: function () {
