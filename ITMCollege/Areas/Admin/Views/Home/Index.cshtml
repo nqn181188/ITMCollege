@@ -4,6 +4,29 @@
 @{
     Layout = "~/Views/Shared/Admin/_Layout.cshtml";
 }
+@{
+    //count quantity list block code
+    var countDep = 0;
+    var countFacul = 0;
+    var countFaci = 0;
+    var countFeed = 0;
+    foreach (var item in ViewBag.ListFacil)
+    {
+        countFaci++;
+    }
+    foreach (var item in ViewBag.ListDep)
+    {
+        countDep++;
+    }
+    foreach(var item in ViewBag.ListFacul)
+    {
+        countFacul++;
+    }
+    foreach (var item in ViewBag.ListFeed)
+    {
+        countFeed++;
+    }
+}
 <div class="container-fluid">
     <!-- Small boxes (Stat box) -->
     <div class="row">
@@ -41,8 +64,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>100/10</h3>
-
+                    <h3>@countFacul/@countDep</h3>
                     <p> Faculty/Department</p>
                 </div>
                 <div class="icon">
@@ -55,7 +77,7 @@
             <!-- small box -->
             <div class="small-box bg-blue">
                 <div class="inner">
-                    <h3>10</h3>
+                    <h3>@countFaci</h3>
                     <p>Facilities</p>
                 </div>
                 <div class="icon">
@@ -82,8 +104,8 @@
             <!-- small box -->
             <div class="small-box bg-secondary">
                 <div class="inner">
-                    <h3>2/100</h3>
-                    <p>New Feedback/Total Feedback</p>
+                    <h3>@countFeed</h3>
+                    <p>Total Feedback</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
