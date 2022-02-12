@@ -1,4 +1,4 @@
-﻿
+﻿@model ITMCollege.Models.Course
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/Client/_Layout.cshtml";
@@ -8,9 +8,9 @@
     <div class="container">
         <a href="/">Home</a>
         <span class="mx-3 icon-keyboard_arrow_right"></span>
-        <a href="courses.html">Courses</a>
+        <a href="/courses">Courses</a>
         <span class="mx-3 icon-keyboard_arrow_right"></span>
-        <span class="current">Course</span>
+        <span class="current">@Model.CourseName</span>
     </div>
 </div>
 
@@ -19,16 +19,16 @@
         <div class="row">
             <div class="col-md-6 mb-4">
                 <p>
-                    <img src="~/images/course_5.jpg" alt="Image" class="img-fluid">
+                    <img src="~/@Model.Image" alt="Image" class="img-fluid">
                 </p>
             </div>
             <div class="col-lg-5 ml-auto align-self-center">
                 <h2 class="section-title-underline mb-5">
-                    <span>Course Details</span>
+                    <span>@Model.CourseName</span>
                 </h2>
 
-                <p><strong class="text-black d-block">Teacher:</strong> Craig Daniel</p>
-                <p class="mb-5"><strong class="text-black d-block">Hours:</strong> 8:00 am &mdash; 9:30am</p>
+                <p><strong class="text-black d-block"></strong>@Model.Description</p>
+                <p class="mb-5"><strong class="text-black d-block">Hours:</strong> 8:00 am &mdash; 11:30am</p>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At itaque dolore libero corrupti! Itaque, delectus?</p>
                 <p>Modi sit dolor repellat esse! Sed necessitatibus itaque libero odit placeat nesciunt, voluptatum totam facere.</p>
 
@@ -59,7 +59,7 @@
             </div>
             <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
                 <span class="icon flaticon-school-material"></span>
-                <h3>Academics Principle</h3>
+                <h3>ITM College Principle</h3>
                 <p>
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
                     Dolore, amet reprehenderit.

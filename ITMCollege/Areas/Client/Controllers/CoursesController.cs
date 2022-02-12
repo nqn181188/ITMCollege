@@ -25,9 +25,9 @@ namespace ITMCollege.Areas.Client
         private readonly INotyfService _notyf;
 
         private readonly string uri = "http://localhost:20646/api/courses/";
-        private readonly string uri1 = "http://localhost:20646/api/fields/";
         private readonly string uri11 = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
-        private readonly string uri2 = "http://localhost:20646/api/streams/";
+        //private readonly string uri1 = "http://localhost:20646/api/fields/";
+        //private readonly string uri2 = "http://localhost:20646/api/streams/";
         private HttpClient httpclient = new HttpClient();
 
         public CoursesController(ILogger<HomeController> logger, INotyfService notyf)
@@ -38,19 +38,17 @@ namespace ITMCollege.Areas.Client
         // GET: CoursesController
         public ActionResult Index()
         {
-            //var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri).Result);
-            //httpclient.Dispose();
-            //return View(model);
-            return View();
+            var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri).Result);
+            httpclient.Dispose();
+            return View(model);
         }
 
         // GET: CoursesController/Details/5
-        public ActionResult Details()
+        public ActionResult Details(int id)
         {
-            //var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
-            //httpclient.Dispose();
-            //return View(model);
-            return View();
+            var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
+            httpclient.Dispose();
+            return View(model);
         }
 
         public JsonResult getfieldsFromDatabaseByStream(int id)

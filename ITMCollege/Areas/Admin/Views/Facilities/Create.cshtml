@@ -29,9 +29,9 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                @*<input asp-for="Image" class="form-control" />*@
-                <input type="file" name="file" class="form-control" />
+                <label asp-for="Image" for="file-upload" style="cursor: pointer" class="control-label btn btn-outline-dark">
+                </label>
+                <input type="file" id="file-upload" name="file" class="custom-file-input" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">

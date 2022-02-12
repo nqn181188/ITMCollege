@@ -13,11 +13,11 @@
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
+
             <input asp-for="CourseId" type="hidden" class="form-control" />
             <input asp-for="StreamId" type="hidden" class="form-control" />
-            <input asp-for="FieldId" type="hidden" class="form-control" />   
-            
+            <input asp-for="FieldId" type="hidden" class="form-control" />
+            <input type="hidden" asp-for="Image" />
             <div class="form-group">
                 <label asp-for="CourseName" class="control-label"></label>
                 <input asp-for="CourseName" class="form-control" />
@@ -34,9 +34,11 @@
                 <span asp-validation-for="FieldId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input type="file" name="file" class="form-control" />
-                <img src="~/@Model.Image" alt="Alternate Text" width="200" height="200" />
+                <label asp-for="Image" for="file-upload" style="cursor: pointer" class="control-label btn btn-outline-dark">
+                </label>
+                    <input type="file" id="file-upload" name="file" class="custom-file-input" />
+                    <p>Current picture</p>
+                 <img src="~/@Model.Image" alt="Alternate Text" width="200" height="200" />
                 @*<input asp-for="Image" class="form-control" />*@
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>

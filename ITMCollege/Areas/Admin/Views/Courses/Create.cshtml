@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label name="StreamId" class="control-label">Stream</label>
-                <select name="StreamId" id="StreamId" asp-for="StreamId" asp-items="@ViewBag.ListStream">
+                <select  class="form-control" name="StreamId" id="StreamId" asp-for="StreamId" asp-items="@ViewBag.ListStream">
                     <option>Select Stream</option>
                 </select>
                 <span asp-validation-for="StreamId" class="text-danger"></span>
@@ -35,15 +35,16 @@
                 <label asp-for="FieldId" class="control-label"></label>
                 @*<select name="FieldId" id="FieldId" asp-for="FieldId" asp-items="@(new SelectList(string.Empty,"Value","Text"))">
             </select>*@
-                <select name="FieldId" id="FieldId">
+                <select  class="form-control" name="FieldId" id="FieldId">
                     <option>Select Field</option>
                 </select>
                 <span asp-validation-for="FieldId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                @*<input asp-for="Image" class="form-control" />*@
-                <input type="file" name="file" class="form-control" />
+                <label asp-for="Image" for="file-upload" style="cursor: pointer" class="control-label btn btn-outline-dark">
+                </label>
+                <input type="file" id="file-upload" name="file" class="custom-file-input" />
+             
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
