@@ -77,10 +77,19 @@ namespace ITMCollegeAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
         {
-            _context.Accounts.Add(account);
-            await _context.SaveChangesAsync();
+            var userExist = checkUserNameExist(account.Username);
+            if (!userExist)
+            {
+                _context.Accounts.Add(account);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
+            }
+            else return BadRequest();
+        }
 
-            return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
+        private bool checkUserNameExist(string u)
+        {
+            return _context.Accounts.Any(e => e.Username == u);
         }
 
         // DELETE: api/Accounts/5
@@ -102,6 +111,17 @@ namespace ITMCollegeAPI.Controllers
         private bool AccountExists(int id)
         {
             return _context.Accounts.Any(e => e.AccountId == id);
+        }
+
+        [HttpGet("{userName}/{password}")]
+        public async Task<bool> CheckLogin(string userName, string password)
+        {
+            var check = await _context.Accounts.SingleOrDefaultAsync(u => u.Username.Equals(userName) && u.Password.Equals(password));
+            if (check != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

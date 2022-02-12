@@ -137,5 +137,27 @@ namespace ITMCollege.Areas.Admin.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Login(string userName, string password)
+        {
+            var check = httpclient.GetStringAsync(uri + userName + "/" + password).Result;
+            if (check == "true")
+            {
+                _notyf.Success("Login Succesfully");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                //_notyf.Warning("Invalid User ID or Password.");
+                ViewData["LoginMess"] = "Invalid User ID or Password.";
+                return View("Login");
+            }
+        }
     }
 }
