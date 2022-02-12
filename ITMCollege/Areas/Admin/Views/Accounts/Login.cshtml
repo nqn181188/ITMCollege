@@ -73,5 +73,30 @@
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
+    @*<script type="text/javascript">
+        function checkUserName(txtUserName) {
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: "/accounts/checkUserNameExist",
+                data: '{username: "' + $(txtUserName).val().trim() + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.d != "0") {
+                        $("#spnMsg").html('Username has already been taken');
+                        $("#spnMsg").removeClass("success").addClass("failure");
+                        $("#btnRegister").prop('disabled', true);
+
+                    }
+                    else {
+                        $("#spnMsg").html('Available');
+                        $("#spnMsg").removeClass("failure").addClass("success");
+                        $("#btnRegister").prop('disabled', false);
+                    }
+                }
+            });
+        }
+    </script>*@
 </body>
 </html>

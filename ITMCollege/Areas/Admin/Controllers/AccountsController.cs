@@ -45,6 +45,8 @@ namespace ITMCollege.Areas.Admin.Controllers
             return View(model);
         }
 
+        
+
         // GET: AccountsController/Create
         public ActionResult Create()
         {
@@ -59,7 +61,6 @@ namespace ITMCollege.Areas.Admin.Controllers
         {
             try
             {
-
                 var data = httpclient.PostAsJsonAsync<Account>(uri,account).Result;
                 if (data.IsSuccessStatusCode)
                 {
@@ -67,7 +68,11 @@ namespace ITMCollege.Areas.Admin.Controllers
                     httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+                    _notyf.Warning("Create fail!! UserName already exists!");
+                  return RedirectToAction(nameof(Index));
+                }
             }
             catch
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,10 +9,15 @@ namespace ITMCollege.Models
 {
     public class Account
     {
+        private readonly string uri = "http://localhost:20646/api/accounts/";
+
         public int AccountId { get; set; }
         [Required]
         public string Fullname { get; set; }
         [Required]
+        //[PageRemote(ErrorMessage = "Username already exists", AdditionalFields = "__RequestVerificationToken",
+        //HttpMethod = "post", PageHandler = "CheckEmail")]
+        //[BindProperty]
         public string Username { get; set; }
         [Required]
         public string Password { get; set; }
@@ -19,5 +25,9 @@ namespace ITMCollege.Models
         public byte Role { get; set; }
         [Required]
         public bool IsActive { get; set; }
+
+
+        //query the database and get all existing Emails or directly check whether the email is exist in the database or not.
+      
     }
 }

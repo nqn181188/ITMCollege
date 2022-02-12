@@ -41,6 +41,19 @@ namespace ITMCollegeAPI.Controllers
             return account;
         }
 
+        [HttpGet("{username}")]
+        public async Task<ActionResult<Account>> GetAccount(string username)
+        {
+            var account = await _context.Accounts.FindAsync(username);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return account;
+        }
+
         // PUT: api/Accounts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
