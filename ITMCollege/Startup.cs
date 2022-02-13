@@ -25,17 +25,29 @@ namespace ITMCollege
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+           
             services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.Name = "ITMcookie";
+                options.IdleTimeout = new TimeSpan(0,60,0); //60m
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+
+                options.LoginPath = "/Admin/home/Login";
+                options.AccessDeniedPath = "/Admin/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

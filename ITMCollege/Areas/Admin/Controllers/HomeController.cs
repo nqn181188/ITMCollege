@@ -18,9 +18,8 @@ namespace ITMCollege.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
-        public const string SessionKeyUsername = "_Username";
-        public const string SessionKeyRole = "_Role";
-        public const string SessionKeyIsActive = "_IsActive";
+        //public const string SessionKeyUsername = "_Username";
+        //public const string SessionKeyRole = "_Role";
 
         private readonly string uridep = "http://localhost:20646/api/departments/";
         private readonly string urifacul = "http://localhost:20646/api/faculties/";
@@ -37,7 +36,7 @@ namespace ITMCollege.Controllers
 
         public IActionResult Index()
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("username")))
             {
                 return RedirectToAction("Login");
             }
@@ -76,11 +75,11 @@ namespace ITMCollege.Controllers
                 if (checkLogin == "true")
                 {
                     _notyf.Success("Login Succesfully");
-                    if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
-                    {
-                        HttpContext.Session.SetString(SessionKeyUsername, account.Username);
-                        HttpContext.Session.SetInt32(SessionKeyRole, account.Role);
-                    }
+                    //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+                    //{
+                        HttpContext.Session.SetString("username", account.Username);
+                        HttpContext.Session.SetInt32("role", account.Role);
+                    //}
                     httpclient.Dispose();
                     return RedirectToAction("Index");
                 }

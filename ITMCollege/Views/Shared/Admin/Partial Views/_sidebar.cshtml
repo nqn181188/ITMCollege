@@ -1,4 +1,7 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json
+
+@inject IHttpContextAccessor HttpContextAccessor
 <!-- Brand Logo -->
 <a href="../../index3.html" class="brand-link">
     <img src="~/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -12,12 +15,14 @@
     <!-- Sidebar user (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex mr-0">
         <div class="infor ml-0">
-            <a href="#" class="d-block">Admin</a>
+            
+            @*@(Context.Session.GetInt32("role") == 1 ? "Admin" : "User";)
             <a class="note-fontsize-10" href="">Change Profile</a>
             <div>
                 <a href="">Change Password</a>
             </div>
-            <a href="/admin/home/logout" class="d-block">Logout</a>
+            <a href="/admin/home/logout" class="d-block">Logout</a>*@
+            <a href="/admin/home/logout" class="d-block btn btn-outline-success btn-sm">Logout</a>
         </div>
     </div>
 
@@ -55,7 +60,7 @@
                 <a href="/admin/accounts/" class="nav-link">
                     <i class="nav-icon fas fa-user-circle"></i>
                     <p>
-                        Account 
+                        Account
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
@@ -85,7 +90,7 @@
                 <a href="#" class="nav-link">
                     <i class="nav-icon fab fa-discourse"></i>
                     <p>
-                        Course 
+                        Course
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
@@ -115,7 +120,7 @@
                 <a href="#" class="nav-link">
                     <i class="nav-icon far fa-building"></i>
                     <p>
-                        Department 
+                        Department
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
@@ -144,7 +149,7 @@
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-chalkboard-teacher"></i>
                     <p>
-                        Faculty 
+                        Faculty
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
@@ -173,7 +178,7 @@
                 <a href="#" class="nav-link">
                     <i class="nav-icon fab fa-asymmetrik"></i>
                     <p>
-                        Facilities 
+                        Facilities
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>

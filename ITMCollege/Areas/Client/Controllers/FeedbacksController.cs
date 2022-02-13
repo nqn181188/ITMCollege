@@ -56,7 +56,6 @@ namespace ITMCollege.Areas.Client.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            return View();
         }
 
         // GET: FeedbacksController/Edit/5

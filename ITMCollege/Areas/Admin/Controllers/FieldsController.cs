@@ -34,6 +34,10 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FieldsController
         public ActionResult Index()
         {
+            if (HttpContext.Session.GetString("username") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
             return View(model);
@@ -50,6 +54,10 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FieldsController/Create
         public ActionResult Create()
         {
+            if (HttpContext.Session.GetString("username") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
             httpclient.Dispose();
             return View();

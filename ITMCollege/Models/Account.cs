@@ -9,7 +9,6 @@ namespace ITMCollege.Models
 {
     public class Account
     {
-        private readonly string uri = "http://localhost:20646/api/accounts/";
 
         public int AccountId { get; set; }
         [Required]
