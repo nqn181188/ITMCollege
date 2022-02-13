@@ -11,13 +11,19 @@
   <br>
   <br>
   <br>
+  <br>
+  <br>
+  <br>
  
-    <ul>
-    @foreach(var item in ViewBag.Listdep)
+    <form action="/faculties/details/" >
+    <select class="form-control" id="exampleFormControlSelect1" name="id">
+    @foreach(var item in ViewBag.listdep)
     {
-         <li><a href="/faculties/details/@item.DepId">@item.DepName</a></li>
+        <option value="@item.DepId">@item.DepName</option>
     }  
-    </ul>
+    </select>
+    <input type="submit" value="Filter"  class="btn btn-primary rounded-0 px-4" />
+    </form>
   
  
  <div class="site-section">
