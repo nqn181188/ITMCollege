@@ -31,10 +31,10 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FeedBacksController
         public ActionResult Index()
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
-            //{
-            //    return RedirectToAction("Login", "Home");
-            //}
+            if (HttpContext.Session.GetString("username") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var model = JsonConvert.DeserializeObject<IEnumerable<Feedback>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
             return View(model);

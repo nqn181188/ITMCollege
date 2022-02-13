@@ -33,10 +33,10 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FacilitiesController
         public ActionResult Index()
         {
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
-            //{
-            //    return RedirectToAction("Login", "Home");
-            //}
+            if (HttpContext.Session.GetString("username") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var model = JsonConvert.DeserializeObject<IEnumerable<Facility>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
             return View(model);
@@ -53,6 +53,12 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FacilitiesController/Create
         public ActionResult Create()
         {
+
+            if (HttpContext.Session.GetString("username") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+          
             return View();
         }
 
