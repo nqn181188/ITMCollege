@@ -27,6 +27,11 @@ namespace ITMCollege
         {
             services.AddControllersWithViews();
             services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+            services.AddSession(option=> { 
+                option.Cookie.Name= ".AdventureWorks.Session";
+                option.IdleTimeout = TimeSpan.FromSeconds(10);
+                option.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +54,7 @@ namespace ITMCollege
 
             app.UseAuthorization();
 
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 
