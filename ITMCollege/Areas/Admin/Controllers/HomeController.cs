@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using ITMCollege.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -17,6 +18,7 @@ namespace ITMCollege.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
+        public const string SessionKeyUsername = "_UserName";
 
         private readonly string uridep = "http://localhost:20646/api/departments/";
         private readonly string urifacul = "http://localhost:20646/api/faculties/";
@@ -33,6 +35,10 @@ namespace ITMCollege.Controllers
 
         public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+            {
+                return RedirectToAction("Login");
+            }
             ViewBag.ListDep = JsonConvert.DeserializeObject<IEnumerable<Department>>(httpclient.GetStringAsync(uridep).Result);
             ViewBag.ListFacul = JsonConvert.DeserializeObject<IEnumerable<Faculty>>(httpclient.GetStringAsync(urifacul).Result);
             ViewBag.ListFacil = JsonConvert.DeserializeObject<IEnumerable<Facility>>(httpclient.GetStringAsync(urifaci).Result);
@@ -52,5 +58,32 @@ namespace ITMCollege.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Login(string userName, string password)
+        {
+            var check = httpclient.GetStringAsync(uriacc + userName + "/" + password).Result;
+            if (check == "true")
+            {
+                _notyf.Success("Login Succesfully");
+                if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+                {
+                    HttpContext.Session.SetString(SessionKeyUsername, userName);
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                //_notyf.Warning("Invalid User ID or Password.");
+                ViewData["LoginMess"] = "Invalid User ID or Password.";
+                return View("Login");
+            }
+        }
+       
     }
 }

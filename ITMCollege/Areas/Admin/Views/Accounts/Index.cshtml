@@ -22,9 +22,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Username)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Role)
             </th>
@@ -47,13 +45,10 @@
                 @Html.DisplayFor(modelItem => item.Username)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Password)
+                @(item.Role == 1 ? "Super Admin" : "User")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
+                @(item.IsActive == true ? "Active" : "Block")
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.AccountId }) |
