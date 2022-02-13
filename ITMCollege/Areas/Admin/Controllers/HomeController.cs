@@ -18,7 +18,9 @@ namespace ITMCollege.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
-        public const string SessionKeyUsername = "_UserName";
+        public const string SessionKeyUsername = "_Username";
+        public const string SessionKeyRole = "_Role";
+        public const string SessionKeyIsActive = "_IsActive";
 
         private readonly string uridep = "http://localhost:20646/api/departments/";
         private readonly string urifacul = "http://localhost:20646/api/faculties/";
@@ -67,23 +69,40 @@ namespace ITMCollege.Controllers
         [HttpPost]
         public IActionResult Login(string userName, string password)
         {
-            var check = httpclient.GetStringAsync(uriacc + userName + "/" + password).Result;
-            if (check == "true")
+            var account = JsonConvert.DeserializeObject<Account>(httpclient.GetStringAsync(uriacc+ "GetAccountByUsername/" + userName).Result);
+            if (account.IsActive == true)
             {
-                _notyf.Success("Login Succesfully");
-                if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+                var checkLogin = httpclient.GetStringAsync(uriacc + userName + "/" + password).Result;
+                if (checkLogin == "true")
                 {
-                    HttpContext.Session.SetString(SessionKeyUsername, userName);
+                    _notyf.Success("Login Succesfully");
+                    if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+                    {
+                        HttpContext.Session.SetString(SessionKeyUsername, account.Username);
+                        HttpContext.Session.SetInt32(SessionKeyRole, account.Role);
+                    }
+                    httpclient.Dispose();
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+                else
+                {
+                    //_notyf.Warning("Invalid User ID or Password.");
+                    ViewData["LoginMess"] = "Invalid User ID or Password.";
+                    return View("Login");
+                }
             }
             else
             {
-                //_notyf.Warning("Invalid User ID or Password.");
-                ViewData["LoginMess"] = "Invalid User ID or Password.";
+                ViewData["LoginMess"] = "Your account hasn't active yet.";
                 return View("Login");
             }
         }
        
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return View("Login");
+        }
+
     }
 }

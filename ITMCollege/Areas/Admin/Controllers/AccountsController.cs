@@ -19,7 +19,9 @@ namespace ITMCollege.Areas.Admin.Controllers
        
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
+
         public const string SessionKeyUsername = "_UserName";
+
         private readonly string uri = "http://localhost:20646/api/accounts/";
         private HttpClient httpclient = new HttpClient();
 
