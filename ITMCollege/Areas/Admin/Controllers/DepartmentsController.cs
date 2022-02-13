@@ -20,6 +20,8 @@ namespace ITMCollege.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
 
+        public const string SessionKeyUsername = "_UserName";
+
         private readonly string uri = "http://localhost:20646/api/departments/";
         private HttpClient httpclient = new HttpClient();
 
@@ -31,6 +33,10 @@ namespace ITMCollege.Controllers
         // GET: DepartmentsController
         public ActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             var model = JsonConvert.DeserializeObject<IEnumerable<Department>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
             return View(model);
