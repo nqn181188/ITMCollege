@@ -35,7 +35,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FacultiesController
         public ActionResult Index()
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+            if (HttpContext.Session.GetString("username") == null)
             {
                 return RedirectToAction("Login", "Home");
             }
@@ -55,6 +55,10 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FacultiesController/Create
         public ActionResult Create()
         {
+            if (HttpContext.Session.GetString("username") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
             ViewBag.ListDep = JsonConvert.DeserializeObject<IEnumerable<Department>>(httpclient.GetStringAsync(uri2).Result);
             httpclient.Dispose();
             return View();
