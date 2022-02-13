@@ -50,7 +50,6 @@ namespace ITMCollegeAPI.Controllers
             {
                 return NotFound();
             }
-
             return account;
         }
 

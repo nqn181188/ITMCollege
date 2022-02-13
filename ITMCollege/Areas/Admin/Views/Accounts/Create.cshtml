@@ -25,7 +25,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
+                <input asp-for="Username" id="username" class="form-control" />
+                <span id="spnMsg" class="text-danger"></span></td>
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,7 +45,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" id="btnCreate" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -56,4 +57,34 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+
+    $(document).ready(function () {
+
+        $("#username").keyup(function () {
+            userNameInput = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: '/accounts/CheckUserNameAvailability',
+                data: { email: userNameInput },
+                success: function (response) {
+                    if (response != "false") {
+                        $("#spnMsg").html('Username has already been taken');
+                        $("#spnMsg").removeClass("success").addClass("failure");
+                        $("#btnCreate").prop('disabled', true);
+
+                    }
+                    else {
+                        $("#spnMsg").html('Available');
+                        $("#spnMsg").removeClass("failure").addClass("success");
+                        $("#btnCreate").prop('disabled', false);
+                    }
+                }
+            })
+
+
+    });
+</script>
 }

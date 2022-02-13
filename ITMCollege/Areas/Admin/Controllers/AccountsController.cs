@@ -164,5 +164,17 @@ namespace ITMCollege.Areas.Admin.Controllers
                 return View("Login");
             }
         }
+        [HttpGet]
+        public ActionResult<bool> CheckUserNameAvailability(string username)
+        {
+            var checkUsername = JsonConvert.DeserializeObject<Account>(httpclient.GetStringAsync(uri + username).Result);
+            httpclient.Dispose();
+            if (checkUsername == null)
+            {
+                return false;
+            }
+            else 
+                return true;
+        }
     }
 }
