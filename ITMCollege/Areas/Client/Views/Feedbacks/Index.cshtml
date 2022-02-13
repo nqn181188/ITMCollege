@@ -12,33 +12,35 @@
     </div>
 </div>
 
-<div class="site-section" asp-action="Create">
+<div class="site-section" >
     <div class="container">
+        <form asp-action="Create">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <div class="col-md-6 form-group">
                 <label asp-for="FirstName">First Name</label>
-                <input type="text" asp-for="FirstName" class="form-control form-control-lg" placeholder="FirstName">
+                <input asp-for="FirstName" class="form-control form-control-lg" placeholder="FirstName">
             </div>
             <div class="col-md-6 form-group">
                 <label asp-for="LastName">Last Name</label>
-                <input type="text" asp-for="LastName" class="form-control form-control-lg" placeholder="LastName">
+                <input asp-for="LastName" class="form-control form-control-lg" placeholder="LastName">
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 form-group">
                 <label asp-for="Email">Email Address</label>
-                <input type="text" asp-for="Email" class="form-control form-control-lg" placeholder="Email">
+                <input asp-for="Email" class="form-control form-control-lg" placeholder="Email">
             </div>
             <div class="col-md-6 form-group">
                 <label asp-for="Subject">Subject</label>
-                <input type="text" asp-for="Subject" class="form-control form-control-lg" placeholder="Subject">
+                <input asp-for="Subject" class="form-control form-control-lg" placeholder="Subject">
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 form-group">
                 <label asp-for="Message">Message</label>
-                <textarea name="" asp-for="Message" cols="30" rows="10" class="form-control"></textarea>
+               @* <input asp-for="Message" class="form-control">*@
+                <textarea asp-for="Message" cols="40" rows="15" class="form-control"></textarea>
             </div>
         </div>
 
@@ -49,5 +51,6 @@
 
             </div>
         </div>
+        </form>
     </div>
 </div>

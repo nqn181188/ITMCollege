@@ -41,9 +41,10 @@ namespace ITMCollege.Areas.Client.Controllers
         {
             try
             {
-                var response = httpclient.PostAsJsonAsync(uri, feedback).Result;
+                var response = httpclient.PostAsJsonAsync<Feedback>(uri, feedback).Result;
                 if (response.IsSuccessStatusCode)
                 {
+                    httpclient.Dispose();
                     return RedirectToAction("Index");
                 }
                 else
@@ -56,7 +57,6 @@ namespace ITMCollege.Areas.Client.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            return View();
         }
 
         // GET: FeedbacksController/Edit/5
