@@ -51,9 +51,19 @@
                 @(item.IsActive == true ? "Active" : "Block")
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.AccountId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.AccountId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.AccountId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.AccountId })
+                @{
+                    if (ViewBag.username == item.Username)
+                    {
+
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.AccountId })
+                    }
+                }
+
             </td>
         </tr>
 }

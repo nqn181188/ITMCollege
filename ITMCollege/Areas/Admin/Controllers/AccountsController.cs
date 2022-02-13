@@ -39,6 +39,11 @@ namespace ITMCollege.Areas.Admin.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+            if (HttpContext.Session.GetInt32("role") == 0)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.username = HttpContext.Session.GetString("username");
             var model = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
             return View(model);

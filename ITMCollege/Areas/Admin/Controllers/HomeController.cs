@@ -78,7 +78,8 @@ namespace ITMCollege.Controllers
                     //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
                     //{
                         HttpContext.Session.SetString("username", account.Username);
-                        HttpContext.Session.SetInt32("role", account.Role);
+                        HttpContext.Session.SetString("fullname", account.Fullname);
+                        HttpContext.Session.SetString("role", account.Role==1? "Admin" : "User");
                     //}
                     httpclient.Dispose();
                     return RedirectToAction("Index");
