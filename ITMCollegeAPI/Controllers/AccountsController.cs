@@ -41,10 +41,10 @@ namespace ITMCollegeAPI.Controllers
             return account;
         }
 
-        [HttpGet("{username}")]
-        public async Task<ActionResult<Account>> GetAccount(string username)
+        [HttpGet("GetAccountByUsername/{username}")]
+        public async Task<ActionResult<Account>> GetAccountByUsername(string username)
         {
-            var account = await _context.Accounts.FindAsync(username);
+            var account = await _context.Accounts.SingleOrDefaultAsync(a=>a.Username==username);
 
             if (account == null)
             {

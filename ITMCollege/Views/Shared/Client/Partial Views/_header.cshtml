@@ -9,7 +9,7 @@
             <nav class="site-navigation position-relative text-right" role="navigation">
                 <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                     <li class="active">
-                        <a href="/" class="nav-link text-left">Home</a>
+                        <a asp-area="Client" asp-controller="Home" asp-action="Index" class="nav-link text-left">Home</a>
                     </li>
                     <li class="has-children">
                         <a href="/home/aboutus" class="nav-link text-left">About Us</a>
@@ -28,7 +28,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="/" class="nav-link text-left">Admissions</a>
+                        <a asp-area="Client" asp-controller="Admissions" asp-action="Index" class="nav-link text-left">Admissions</a>
                     </li>
                     <li>
                         <a href="/courses" class="nav-link text-left">Courses</a>
