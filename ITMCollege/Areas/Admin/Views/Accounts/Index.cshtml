@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<ITMCollege.Models.Account>
-
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Admin/_Layout.cshtml";
@@ -12,69 +12,79 @@
     }
 }
 
-<h1>Index</h1>
+@{
+    if (@Context.Session.GetString("role") == "Admin")
+    {
+        <h1>Account</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<partial name="_pager" model="@pager" />
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fullname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-           
-            <th>
-                @Html.DisplayNameFor(model => model.Role)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccountId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fullname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @(item.Role == 1 ? "Super Admin" : "User")
-            </td>
-            <td>
-                @(item.IsActive == true ? "Active" : "Block")
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.AccountId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.AccountId }) |
-                @{
-                    if (ViewBag.username == item.Username)
-                    {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <partial name="_pager" model="@pager" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AccountId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fullname)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Username)
+                    </th>
 
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Delete", "Delete", new { id = item.AccountId })
-                    }
+                    <th>
+                        @Html.DisplayNameFor(model => model.Role)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AccountId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fullname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td>
+                            @(item.Role == 1 ? "Super Admin" : "User")
+                        </td>
+                        <td>
+                            @(item.IsActive == true ? "Active" : "Block")
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.AccountId }) |
+                            @*@Html.ActionLink("Details", "Details", new { id = item.AccountId }) |*@
+                            @{
+                                if (ViewBag.username == item.Username)
+                                {
+
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.AccountId })
+                                }
+                            }
+
+                        </td>
+                    </tr>
                 }
-
-            </td>
-        </tr>
+            </tbody>
+        </table>
+        <partial name="_pager" model="@pager" />
+                                }
+    else
+    {
+        <div>You don't have permission to access field Account</div>
+    }
 }
-    </tbody>
-</table>
-<partial name="_pager" model="@pager" />

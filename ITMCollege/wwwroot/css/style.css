@@ -1087,3 +1087,18 @@ h1, h2, h3, h4, h5,
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+.success {
+    background-color: #5cb85c;
+    font-size: 12px;
+    color: #ffffff;
+    padding: 3px 6px 3px 6px;
+}
+
+.failure {
+    background-color: #ed4e2a;
+    font-size: 12px;
+    color: #ffffff;
+    padding: 3px 6px 3px 6px;
+}
+

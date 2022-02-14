@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Course";
     Layout = "~/Views/Shared/Client/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <div class="custom-breadcrumns border-bottom">
@@ -15,16 +23,17 @@
 
 <div class="site-section">
     <div class="container news-updates">
+        <partial name="_pager" model="@pager" />
         <div class="row">
             @foreach (var item in Model)
             {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="course-1-item post-entry-big">
                         <figure class="thumnail">
-                            <a href="/courses/details/@item.CourseId" class="img-link"><img  src="~/@item.Image" alt="@item.CourseName" width="340" height="200" ></a>
+                            <a href="/courses/details/@item.CourseId" class="img-link"><img src="~/@item.Image" alt="@item.CourseName" width="340" height="200"></a>
                             @*<div class="price">$99.00</div>*@
                             <div class="category"><h3>@item.CourseName</h3></div>
-                        </figure> 
+                        </figure>
                         <div class="course-1-content pb-4">
                             <h2>How to learn @item.Field.FieldName more effectily</h2>
                             @*<div class="rating text-center mb-3">
@@ -42,6 +51,7 @@
             }
 
         </div>
+        <partial name="_pager" model="@pager" />
     </div>
 </div>
 

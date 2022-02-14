@@ -36,11 +36,21 @@ namespace ITMCollege.Areas.Client
             _notyf = notyf;
         }
         // GET: CoursesController
-        public ActionResult Index()
+        public ActionResult Index(int pg=1)
         {
             var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
-            return View(model);
+            const int pageSize = 6;
+            if (pg < 1)
+                pg = 1;
+            int rescCount = model.Count();
+            var pager = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = model.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
+            //return View(model);
+            return View(data);
+
         }
 
         // GET: CoursesController/Details/5

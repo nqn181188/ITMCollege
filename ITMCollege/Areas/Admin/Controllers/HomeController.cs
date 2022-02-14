@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using ITMCollege.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -33,9 +34,9 @@ namespace ITMCollege.Controllers
             _logger = logger;
             _notyf = notyf;
         }
-
         public IActionResult Index()
         {
+
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("username")))
             {
                 return RedirectToAction("Login");
@@ -77,9 +78,9 @@ namespace ITMCollege.Controllers
                     _notyf.Success("Login Succesfully");
                     //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
                     //{
-                        HttpContext.Session.SetString("username", account.Username);
-                        HttpContext.Session.SetString("fullname", account.Fullname);
-                        HttpContext.Session.SetString("role", account.Role==1? "Admin" : "User");
+                    HttpContext.Session.SetString("username", account.Username);
+                    HttpContext.Session.SetString("fullname", account.Fullname);
+                    HttpContext.Session.SetString("role", account.Role==1 ? "Admin" : "User");
                     //}
                     httpclient.Dispose();
                     return RedirectToAction("Index");
