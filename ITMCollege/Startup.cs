@@ -48,6 +48,13 @@ namespace ITMCollege
                 options.SlidingExpiration = true;
             });
             services.AddControllersWithViews();
+            //services.AddAuthentication(options => ...)
+            //.AddOpenIdConnect(options => ...)
+            //.AddCookie(options =>
+            //{
+            //    options.AccessDeniedPath = "/path/unauthorized";
+            //    options.LoginPath = "/path/login";
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,6 +4,13 @@
     ViewData["Title"] = "Index";
     //Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <h1>Fields</h1>
@@ -11,6 +18,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<partial name="_pager" model="@pager" />
 <table class="table">
     <thead>
         <tr>
@@ -49,3 +57,4 @@
 }
     </tbody>
 </table>
+<partial name="_pager" model="@pager" />
