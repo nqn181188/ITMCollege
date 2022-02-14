@@ -29,7 +29,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             _notyf = notyf;
         }
         // GET: FeedBacksController
-        public ActionResult Index()
+        public ActionResult Index(int pg = 1)
         {
             if (HttpContext.Session.GetString("username") == null)
             {
@@ -37,7 +37,17 @@ namespace ITMCollege.Areas.Admin.Controllers
             }
             var model = JsonConvert.DeserializeObject<IEnumerable<Feedback>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
-            return View(model);
+            const int pageSize = 5;
+            if (pg < 1)
+                pg = 1;
+            int rescCount = model.Count();
+            var pager = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = model.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
+            //return View(model);
+            return View(data);
+         
         }
 
         // GET: FeedBacksController/Details/5
