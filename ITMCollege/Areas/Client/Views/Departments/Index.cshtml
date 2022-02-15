@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Client/_Layout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
   <br> 
@@ -13,6 +20,7 @@
    <br>
 <div class="site-section">
     <div class="container">
+         <partial name="_pager" model="@pager" />
         <div class="row">
             @foreach(var item in Model){
             <div class="col-lg-4 col-md-6 mb-4">
