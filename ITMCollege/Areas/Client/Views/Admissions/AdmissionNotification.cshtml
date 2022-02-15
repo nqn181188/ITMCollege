@@ -1,0 +1,31 @@
+﻿@model ITMCollege.Models.Admission
+@{
+    ViewBag.Title = "Admission Notification";
+}
+@{
+    Layout = "~/Views/Shared/Client/_Layout.cshtml";
+}
+<div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('~/wwwroot/Images/bg_1.jpg')">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-7">
+                <h2 class="mb-0">ADMISSION</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="custom-breadcrumns border-bottom">
+    <div class="container">
+        <a asp-area="Client" asp-controller="Home" asp-action="Index">Home</a>
+        <span class="mx-3 icon-keyboard_arrow_right"></span>
+        <span class="current">Admission</span>
+    </div>
+</div>
+<div class="container">
+    @if (ViewBag.Mess != null)
+    {
+        <div class="alert alert-success">
+            <p class="px-2 font-weight-bold font-italic">@ViewBag.Mess</p>
+        </div>
+    }
+</div>

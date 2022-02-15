@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="~/css/aos.css">
     <link href="~/css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
     <div class="site-wrap">
@@ -50,9 +52,9 @@
         </header>
         @*<div class="container">
             <main role="main" class="pb-3">*@
-                @RenderBody()
-            @*</main>
-        </div>*@
+        @RenderBody()
+        @*</main>
+            </div>*@
 
         <footer class="footer">
             <partial name="~/Views/Shared/Client/Partial Views/_footer.cshtml" />
@@ -65,8 +67,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-
 
     <script src="~/js/jquery-3.3.1.min.js"></script>
     <script src="~/js/jquery-migrate-3.0.1.min.js"></script>
@@ -83,6 +83,6 @@
     <script src="~/js/jquery.sticky.js"></script>
     <script src="~/js/jquery.mb.YTPlayer.min.js"></script>
     <script src="~/js/main.js"></script>
-
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

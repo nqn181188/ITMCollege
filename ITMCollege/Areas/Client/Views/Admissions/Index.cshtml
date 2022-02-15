@@ -5,7 +5,7 @@
 @{
     Layout = "~/Views/Shared/Client/_Layout.cshtml";
 }
-<div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('~/wwwroot/Images/bg_1.jpg')">
+<div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: @Url.Content("~/Images/bg_1.jpg")">
     <div class="container">
         <div class="row align-items-end">
             <div class="col-lg-7">
@@ -16,102 +16,193 @@
 </div>
 <div class="custom-breadcrumns border-bottom">
     <div class="container">
-        <a asp-area="Client" asp-controller="Home" asp-action="Index"></a>
+        <a asp-area="Client" asp-controller="Home" asp-action="Index">Home</a>
         <span class="mx-3 icon-keyboard_arrow_right"></span>
         <span class="current">Admission</span>
     </div>
 </div>
-
 <div class="site-section">
-    <form asp-action="Create">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 form-group">
-                    <label for="fullname">Full Name</label>
-                    <input asp-for="FullName" type="text" id="fullname" class="form-control form-control-lg">
-                </div>
-                <div class="col-md-12 form-group">
-                    <label for="fathername">Father Name</label>
-                    <input asp-for="FatherName" type="text" id="fathername" class="form-control form-control-lg">
-                </div>
-                <div class="col-md-12 form-group">
-                    <label for="mothername">Mother Name</label>
-                    <input asp-for="MotherName" type="text" id="mothername" class="form-control form-control-lg">
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="DateOfBirth">Date Of Birth</label>
-                    <input asp-for="DateOfBirth" type="date" id="DateOfBirth" class="form-control form-control-lg">
-                </div>
-                <div class="col-md-6 form-group">
-                    <label class="d-block" for="gender">Gender</label>
-                    <div class="custom-control custom-radio d-inline-block pr-4">
-                        <input type="radio" class="custom-control-input" id="male" name="Gender" value="true" checked>
-                        <label class="custom-control-label" for="male">Male</label>
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <img src="images/course_6.jpg" alt="Image" class="img-fluid" />
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <button type="button" asp-action="Create" class="btn btn-primary btn-block btnFillForm" >FILL THE FORM ONLINE</button>
                     </div>
-                    <div class="custom-control custom-radio d-inline-block">
-                        <input type="radio" class="custom-control-input" id="female" name="Gender" value="false">
-                        <label class="custom-control-label" for="female">Female</label>
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-outline-primary btn-block">DOWNLOAD THE FORM</button>
                     </div>
                 </div>
-                <div class="col-md-12 form-group">
-                    <label for="email">Email</label>
-                    <input asp-for="Email" type="text" id="email" class="form-control form-control-lg">
-                </div>
-                <div class="col-md-12 form-group">
-                    <label for="resaddress">Residential Address</label>
-                    <input asp-for="ResAddress" type="text" id="resaddress" class="form-control form-control-lg">
-                </div>
-                <div class="col-md-12 form-group">
-                    <label for="peraddress">Permanent Address</label>
-                    <input asp-for="PerAddress" type="text" id="peraddress" class="form-control form-control-lg">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="eaddress">Stream</label>
-                    <select name="StreamId" class="form-control">
-                        @foreach(var item in ViewBag.StreamList)
-                            {
-                                  <option value="@item.StreamId">@item.StreamName</option>
-                            }
-                    </select>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="eaddress">Field</label>
-                    <select name="FieldId" class="form-control">
-                        @foreach (var item in ViewBag.FieldList)
-                        {
-                            <option value="@item.StreamId">@item.StreamName</option>
-                        }
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="eaddress">Email Address</label>
-                    <input type="text" id="eaddress" class="form-control form-control-lg">
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="tel">Tel. Number</label>
-                    <input type="text" id="tel" class="form-control form-control-lg">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 form-group">
-                    <label for="message">Message</label>
-                    <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
-                </div>
-            </div>
 
+            </div>
+            <div class="col-lg-5 ml-auto align-self-center">
+                <h2 class="section-title-underline mb-5">
+                    <span>College Requirements</span>
+                </h2>
+                <p>All first-year applicants—both international and U.S. candidates—must complete the Common Application or the Coalition Application along with the required supplements. You will need to submit:</p>
+
+                <ol class="ul-check primary list-unstyled">
+                    <li>Accomplished Application Form</li>
+                    <li>Common Application or Coalition Application</li>
+                    <li>SAT or ACT (with or without writing) - optional for 2022-2026 application cycles</li>
+                    <li>Optional: AP or other examination results</li>
+                    <li>School Report (which includes a counselor letter) and high school transcript</li>
+                    <li>Midyear School Report (after your first semester grades)</li>
+                    <li>Final School Report (for admitted students only)</li>
+                </ol>
+            </div>
             <div class="row">
-                <div class="col-12">
-                    <input type="submit" value="Send Message" class="btn btn-primary btn-lg px-5">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
+                    <img src="images/course_3.jpg" alt="Image" class="img-fluid">
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <button type="button" asp-action="Create" class="btn btn-primary btn-block btnFillForm" >FILL THE FORM ONLINE</button>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-outline-primary btn-block">DOWNLOAD THE FORM</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 mr-auto align-self-center order-2 order-lg-1">
+                    <h2 class="section-title-underline mb-5">
+                        <span>Transferees</span>
+                    </h2>
+                    <p>Admission as a transient (visiting) student may be granted for any term. Standard application procedures must be followed. Approval may be given on the basis of an official statement of good standing from the last institution attended. Transient status may be granted for only one term.</p>
+                    <ol class="ul-check primary list-unstyled">
+                        <li>Accomplished Application Form</li>
+                        <li>2.0 overall college GPA</li>
+                        <li>24 transferable semester hours or 36 transferable quarter hours (excludes technical, remedial and vocational courses.) </li>
+                        <li>If you’re currently a freshman or have fewer than the required transferable hours, additional high school records will be required including a high school transcript and ACT/SAT score.</li>
+                    </ol>
                 </div>
             </div>
         </div>
-    </form>
+        <div class="card" id="admissionForm">
+            <div class="card-header bg-primary text-dark font-weight-bold" >ADMISSION FORM</div>
+            <div class="card-body">
+                <form asp-action="Create" method="post" >
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="fullname">Full Name</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="FullName" type="text" id="fullname" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label for="fathername">Father Name</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="FatherName" type="text" id="fathername" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label for="mothername">Mother Name</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="MotherName" type="text" id="mothername" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="DateOfBirth">Date Of Birth</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="DateOfBirth" type="date" id="DateOfBirth" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-block" for="gender">Gender<span class="text-danger pl-1">*</span></label>
+                                <div class="custom-control custom-radio d-inline-block pr-4">
+                                    <input type="radio" class="custom-control-input" id="male" name="Gender" value="true" checked>
+                                    <label class="custom-control-label" for="male">Male</label>
+                                </div>
+                                <div class="custom-control custom-radio d-inline-block">
+                                    <input type="radio" class="custom-control-input" id="female" name="Gender" value="false">
+                                    <label class="custom-control-label" for="female">Female</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label for="email">Email</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="Email" type="text" id="email" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label for="resaddress">Residential Address</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="ResAddress" type="text" id="resaddress" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label for="peraddress">Permanent Address</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="PerAddress" type="text" id="peraddress" class="form-control form-control-lg">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="eaddress">Stream</label><span class="text-danger pl-1">*</span>
+                                <select name="StreamId" class="form-control" onchange="getField(this)" id="StreamId">
+                                    @foreach (var item in ViewBag.StreamList)
+                                    {
+                                        <option value="@item.StreamId">@item.StreamName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="eaddress">Field</label><span class="text-danger pl-1">*</span>
+                                <select name="FieldId" class="form-control" id="fieldList">
+                                    @foreach (var item in ViewBag.FieldList)
+                                    {
+                                        <option value="@item.FieldId">@item.FieldName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="sport">Sports</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="Sport" type="text" id="sport" class="form-control form-control-lg">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="exuniversity">Previous University</label>
+                                <input asp-for="ExUniversity" id="exuniversity" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="excenter">Previous Center</label>
+                                <input asp-for="ExCenter" id="excenter" class="form-control form-control-lg">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="exstream">Previous Stream</label>
+                                <input asp-for="ExStream" id="exstream" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="exfield">Previous Field</label>
+                                <input asp-for="ExField" id="exfield" class="form-control form-control-lg">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="exclass">Previous Class</label>
+                                <input asp-for="ExClass" id="exclass" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="exenroll">Previous Enroll Number</label>
+                                <input asp-for="ExEnrollNum" id="exenroll" class="form-control form-control-lg">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="exood">Out Of Date</label>
+                                <input asp-for="ExOutOfDate" id="exood" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="exmarks">Marks</label>
+                                <input asp-for="ExMarks" id="exmarks" class="form-control form-control-lg">
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="submit" value="ADMISSION" class="btn btn-primary btn-lg px-5">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
     <div class="container">
@@ -141,5 +232,30 @@
     </div>
 </div>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $("#admissionForm").hide();
+        });
+        $(".btnFillForm").click(function () {
+            $("#admissionForm").show();
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#admissionForm").offset().top
+            }, 1000);
+        });
+        function getField(obj) {
+            var dropDown = document.getElementById("StreamId");
+            var streamId = dropDown.options[dropDown.selectedIndex].value;
+            $.ajax({
+                type: "POST",
+                url: "/Client/Admissions/GetFields",
+                data: { 'streamId': streamId },
+                success: function (res) {
+                    $("#fieldList").empty();
+                    $.each(res, function (index, value) {
+                        $("#fieldList").append('<option value="' + value.fieldId + '">' + value.fieldName+'</option >');
+                    });
+                }
+            });
+        }
+    </script>
 }
