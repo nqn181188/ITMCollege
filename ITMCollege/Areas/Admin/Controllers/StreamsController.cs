@@ -39,7 +39,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             }
             var model = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
-            const int pageSize = 5;
+            const int pageSize = 10;
             if (pg < 1)
                 pg = 1;
             int rescCount = model.Count();
