@@ -81,14 +81,22 @@ namespace ITMCollege.Areas.Admin.Controllers
         {
             try
             {
-                string fileName = Path.GetFileName(file.FileName);
-                string file_path = Path.Combine
-                    (Directory.GetCurrentDirectory(), @"wwwroot/Images/Faculty", fileName);
-                using (var stream = new FileStream(file_path, FileMode.Create))
+                if (file != null)
                 {
-                    await file.CopyToAsync(stream);
+                    string fileName = Path.GetFileName(file.FileName);
+                    string file_path = Path.Combine
+                        (Directory.GetCurrentDirectory(), @"wwwroot/Images/Faculty", fileName);
+                    using (var stream = new FileStream(file_path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    faculty.Image = "Images/Faculty/" + fileName;
                 }
-                faculty.Image = "Images/Faculty/" + fileName;
+                else
+                {
+                    _notyf.Warning("Image file invalid");
+                    return RedirectToAction(nameof(Create));
+                }
                 var data = httpclient.PostAsJsonAsync<Faculty>(uri, faculty).Result;
                 if (data.IsSuccessStatusCode)
                 {
