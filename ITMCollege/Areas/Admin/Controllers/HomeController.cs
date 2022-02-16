@@ -46,7 +46,6 @@ namespace ITMCollege.Controllers
             ViewBag.ListFacil = JsonConvert.DeserializeObject<IEnumerable<Facility>>(httpclient.GetStringAsync(urifaci).Result);
             ViewBag.ListFeed = JsonConvert.DeserializeObject<IEnumerable<Feedback>>(httpclient.GetStringAsync(urifeed).Result);
             ViewBag.ListAcc = JsonConvert.DeserializeObject<IEnumerable<Feedback>>(httpclient.GetStringAsync(uriacc).Result);
-            _notyf.Success("Success Notification");
             return View();
         }
 
@@ -87,8 +86,7 @@ namespace ITMCollege.Controllers
                 }
                 else
                 {
-                    //_notyf.Warning("Invalid User ID or Password.");
-                    ViewData["LoginMess"] = "Invalid User ID or Password.";
+                    _notyf.Warning("Invalid User ID or Password.");
                     return View("Login");
                 }
             }

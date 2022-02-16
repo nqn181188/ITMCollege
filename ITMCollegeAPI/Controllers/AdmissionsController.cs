@@ -25,7 +25,7 @@ namespace ITMCollegeAPI.Controllers
         public async Task<ActionResult<List<Admissions>>> GetAdmissions()
         {
             var listAdmission = await _context.Admissions.ToListAsync();
-            
+
             List<Admissions> list = new List<Admissions>();
             list = GetFullInfoAdmissions(listAdmission);
             return list;
@@ -50,7 +50,7 @@ namespace ITMCollegeAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAdmission(long id, byte status)
         {
-            
+
             try
             {
                 var admission = await _context.Admissions.FindAsync(id);
@@ -100,38 +100,56 @@ namespace ITMCollegeAPI.Controllers
         private List<Admissions> GetFullInfoAdmissions(List<Admission> listAdmission)
         {
             List<Admissions> list = new List<Admissions>();
-            StreamsController streamsController = new StreamsController(_context);
-            FieldsController fieldsController = new FieldsController(_context);
+            
             foreach (var item in listAdmission)
             {
                 Admissions ad = new Admissions();
-                ad.AdmissionId = item.AdmissionId;
-                ad.RegNum = item.RegNum;
-                ad.FullName = item.FullName;
-                ad.FatherName = item.FatherName;
-                ad.MotherName = item.MotherName;
-                ad.DateOfBirth = item.DateOfBirth;
-                ad.Gender = item.Gender;
-                ad.Email = item.Email;
-                ad.ResAddress = item.ResAddress;
-                ad.PerAddress = item.PerAddress;
-                ad.StreamId = item.StreamId;
-                ad.FieldId = item.FieldId;
-                ad.Sport = item.Sport;
-                ad.ExUniversity = item.ExUniversity;
-                ad.ExCenter = item.ExCenter;
-                ad.ExStream = item.ExStream;
-                ad.ExField = item.ExField;
-                ad.ExClass = item.ExClass;
-                ad.ExEnrollNum = item.ExEnrollNum;
-                ad.ExOutOfDate = item.ExOutOfDate;
-                ad.ExMarks = item.ExMarks;
-                ad.Stream = streamsController.GetStreamByStreamId(ad.StreamId);
-                ad.Field = fieldsController.GetFieldByFieldId(ad.FieldId);
-                ad.Status = item.Status;
+                GetFullAdmission(ad, item);
                 list.Add(ad);
             }
             return list;
+        }
+        [HttpGet("GetAdmissionByRegNum/{regnum}")]
+        public async Task<ActionResult<Admissions>> GetAdmissionByRegNum(string regnum)
+        {
+            var admission = await _context.Admissions.FirstOrDefaultAsync(a => a.RegNum.Equals(regnum));
+
+            if (admission == null)
+            {
+                return NotFound();
+            }
+            Admissions ad = new Admissions();
+            return Ok(GetFullAdmission(ad,admission));
+        }
+        private Admissions GetFullAdmission(Admissions ad, Admission item)
+        {
+            StreamsController streamsController = new StreamsController(_context);
+            FieldsController fieldsController = new FieldsController(_context);
+            ad.AdmissionId = item.AdmissionId;
+            ad.RegNum = item.RegNum;
+            ad.FullName = item.FullName;
+            ad.FatherName = item.FatherName;
+            ad.MotherName = item.MotherName;
+            ad.DateOfBirth = item.DateOfBirth;
+            ad.Gender = item.Gender;
+            ad.Email = item.Email;
+            ad.ResAddress = item.ResAddress;
+            ad.PerAddress = item.PerAddress;
+            ad.StreamId = item.StreamId;
+            ad.FieldId = item.FieldId;
+            ad.Sport = item.Sport;
+            ad.ExUniversity = item.ExUniversity;
+            ad.ExCenter = item.ExCenter;
+            ad.ExStream = item.ExStream;
+            ad.ExField = item.ExField;
+            ad.ExClass = item.ExClass;
+            ad.ExEnrollNum = item.ExEnrollNum;
+            ad.ExOutOfDate = item.ExOutOfDate;
+            ad.ExMarks = item.ExMarks;
+            ad.Stream = streamsController.GetStreamByStreamId(ad.StreamId);
+            ad.Field = fieldsController.GetFieldByFieldId(ad.FieldId);
+            ad.Status = item.Status;
+            return ad;
         }
     }
 }

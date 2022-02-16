@@ -1,4 +1,5 @@
-﻿using ITMCollege.Areas.Admin.Models;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using ITMCollege.Areas.Admin.Models;
 using ITMCollege.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,11 @@ namespace ITMCollege.Areas.Admin.Controllers
     [Area("Admin")]
     public class AdmissionsController : Controller
     {
+        private readonly INotyfService _notyf;
+        public AdmissionsController(INotyfService noty)
+        {
+            this._notyf = noty;
+        }
         private readonly string uriStream = "http://localhost:20646/api/streams/";
         private readonly string uriField = "http://localhost:20646/api/fields/";
         private readonly string uriAdmission = "http://localhost:20646/api/admissions/";
@@ -42,17 +48,19 @@ namespace ITMCollege.Areas.Admin.Controllers
         // POST: AdmissionsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, byte status)
+        public ActionResult Edit(int id, byte status,string RegNum)
         {
             try
             {
                 var res = client.PutAsJsonAsync(uriAdmission+id+"?status="+status,status).Result;
                 if (res.StatusCode == System.Net.HttpStatusCode.OK)
                 {
+                    _notyf.Success($"Admission {RegNum} change status successfully.");
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    _notyf.Error($"Admission {RegNum} change status fail.");
                     return RedirectToAction("Index");
                 }
             }

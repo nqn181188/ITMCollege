@@ -1,4 +1,5 @@
-﻿using ITMCollege.Models;
+﻿using ITMCollege.Areas.Admin.Models;
+using ITMCollege.Models;
 using ITMCollege.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -51,12 +52,14 @@ namespace ITMCollege.Areas.Client.Controllers
                 var res = client.PostAsJsonAsync(uriAdmission, admission).Result;
                 if (res.StatusCode==System.Net.HttpStatusCode.OK)
                 {
+                    TempData["adstatus"] = 0;
                     client.Dispose();
-                    TempData["admission_mess"] = "Congratulations, you have successfully admitted";
+                    TempData["admission_mess"] = "Congratulations, you have successfully admitted.";
                     return RedirectToAction("AdmissionNotification",admission);
                 }
                 else
                 {
+                    TempData["adstatus"] = 1;
                     client.Dispose();
                     TempData["admission_mess"] = "Admission fail, Please try again later.";
                     return RedirectToAction("AdmissionNotification", admission);
@@ -79,9 +82,9 @@ namespace ITMCollege.Areas.Client.Controllers
         }
         public ActionResult AdmissionNotification(Admission admission)
         {
-            if (TempData["admission_mess"] != null)
+            if (TempData["adstatus"] != null)
             {
-                ViewBag.Mess = TempData["admission_mess"];
+                ViewBag.adStatus = TempData["adstatus"];
             }
             return View(admission);
         }
@@ -121,6 +124,20 @@ namespace ITMCollege.Areas.Client.Controllers
             FileServices file = new FileServices(_hostingEnvironment);
             file.GetFile("test.txt");
             return RedirectToAction("Index");
+        }
+        public IActionResult CheckAdmissionStatus()
+        {
+            return View();
+        }
+        [HttpPost]
+        public Admission GetAdmission(string regnum)
+        public Admission GetAdmission(string regnum)
+        {
+            var res = client.GetStringAsync(uriAdmission+ "GetAdmissionByRegNum/"+regnum).Result;
+            var data = JsonConvert.DeserializeObject<Admissions>(res);
+            data.DateOfBirth = DateTime.Parse(data.DateOfBirth.ToShortDateString());
+            return Json(data);
+
         }
     }
 }

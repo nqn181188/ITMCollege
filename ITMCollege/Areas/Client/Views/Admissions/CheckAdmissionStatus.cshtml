@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Check Admission Status";
+    Layout = "~/Views/Shared/Client/_Layout.cshtml";
+}
+<div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('~/wwwroot/Images/bg_1.jpg')">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-7">
+                <h2 class="mb-0">ADMISSION</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="custom-breadcrumns border-bottom">
+    <div class="container">
+        <a asp-area="Client" asp-controller="Home" asp-action="Index">Home</a>
+        <span class="mx-3 icon-keyboard_arrow_right"></span>
+        <span class="current">Admission</span>
+    </div>
+</div>
+<div class="row">
+    <div class="container my-5 card">
+        <div class="card-header bg-white">
+            <form>
+                <div class="row mx-auto">
+                    <div class="col-md-6">
+                        <input name="RegNum" type="text" class="form-control search-name" id="regnum" placeholder="Registration Number...">
+                    </div>
+                    <div class="col-md-3">
+                        <input id="btnCheck" class="btn btn-primary" value="Check Admission Status" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="AdmissionStatus" class="mt-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="dob">DOB</label>
+                        <input type="text" id="dob" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="stream">Stream</label>
+                        <input type="text" id="stream" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="field">Field</label>
+                        <input type="text" id="field" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="status">Status</label>
+                        <p id="adStatus" class="d-inline size-50"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#AdmissionStatus").hide();
+        });
+        $("#btnCheck").click(function (e) {
+            e.preventDefault();
+            $("#adStatus").empty();
+            var regNum = $("#regnum").val();
+            $("#AdmissionStatus").show();
+            $.ajax({
+                type: "POST",
+                url: "/Client/Admissions/GetAdmission",
+                data: { 'regnum': regNum },
+                success: function (res) {
+                    $("#fullname").val(res.fullName);
+                    $("#dob").val(res.dateOfBirth);
+                    $("#email").val(res.email);
+                    $("#stream").val(res.stream.streamName);
+                    $("#field").val(res.field.fieldName);
+                    switch (res.status)
+                    {
+                        case 0: $("#adStatus").append('<span class="badge badge-primary">Waiting</span>');
+                            break;
+                        case 1: $("#adStatus").append('<span class="badge badge-success">Accepted</span>');
+                            break;
+                        case 2: $("#adStatus").append('<span class="badge badge-danger">Rejected</span>');
+                            break;
+                    }
+                }
+            });
+        });
+    </script>
+}

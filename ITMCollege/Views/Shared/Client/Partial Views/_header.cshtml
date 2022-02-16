@@ -14,7 +14,6 @@
                     <li class="has-children">
                         <a href="/home/aboutus" class="nav-link text-left">About Us</a>
                         <ul class="dropdown">
-                          
                             <li>
                                 <a href="/departments" class="nav-link text-left">Departments</a>
                             </li>
@@ -29,9 +28,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a asp-area="Client" asp-controller="Admissions" asp-action="Index" class="nav-link text-left">Admissions</a>
+                    <li class="has-children">
+                        <a href="#" class="nav-link text-left">Student</a>
+                        <ul class="dropdown">
+                            <li>
+                                <a href="/admissions" class="nav-link text-left">Admission</a>
+                            </li>
+                            <li>
+                                <a href="/admissions/checkadmissionstatus" class="nav-link text-left">Admission Status</a>
+                            </li>
+                            <li>
+                                <a href="/registration/" class="nav-link text-left">Student Registration</a>
+                            </li>
+                            <li>
+                            </li>
+                        </ul>
                     </li>
+                    @*<li>
+                        <a asp-area="Client" asp-controller="Admissions" asp-action="Index" class="nav-link text-left">Admissions</a>
+                    </li>*@
                     <li>
                         <a href="/courses" class="nav-link text-left">Courses</a>
                     </li>
@@ -39,7 +54,7 @@
                     <li>
                         <a href="/contacts" class="nav-link text-left">Contact</a>
                     </li>
-                   
+
                 </ul>                                                                                                                          
             </nav>
         </div>
