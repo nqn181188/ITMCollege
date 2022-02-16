@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
-#nullable disable
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ITMCollegeAPI.Models
 {
-    public partial class Admission
+    public class Admissions
     {
         public long AdmissionId { get; set; }
         public string RegNum { get; set; }
@@ -28,6 +28,8 @@ namespace ITMCollegeAPI.Models
         public decimal? ExMarks { get; set; }
         public string ExOutOfDate { get; set; }
         public string ExClass { get; set; }
+        public virtual Field Field { get; set; }
+        public virtual Stream Stream { get; set; }
         public byte Status { get; set; }
     }
 }

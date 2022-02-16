@@ -118,5 +118,17 @@ namespace ITMCollegeAPI.Controllers
         {
             return _context.Fields.Any(e => e.FieldId == id);
         }
+        [HttpGet("GetFieldByFieldId")]
+        public Field GetFieldByFieldId(int id)
+        {
+            var field = _context.Fields.Find(id);
+
+            if (field == null)
+            {
+                return null;
+            }
+
+            return field;
+        }
     }
 }

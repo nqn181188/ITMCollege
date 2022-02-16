@@ -22,9 +22,13 @@ namespace ITMCollegeAPI.Controllers
 
         // GET: api/Admissions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Admission>>> GetAdmissions()
+        public async Task<ActionResult<List<Admissions>>> GetAdmissions()
         {
-            return await _context.Admissions.ToListAsync();
+            var listAdmission = await _context.Admissions.ToListAsync();
+            
+            List<Admissions> list = new List<Admissions>();
+            list = GetFullInfoAdmissions(listAdmission);
+            return list;
         }
 
         // GET: api/Admissions/5
@@ -44,29 +48,24 @@ namespace ITMCollegeAPI.Controllers
         // PUT: api/Admissions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAdmission(long id, Admission admission)
+        public async Task<IActionResult> PutAdmission(long id, byte status)
         {
-            if (id != admission.AdmissionId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(admission).State = EntityState.Modified;
+            
             try
             {
-                await _context.SaveChangesAsync();
-                
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdmissionExists(id))
+                var admission = await _context.Admissions.FindAsync(id);
+                if (admission == null)
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                admission.Status = status;
+                _context.Entry(admission).State = EntityState.Modified;
+                _context.Admissions.Update(admission);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
             }
             return Ok();
         }
@@ -97,6 +96,42 @@ namespace ITMCollegeAPI.Controllers
             {
                 return true;
             }
+        }
+        private List<Admissions> GetFullInfoAdmissions(List<Admission> listAdmission)
+        {
+            List<Admissions> list = new List<Admissions>();
+            StreamsController streamsController = new StreamsController(_context);
+            FieldsController fieldsController = new FieldsController(_context);
+            foreach (var item in listAdmission)
+            {
+                Admissions ad = new Admissions();
+                ad.AdmissionId = item.AdmissionId;
+                ad.RegNum = item.RegNum;
+                ad.FullName = item.FullName;
+                ad.FatherName = item.FatherName;
+                ad.MotherName = item.MotherName;
+                ad.DateOfBirth = item.DateOfBirth;
+                ad.Gender = item.Gender;
+                ad.Email = item.Email;
+                ad.ResAddress = item.ResAddress;
+                ad.PerAddress = item.PerAddress;
+                ad.StreamId = item.StreamId;
+                ad.FieldId = item.FieldId;
+                ad.Sport = item.Sport;
+                ad.ExUniversity = item.ExUniversity;
+                ad.ExCenter = item.ExCenter;
+                ad.ExStream = item.ExStream;
+                ad.ExField = item.ExField;
+                ad.ExClass = item.ExClass;
+                ad.ExEnrollNum = item.ExEnrollNum;
+                ad.ExOutOfDate = item.ExOutOfDate;
+                ad.ExMarks = item.ExMarks;
+                ad.Stream = streamsController.GetStreamByStreamId(ad.StreamId);
+                ad.Field = fieldsController.GetFieldByFieldId(ad.FieldId);
+                ad.Status = item.Status;
+                list.Add(ad);
+            }
+            return list;
         }
     }
 }

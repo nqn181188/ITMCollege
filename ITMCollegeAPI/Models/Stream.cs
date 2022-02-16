@@ -13,7 +13,6 @@ namespace ITMCollegeAPI.Models
             Courses = new HashSet<Course>();
             Fields = new HashSet<Field>();
         }
-
         public int StreamId { get; set; }
         public string StreamName { get; set; }
 
