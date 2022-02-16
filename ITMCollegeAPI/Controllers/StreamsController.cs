@@ -105,5 +105,17 @@ namespace ITMCollegeAPI.Controllers
         {
             return _context.Streams.Any(e => e.StreamId == id);
         }
+        [HttpGet("GetStreamByStreamId")]
+        public Stream GetStreamByStreamId(int id)
+        {
+            var stream = _context.Streams.Find(id);
+
+            if (stream == null)
+            {
+                return null;
+            }
+
+            return stream;
+        }
     }
 }

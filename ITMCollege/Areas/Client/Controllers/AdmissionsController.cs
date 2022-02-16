@@ -47,6 +47,7 @@ namespace ITMCollege.Areas.Client.Controllers
             {
                 string RegNum = GenerateRegNum();
                 admission.RegNum = RegNum;
+                admission.DateOfBirth.ToShortDateString();
                 var res = client.PostAsJsonAsync(uriAdmission, admission).Result;
                 if (res.StatusCode==System.Net.HttpStatusCode.OK)
                 {

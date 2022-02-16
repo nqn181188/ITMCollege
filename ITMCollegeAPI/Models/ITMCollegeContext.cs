@@ -145,17 +145,17 @@ namespace ITMCollegeAPI.Models
 
                 entity.Property(e => e.StreamId).HasColumnName("StreamID");
 
-                entity.HasOne(d => d.Field)
-                    .WithMany(p => p.Admissions)
-                    .HasForeignKey(d => d.FieldId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Admission__Field__46E78A0C");
+                //entity.HasOne(d => d.Field)
+                //    .WithMany(p => p.Admissions)
+                //    .HasForeignKey(d => d.FieldId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__Admission__Field__46E78A0C");
 
-                entity.HasOne(d => d.Stream)
-                    .WithMany(p => p.Admissions)
-                    .HasForeignKey(d => d.StreamId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Admission__Strea__45F365D3");
+                //entity.HasOne(d => d.Stream)
+                //    .WithMany(p => p.Admissions)
+                //    .HasForeignKey(d => d.StreamId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__Admission__Strea__45F365D3");
             });
 
             modelBuilder.Entity<Course>(entity =>
@@ -336,12 +336,12 @@ namespace ITMCollegeAPI.Models
                     .HasForeignKey(d => d.OpSubjectId)
                     .HasConstraintName("FK__Registrat__OpSub__4BAC3F29");
 
-                entity.HasOne(d => d.RegNumNavigation)
-                    .WithMany(p => p.Registrations)
-                    .HasPrincipalKey(p => p.RegNum)
-                    .HasForeignKey(d => d.RegNum)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Registrat__RegNu__49C3F6B7");
+                //entity.HasOne(d => d.RegNumNavigation)
+                //    .WithMany(p => p.Registrations)
+                //    .HasPrincipalKey(p => p.RegNum)
+                //    .HasForeignKey(d => d.RegNum)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__Registrat__RegNu__49C3F6B7");
 
                 entity.HasOne(d => d.SpeSubject)
                     .WithMany(p => p.Registrations)

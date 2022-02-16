@@ -1,0 +1,113 @@
+﻿@model IEnumerable<ITMCollege.Areas.Admin.Models.Admissions>
+@{
+    ViewBag.Title = "Admission List";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Admission List</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="">Home</a></li>
+                    <li class="breadcrumb-item active">Admission</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="card">
+        <div class="card-header bg-dark">
+            <form id="filter-products" class="form-inline bg-dark">
+                <div class="row mx-auto">
+                    <div class="d-inline use-chosen">
+                        <input name="name" type="text" class="form-control search-name" value="" id="name" placeholder="Search by name...">
+                    </div>
+                    <div class="d-inline px-2">
+                        <select class="form-control use-chosen" name="brand_id">
+                            <option value=''>Stream</option>
+                            @foreach (var item in ViewBag.StreamList)
+                            {
+                                <option value='@item.StreamId'>@item.StreamName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="d-inline px-2">
+                        <select class="form-control use-chosen" name="price">
+                            <option value="">Field</option>
+                        </select>
+                    </div>
+                    <div class="d-inline px-2">
+                        <select class="form-control use-chosen" name="paginate">
+                            <option value="">Status</option>
+                            <option value="">Waiting</option>
+                            <option value="">Rejected</option>
+                            <option value="">Accepted</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped project ">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center align-middle" style="width: 5%">No.</th>
+                        <th class="text-center align-middle" style="width: 10%">Registration Number</th>
+                        <th class="text-center align-middle" style="width: 20%">Full Name</th>
+                        <th class="text-center align-middle" style="width: 20%">Email</th>
+                        <th class="text-center align-middle" style="width: 10%">Stream</th>
+                        <th class="text-center align-middle" style="width: 15%">Field</th>
+                        <th class="text-center align-middle" style="width: 15%">Status</th>
+                        <th class="text-center align-middle" style="width: 10%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int no = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td class="text-center align-middle">
+                                <span>@(no++)</span>
+                            </td>
+                            <td class="text-center align-middle">@item.RegNum</td>
+                            <td class="text-center align-middle">@item.FullName </td>
+                            <td class="text-center align-middle">@item.Email</td>
+                            <td class="text-center align-middle">@item.Stream.StreamName</td>
+                            <td class="text-center align-middle">@item.Field.FieldName</td>
+                            <td class="text-center align-middle">
+                                @switch (item.Status)
+                                {
+                                    case 0:
+                                        {
+                                            <span class="badge badge-primary">Waiting</span>;
+                                            break;
+                                        }
+                                    case 1:
+                                        {
+                                            <span class="badge badge-success">Accepted</span>;
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            <span class="badge badge-danger">Rejected</span>;
+                                            break;
+                                        }
+                                }
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.AdmissionId })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

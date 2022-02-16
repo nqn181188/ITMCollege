@@ -1,0 +1,162 @@
+﻿@model IEnumerable<ITMCollege.Models.Admission>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AdmissionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FatherName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MotherName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StreamId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExUniversity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExEnrollNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExCenter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExStream)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExField)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExMarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExOutOfDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExClass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdmissionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegNum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FatherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MotherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreamId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FieldId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExUniversity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExEnrollNum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExCenter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExStream)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExField)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExMarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExOutOfDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

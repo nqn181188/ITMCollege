@@ -1,0 +1,140 @@
+﻿@model ITMCollege.Models.Admission
+@{
+    ViewBag.Title = "Edit Admission";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+
+<div class="card" id="admissionForm pr-3">
+    <div class="card-header bg-dark text-dark font-weight-bold">UPDATE ADMISSION STATUS</div>
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="fullname">Full Name</label>
+                        <input value="@Model.FullName" asp-for="FullName" type="text" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="fathername">Father Name</label>
+                        <input value="@Model.FatherName" asp-for="FatherName" readonly type="text" id="fathername" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="mothername">Mother Name</label>
+                        <input value="@Model.MotherName" asp-for="MotherName" type="text" readonly id="mothername" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="DateOfBirth">Date Of Birth</label>
+                        <input value="@Model.DateOfBirth" asp-for="DateOfBirth" type="date" readonly id="DateOfBirth" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="d-block" for="gender">Gender</label>
+                        <div class="custom-control custom-radio d-inline-block pr-4">
+                            <input type="radio" class="custom-control-input" value="true" @(Model.Gender == true ? "checked" : "") readonly>
+                            <label class="custom-control-label" for="male">Male</label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline-block">
+                            <input type="radio" class="custom-control-input" value="false" @(Model.Gender == false ? "checked" : "") readonly>
+                            <label class="custom-control-label" for="female">Female</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="email">Email</label>
+                        <input value="@Model.Email" asp-for="Email" type="text" readonly  id="email" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="resaddress">Residential Address</label>
+                        <input value="@Model.ResAddress" asp-for="ResAddress" type="text" readonly  id="resaddress" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="peraddress">Permanent Address</label>
+                        <input value="@Model.PerAddress" asp-for="PerAddress" type="text" readonlyid="peraddress" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="eaddress">Stream</label>
+                        <input value="@ViewBag.StreamName" readonly type="text" id="resaddress" class="form-control form-control-lg" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="eaddress">Field</label>
+                        <input value="@ViewBag.FieldName" readonly type="text" id="resaddress" class="form-control form-control-lg" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="sport">Sports</label>
+                        <input value="@Model.Sport" readonly type="text" id="sport" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="exuniversity">Previous University</label>
+                        <input value="@Model.ExUniversity" readonly id="exuniversity" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="excenter">Previous Center</label>
+                        <input value="@Model.ExCenter" readonly id="excenter" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="exstream">Previous Stream</label>
+                        <input value="@Model.ExStream" readonly id="exstream" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="exfield">Previous Field</label>
+                        <input value="@Model.ExField" readonly id="exfield" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="exclass">Previous Class</label>
+                        <input value="@Model.ExClass" readonly id="exclass" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="exenroll">Previous Enroll Number</label>
+                        <input value="@Model.ExEnrollNum" readonly id="exenroll" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="exood">Out Of Date</label>
+                        <input value="@Model.ExOutOfDate" readonly id="exood" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="exmarks">Marks</label>
+                        <input value="@Model.ExMarks" readonly id="exmarks" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="exood">Registraion Number</label>
+                        <input value="@Model.RegNum" readonly id="exood" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="d-block" for="Status">Status<span class="text-danger pl-1"></span></label>
+                        <div class="custom-control custom-radio d-inline-block pr-4">
+                            <input type="radio" class="custom-control-input" value="0" id="waiting" name="status" @(Model.Status == 0 ? "checked" : "")/>
+                            <label class="custom-control-label" for="waiting">Waiting</label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline-block pr-4">
+                            <input type="radio" class="custom-control-input" id="accepted" name="status" value="1" @(Model.Status == 1 ? "checked" : "")/>
+                            <label class="custom-control-label" for="accepted">Accepted</label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline-block pr-4">
+                            <input type="radio" class="custom-control-input" id="rejected" name="status" value="2" @(Model.Status == 2 ? "checked" : "")/>
+                            <label class="custom-control-label" for="rejected">Rejected</label>
+                        </div>
+                    </div>
+                    <input type="hidden" value="@Model.AdmissionId" name="id"/>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <input type="submit" value="SUBMIT" class="btn btn-dark btn-lg px-5">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

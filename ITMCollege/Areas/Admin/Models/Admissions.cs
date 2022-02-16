@@ -1,12 +1,17 @@
-﻿using System;
+﻿using ITMCollege.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace ITMCollegeAPI.Models
+namespace ITMCollege.Areas.Admin.Models
 {
-    public partial class Admission
+    public class Admissions
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long AdmissionId { get; set; }
         public string RegNum { get; set; }
         public string FullName { get; set; }
@@ -29,5 +34,7 @@ namespace ITMCollegeAPI.Models
         public string ExOutOfDate { get; set; }
         public string ExClass { get; set; }
         public byte Status { get; set; }
+        public virtual Field Field { get; set; }
+        public virtual Stream Stream { get; set; }
     }
 }
