@@ -27,6 +27,7 @@ namespace ITMCollegeAPI.Controllers
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
         {
             return await _context.Departments
+                .OrderByDescending(i => i.DepId)
                 .AsNoTracking()
                 .Include(i => i.Faculties)
                 .ToListAsync();
