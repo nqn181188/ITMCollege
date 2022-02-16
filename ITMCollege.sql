@@ -1,3 +1,4 @@
+Drop DATABASE ITMCollege
 CREATE DATABASE ITMCollege
 GO
 USE ITMCollege
@@ -20,7 +21,7 @@ CREATE TABLE Courses
 	CourseID int identity primary key,
 	CourseName varchar(50) not null,
 	[Description] text,
-	StreamID int foreign key references Streams(StreamID) not null,
+	StreamID int not null,
 	FieldID int foreign key references Fields(FieldID) not null,
 	[Image] varchar(max),
 )
@@ -52,7 +53,7 @@ CREATE TABLE Admissions
 	StreamID int foreign key references Streams(StreamID) not null,
 	FieldID int foreign key references Fields(FieldID) not null,
 	Email varchar(255) not null,
-	Sport varchar(255) not null,
+	Sport varchar(255),
 	ExUniversity varchar(100),
 	ExEnrollNum varchar(20),
 	ExCenter varchar(50),
@@ -61,6 +62,7 @@ CREATE TABLE Admissions
 	ExMarks decimal,
 	ExOutOfDate varchar(10),
 	ExClass varchar(10),
+	[Status] tinyint default (0),
 )
 GO
 CREATE TABLE Registrations
@@ -121,6 +123,16 @@ CREATE TABLE Accounts
 	IsActive bit not null,
 )
 
+INSERT into streams VALUES ( N'Computers & Technology')
+INSERT into streams VALUES ( N'Business & Management')
+INSERT into streams VALUES ( N'Education & Teaching')
+INSERT into streams VALUES ( N'Science & Engineering')
+INSERT into streams VALUES ( N'Criminal Justice & Legal')
+INSERT into streams VALUES ( N'Nursing & Healthcare')
+INSERT into streams VALUES ( N'Art & Design')
+
+
+
 INSERT into Fields VALUES ( N'Computer Engineering', 1)
 INSERT into Fields VALUES ( N'Mobile Developement', 1)
 INSERT into Fields VALUES ( N'Information Technology', 1)
@@ -148,15 +160,6 @@ INSERT into Fields VALUES ( N'Art & Art History', 7)
 INSERT into Fields VALUES ( N'Film', 7)
 INSERT into Fields VALUES ( N'Multimedia Design', 7)
 
-INSERT into streams VALUES ( N'Computers & Technology')
-INSERT into streams VALUES ( N'Business & Management')
-INSERT into streams VALUES ( N'Education & Teaching')
-INSERT into streams VALUES ( N'Science & Engineering')
-INSERT into streams VALUES ( N'Criminal Justice & Legal')
-INSERT into streams VALUES ( N'Nursing & Healthcare')
-INSERT into streams VALUES ( N'Art & Design')
-
-
 
 
 INSERT into courses VALUES ( N'Software Engineering', N'Start date : 10/3//2022. Duration : 4 Years. Fee : 40000USD',1,1,'')
@@ -169,6 +172,7 @@ INSERT into courses VALUES ( N'Film', N'Start date : 02/3//2022. Duration : 4 Ye
 INSERT into courses VALUES ( N'Marketing', N'Start date : 11/3//2022. Duration : 4 Years. Fee : 50000USD',2,8,'')
 INSERT into courses VALUES ( N'Software Engineering', N'Start date : 15/3//2022. Duration : 4 Years. Fee : 55000USD',1,4,'')
 INSERT into courses VALUES ( N'Education', N'Start date : 19/3//2022. Duration : 4 Years. Fee : 42000USD',3,10,'')
+
 
 Insert into Departments VALUES ( N'Computers & Technology', N'Computer technology involves expanding existing computer capacities.',N'Images/Department/department1.jpg')
 Insert into Departments VALUES ( N'Business & Management', N'Business management rule #1 is delegation, assign the best qualified people to each position and trust your staff to do the work instead of trying to do everything yourself.',N'Images/Department/department2.jpg')
