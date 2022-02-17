@@ -11,6 +11,15 @@
   <br>
   <br>
   <br>
+  <form asp-action="Details" >
+    <select class="form-control" id="exampleFormControlSelect1" name="id">
+    @foreach(var item in ViewBag.listdep)
+    {
+        <option value="@item.DepId">@item.DepName</option>
+    }  
+    </select>
+    <input type="submit" value="Filter"  class="btn btn-primary rounded-0 px-4" />
+    </form>
 <div class="site-section">
       <div class="container">
            <div class="row mb-5 justify-content-center text-center">
