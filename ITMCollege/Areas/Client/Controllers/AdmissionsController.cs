@@ -130,14 +130,27 @@ namespace ITMCollege.Areas.Client.Controllers
             return View();
         }
         [HttpPost]
-        public Admission GetAdmission(string regnum)
-        public Admission GetAdmission(string regnum)
+        public JsonResult GetAdmission(string regnum)
         {
             var res = client.GetStringAsync(uriAdmission+ "GetAdmissionByRegNum/"+regnum).Result;
-            var data = JsonConvert.DeserializeObject<Admissions>(res);
-            data.DateOfBirth = DateTime.Parse(data.DateOfBirth.ToShortDateString());
-            return Json(data);
-
+            if (res.ToString()!="")
+            {
+                var data = JsonConvert.DeserializeObject<Admissions>(res);
+                var dic = new Dictionary<string, string>
+                {
+                    {"fullName",data.FullName },
+                    {"dateOfBirth",data.DateOfBirth.ToShortDateString() },
+                    {"email",data.Email },
+                    {"streamName",data.Stream.StreamName },
+                    {"fieldName",data.Field.FieldName },
+                    {"status",data.Status.ToString()},
+                };
+                return Json(dic);
+            }
+            else
+            {
+                return Json(null);
+            }
         }
     }
 }

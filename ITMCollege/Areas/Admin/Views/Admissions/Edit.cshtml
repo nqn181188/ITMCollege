@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="DateOfBirth">Date Of Birth</label>
-                        <input value="@Model.DateOfBirth" asp-for="DateOfBirth" type="date" readonly id="DateOfBirth" class="form-control form-control-lg">
+                        <input value="@Model.DateOfBirth.Date.ToShortDateString()" readonly id="DateOfBirth" class="form-control form-control-lg">
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="d-block" for="gender">Gender</label>
@@ -39,11 +39,11 @@
                     </div>
                     <div class="col-md-12 form-group">
                         <label for="email">Email</label>
-                        <input value="@Model.Email" asp-for="Email" type="text" readonly  id="email" class="form-control form-control-lg">
+                        <input value="@Model.Email" asp-for="Email" type="text" readonly id="email" class="form-control form-control-lg">
                     </div>
                     <div class="col-md-12 form-group">
                         <label for="resaddress">Residential Address</label>
-                        <input value="@Model.ResAddress" asp-for="ResAddress" type="text" readonly  id="resaddress" class="form-control form-control-lg">
+                        <input value="@Model.ResAddress" asp-for="ResAddress" type="text" readonly id="resaddress" class="form-control form-control-lg">
                     </div>
                     <div class="col-md-12 form-group">
                         <label for="peraddress">Permanent Address</label>

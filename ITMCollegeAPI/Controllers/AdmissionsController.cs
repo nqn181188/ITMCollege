@@ -97,6 +97,7 @@ namespace ITMCollegeAPI.Controllers
                 return true;
             }
         }
+        //Select List<Admissions> from List<Admisson>
         private List<Admissions> GetFullInfoAdmissions(List<Admission> listAdmission)
         {
             List<Admissions> list = new List<Admissions>();
@@ -116,11 +117,12 @@ namespace ITMCollegeAPI.Controllers
 
             if (admission == null)
             {
-                return NotFound();
+                return Ok(null);
             }
             Admissions ad = new Admissions();
             return Ok(GetFullAdmission(ad,admission));
         }
+        //Select Admissions form Admission
         private Admissions GetFullAdmission(Admissions ad, Admission item)
         {
             StreamsController streamsController = new StreamsController(_context);

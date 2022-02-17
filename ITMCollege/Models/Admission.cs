@@ -13,15 +13,23 @@ namespace ITMCollege.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long AdmissionId { get; set; }
         public string RegNum { get; set; }
+        [Required]
         public string FullName { get; set; }
+        [Required]
         public string FatherName { get; set; }
+        [Required]
         public string MotherName { get; set; }
+        [Required]
         public bool Gender { get; set; }
+        [Required]
         public DateTime DateOfBirth { get; set; }
+        [Required]
         public string ResAddress { get; set; }
+        [Required]
         public string PerAddress { get; set; }
         public int StreamId { get; set; }
         public int FieldId { get; set; }
+        [Required]
         public string Email { get; set; }
         public string Sport { get; set; }
         public string ExUniversity { get; set; }

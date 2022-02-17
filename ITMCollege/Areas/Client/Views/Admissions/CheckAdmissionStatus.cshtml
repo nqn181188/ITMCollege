@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ITMCollege.Areas.Admin.Models.Admissions
+@{
     ViewBag.Title = "Check Admission Status";
     Layout = "~/Views/Shared/Client/_Layout.cshtml";
 }
@@ -24,7 +25,8 @@
             <form>
                 <div class="row mx-auto">
                     <div class="col-md-6">
-                        <input name="RegNum" type="text" class="form-control search-name" id="regnum" placeholder="Registration Number...">
+                        <input name="RegNum" type="text" class="form-control search-name" id="regnum" placeholder="STxxxxxxxx - Example : ST12345678">
+                        <span id="regNumErr" class="text-danger font-italic  small"></span>
                     </div>
                     <div class="col-md-3">
                         <input id="btnCheck" class="btn btn-primary" value="Check Admission Status" />
@@ -41,7 +43,7 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="dob">DOB</label>
-                        <input type="text" id="dob" readonly class="form-control form-control-lg">
+                        <input type="text" id="dob" asp-for="DateOfBirth" readonly class="form-control form-control-lg">
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="email">Email</label>
@@ -72,29 +74,47 @@
         $("#btnCheck").click(function (e) {
             e.preventDefault();
             $("#adStatus").empty();
+            $("#fullname").val('');
+            $("#dob").val('');
+            $("#email").val('');
+            $("#stream").val('');
+            $("#field").val('');
             var regNum = $("#regnum").val();
-            $("#AdmissionStatus").show();
-            $.ajax({
-                type: "POST",
-                url: "/Client/Admissions/GetAdmission",
-                data: { 'regnum': regNum },
-                success: function (res) {
-                    $("#fullname").val(res.fullName);
-                    $("#dob").val(res.dateOfBirth);
-                    $("#email").val(res.email);
-                    $("#stream").val(res.stream.streamName);
-                    $("#field").val(res.field.fieldName);
-                    switch (res.status)
-                    {
-                        case 0: $("#adStatus").append('<span class="badge badge-primary">Waiting</span>');
-                            break;
-                        case 1: $("#adStatus").append('<span class="badge badge-success">Accepted</span>');
-                            break;
-                        case 2: $("#adStatus").append('<span class="badge badge-danger">Rejected</span>');
-                            break;
-                    }
-                }
-            });
+            if (regNum != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Client/Admissions/GetAdmission",
+                    data: { 'regnum': regNum },
+                    success: function (res) {
+                        if (res) {
+                            $("#regNumErr").empty();
+                            $("#AdmissionStatus").show();
+                            $("#fullname").val(res.fullName);
+                            $("#dob").val(res.dateOfBirth);
+                            $("#email").val(res.email);
+                            $("#stream").val(res.streamName);
+                            $("#field").val(res.fieldName);
+                            switch (res.status) {
+                                case "0": $("#adStatus").append('<span class="badge badge-primary">Waiting</span>');
+                                    break;
+                                case "1": $("#adStatus").append('<span class="badge badge-success">Accepted</span>');
+                                    break;
+                                case "2": $("#adStatus").append('<span class="badge badge-danger">Rejected</span>');
+                                    break;
+                            }
+                        } else {
+                            $("#regNumErr").append("Registration Number is not exist.");
+                        }
+
+                    },
+                    error: function () {
+                        alert("Error");
+                    },
+                });
+            } else {
+                $("#regNumErr").append("Registration Number can not be blank.");
+            }
+            
         });
     </script>
 }

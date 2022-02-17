@@ -28,7 +28,7 @@
                 <img src="~/Images/course_6.jpg" alt="Image" class="img-fluid" />
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <button type="button" asp-action="Create" class="btn btn-primary btn-block btnFillForm" >FILL THE FORM ONLINE</button>
+                        <button type="button" asp-action="Create" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">FILL THE FORM ONLINE</button>
                     </div>
                     <div class="col-md-12">
                         <button type="button" class="btn btn-outline-primary btn-block">DOWNLOAD THE FORM</button>
@@ -57,7 +57,7 @@
                     <img src="~/images/course_3.jpg" alt="Image" class="img-fluid">
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <button type="button" asp-action="Create" class="btn btn-primary btn-block btnFillForm" >FILL THE FORM ONLINE</button>
+                            <button type="button" asp-action="Create" class="btn btn-primary btn-block btnFillForm">FILL THE FORM ONLINE</button>
                         </div>
                         <div class="col-md-12">
                             <button type="button" class="btn btn-outline-primary btn-block">DOWNLOAD THE FORM</button>
@@ -78,129 +78,158 @@
                 </div>
             </div>
         </div>
-        <div class="card" id="admissionForm">
-            <div class="card-header bg-primary text-dark font-weight-bold" >ADMISSION FORM</div>
-            <div class="card-body">
-                <form asp-action="Create" method="post" >
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 form-group">
-                                <label for="fullname">Full Name</label><span class="text-danger pl-1">*</span>
-                                <input asp-for="FullName" type="text" id="fullname" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="fathername">Father Name</label><span class="text-danger pl-1">*</span>
-                                <input asp-for="FatherName" type="text" id="fathername" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="mothername">Mother Name</label><span class="text-danger pl-1">*</span>
-                                <input asp-for="MotherName" type="text" id="mothername" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label for="DateOfBirth">Date Of Birth</label><span class="text-danger pl-1">*</span>
-                                <input asp-for="DateOfBirth" type="date" id="DateOfBirth" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label class="d-block" for="gender">Gender<span class="text-danger pl-1">*</span></label>
-                                <div class="custom-control custom-radio d-inline-block pr-4">
-                                    <input type="radio" class="custom-control-input" id="male" name="Gender" value="true" checked>
-                                    <label class="custom-control-label" for="male">Male</label>
-                                </div>
-                                <div class="custom-control custom-radio d-inline-block">
-                                    <input type="radio" class="custom-control-input" id="female" name="Gender" value="false">
-                                    <label class="custom-control-label" for="female">Female</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="email">Email</label><span class="text-danger pl-1">*</span>
-                                <input asp-for="Email" type="text" id="email" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="resaddress">Residential Address</label><span class="text-danger pl-1">*</span>
-                                <input asp-for="ResAddress" type="text" id="resaddress" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="peraddress">Permanent Address</label><span class="text-danger pl-1">*</span>
-                                <input asp-for="PerAddress" type="text" id="peraddress" class="form-control form-control-lg">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <label for="eaddress">Stream</label><span class="text-danger pl-1">*</span>
-                                <select name="StreamId" class="form-control" onchange="getField(this)" id="StreamId">
-                                    @foreach (var item in ViewBag.StreamList)
-                                    {
-                                        <option value="@item.StreamId">@item.StreamName</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label for="eaddress">Field</label><span class="text-danger pl-1">*</span>
-                                <select name="FieldId" class="form-control" id="fieldList">
-                                    @foreach (var item in ViewBag.FieldList)
-                                    {
-                                        <option value="@item.FieldId">@item.FieldName</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 form-group">
-                                <label for="sport">Sports</label><span class="text-danger pl-1">*</span>
-                                <input asp-for="Sport" type="text" id="sport" class="form-control form-control-lg">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <label for="exuniversity">Previous University</label>
-                                <input asp-for="ExUniversity" id="exuniversity" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label for="excenter">Previous Center</label>
-                                <input asp-for="ExCenter" id="excenter" class="form-control form-control-lg">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <label for="exstream">Previous Stream</label>
-                                <input asp-for="ExStream" id="exstream" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label for="exfield">Previous Field</label>
-                                <input asp-for="ExField" id="exfield" class="form-control form-control-lg">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <label for="exclass">Previous Class</label>
-                                <input asp-for="ExClass" id="exclass" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label for="exenroll">Previous Enroll Number</label>
-                                <input asp-for="ExEnrollNum" id="exenroll" class="form-control form-control-lg">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <label for="exood">Out Of Date</label>
-                                <input asp-for="ExOutOfDate" id="exood" class="form-control form-control-lg">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label for="exmarks">Marks</label>
-                                <input asp-for="ExMarks" id="exmarks" class="form-control form-control-lg">
-                            </div>
-                        </div>
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="card" id="admissionForm">
+                            <div class="card-header bg-primary text-dark font-weight-bold">ADMISSION FORM</div>
+                            <div class="card-body">
+                                <form asp-action="Create" method="post">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12 form-group">
+                                                <label for="fullname">Full Name</label><span class="text-danger pl-1">*</span>
+                                                <input asp-for="FullName" type="text" id="fullname" class="form-control form-control-lg">
+                                                <span id="FullNameErr" class="text-danger font-italic"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <label for="fathername">Father Name</label><span class="text-danger pl-1">*</span>
+                                                <input asp-for="FatherName" type="text" id="fathername" class="form-control form-control-lg">
+                                                <span id="FatherNameErr" class="text-danger font-italic"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <label for="mothername">Mother Name</label><span class="text-danger pl-1">*</span>
+                                                <input asp-for="MotherName" type="text" id="mothername" class="form-control form-control-lg">
+                                                <span id="MotherNameErr" class="text-danger font-italic"></span>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="DateOfBirth">Date Of Birth</label><span class="text-danger pl-1">*</span>
+                                                <input asp-for="DateOfBirth" type="date" id="dob" class="form-control form-control-lg">
+                                                <span id="DobErr" class="text-danger font-italic"></span>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label class="d-block" for="gender">Gender<span class="text-danger pl-1">*</span></label>
+                                                <div class="custom-control custom-radio d-inline-block pr-4">
+                                                    <input type="radio" class="custom-control-input" id="male" name="Gender" value="true" checked>
+                                                    <label class="custom-control-label" for="male">Male</label>
+                                                </div>
+                                                <div class="custom-control custom-radio d-inline-block">
+                                                    <input type="radio" class="custom-control-input" id="female" name="Gender" value="false">
+                                                    <label class="custom-control-label" for="female">Female</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <label for="email">Email</label><span class="text-danger pl-1">*</span>
+                                                <input asp-for="Email" type="text" id="email" class="form-control form-control-lg">
+                                                <span id="EmailErr" class="text-danger font-italic"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <label for="resaddress">Residential Address</label><span class="text-danger pl-1">*</span>
+                                                <input asp-for="ResAddress" type="text" id="resadd" class="form-control form-control-lg">
+                                                <span id="ResAddErr" class="text-danger font-italic"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <label for="peraddress">Permanent Address</label><span class="text-danger pl-1">*</span>
+                                                <input asp-for="PerAddress" type="text" id="peradd" class="form-control form-control-lg">
+                                                <span id="PerAddErr" class="text-danger font-italic"></span>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <input type="submit" value="ADMISSION" class="btn btn-primary btn-lg px-5">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <label for="eaddress">Stream</label><span class="text-danger pl-1">*</span>
+                                                <select name="StreamId" class="form-control" onchange="getField(this)" id="StreamId">
+                                                    @foreach (var item in ViewBag.StreamList)
+                                                    {
+                                                        <option value="@item.StreamId">@item.StreamName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="eaddress">Field</label><span class="text-danger pl-1">*</span>
+                                                <select name="FieldId" class="form-control" id="fieldList">
+                                                    @foreach (var item in ViewBag.FieldList)
+                                                    {
+                                                        <option value="@item.FieldId">@item.FieldName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 form-group">
+                                                <label for="sport">Sports</label>
+                                                <input asp-for="Sport" type="text" id="sport" class="form-control form-control-lg">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <label for="exuniversity">Previous University</label>
+                                                <input asp-for="ExUniversity" id="exuniversity" class="form-control form-control-lg">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="excenter">Previous Center</label>
+                                                <input asp-for="ExCenter" id="excenter" class="form-control form-control-lg">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <label for="exstream">Previous Stream</label>
+                                                <input asp-for="ExStream" id="exstream" class="form-control form-control-lg">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="exfield">Previous Field</label>
+                                                <input asp-for="ExField" id="exfield" class="form-control form-control-lg">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <label for="exclass">Previous Class</label>
+                                                <input asp-for="ExClass" id="exclass" class="form-control form-control-lg">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="exenroll">Previous Enroll Number</label>
+                                                <input asp-for="ExEnrollNum" id="exenroll" class="form-control form-control-lg">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <label for="exood">Out Of Date</label>
+                                                <input asp-for="ExOutOfDate" id="exood" class="form-control form-control-lg">
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="exmarks">Marks</label>
+                                                <input asp-for="ExMarks" id="exmarks" class="form-control form-control-lg">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="submit" value="ADMISSION" onclick="ValidateAdmissionForm(event)" class="btn btn-primary btn-lg px-5" id="btnAd">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </form>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
             </div>
         </div>
+
     </div>
+
+</div>
 </div>
 
 
@@ -232,16 +261,9 @@
     </div>
 </div>
 @section Scripts {
+    <script src="~/js/ValidateForm.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        $(document).ready(function () {
-            $("#admissionForm").hide();
-        });
-        $(".btnFillForm").click(function () {
-            $("#admissionForm").show();
-            $([document.documentElement, document.body]).animate({
-                scrollTop: $("#admissionForm").offset().top
-            }, 1000);
-        });
         function getField(obj) {
             var dropDown = document.getElementById("StreamId");
             var streamId = dropDown.options[dropDown.selectedIndex].value;
@@ -252,7 +274,7 @@
                 success: function (res) {
                     $("#fieldList").empty();
                     $.each(res, function (index, value) {
-                        $("#fieldList").append('<option value="' + value.fieldId + '">' + value.fieldName+'</option >');
+                        $("#fieldList").append('<option value="' + value.fieldId + '">' + value.fieldName + '</option >');
                     });
                 }
             });
