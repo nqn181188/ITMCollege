@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 namespace ITMCollege
 {
@@ -72,7 +73,7 @@ namespace ITMCollege
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseNotyf();
             app.UseRouting();
 
             app.UseAuthorization();

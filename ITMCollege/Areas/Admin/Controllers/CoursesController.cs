@@ -114,7 +114,12 @@ namespace ITMCollege.Areas.Admin.Controllers
                     httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+                    _notyf.Warning("Create fail!! FieldId Invalid");
+                    httpclient.Dispose();
+                    return RedirectToAction(nameof(Create));
+                }
             }
             catch
             {

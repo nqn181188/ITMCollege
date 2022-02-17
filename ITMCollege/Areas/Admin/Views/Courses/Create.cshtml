@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" enctype="multipart/form-data" onSubmit="return validateThisFrom (this);">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -26,8 +26,8 @@
             </div>
             <div class="form-group">
                 <label name="StreamId" class="control-label">Stream</label>
-                <select  class="form-control" name="StreamId" id="StreamId" asp-for="StreamId" asp-items="@ViewBag.ListStream">
-                    <option>Select Stream</option>
+                <select  class="form-control" name="StreamId" id="StreamId" asp-for="StreamId" asp-items="@ViewBag.ListStream" required>
+                    <option value="">Select Stream</option>
                 </select>
                 <span asp-validation-for="StreamId" class="text-danger"></span>
             </div>
@@ -35,8 +35,8 @@
                 <label asp-for="FieldId" class="control-label"></label>
                 @*<select name="FieldId" id="FieldId" asp-for="FieldId" asp-items="@(new SelectList(string.Empty,"Value","Text"))">
             </select>*@
-                <select  class="form-control" name="FieldId" id="FieldId">
-                    <option>Select Field</option>
+                <select  class="form-control" name="FieldId" id="FieldId" required>
+                    <option value="">Select Field</option>
                 </select>
                 <span asp-validation-for="FieldId" class="text-danger"></span>
             </div>
@@ -60,6 +60,19 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script language='JavaScript' type='text/javascript'>
+    function validateThisFrom(thisForm) {
+        if (thisForm.FieldId.value == "") {
+            thisForm.FieldId.focus();
+            return false;
+        }
+        if (thisForm.StreamId.value == "") {
+            thisForm.StreamId.focus();
+            return false;
+        }
+
+    }
+</script>
 <script>
   
 
@@ -78,7 +91,7 @@
                
                 success: function (Fields) {
                     $list.empty();
-                    $list.append('<option value="' + -1 + '"> ' + 'Select Field' + ' </option>');
+                    $list.append('<option value=""> ' + 'Select Field' + ' </option>');
                     $.each(Fields, function (i, field) {
                         $list.append('<option value="' + field.value + '"> ' + field.text + ' </option>');
                     });
