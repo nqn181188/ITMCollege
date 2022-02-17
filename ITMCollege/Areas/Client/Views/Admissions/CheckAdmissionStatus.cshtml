@@ -73,6 +73,7 @@
         });
         $("#btnCheck").click(function (e) {
             e.preventDefault();
+            $("#regNumErr").empty();
             $("#adStatus").empty();
             $("#fullname").val('');
             $("#dob").val('');
@@ -80,7 +81,7 @@
             $("#stream").val('');
             $("#field").val('');
             var regNum = $("#regnum").val();
-            if (regNum != "") {
+            if (regNum !="") {
                 $.ajax({
                     type: "POST",
                     url: "/Client/Admissions/GetAdmission",
@@ -105,13 +106,13 @@
                         } else {
                             $("#regNumErr").append("Registration Number is not exist.");
                         }
-
                     },
                     error: function () {
                         alert("Error");
                     },
                 });
             } else {
+                $("#AdmissionStatus").hide();
                 $("#regNumErr").append("Registration Number can not be blank.");
             }
             

@@ -139,7 +139,6 @@ namespace ITMCollegeAPI.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Sport)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
 

@@ -28,7 +28,7 @@
                 <img src="~/Images/course_6.jpg" alt="Image" class="img-fluid" />
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <button type="button" asp-action="Create" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">FILL THE FORM ONLINE</button>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">FILL THE FORM ONLINE</button>
                     </div>
                     <div class="col-md-12">
                         <button type="button" class="btn btn-outline-primary btn-block">DOWNLOAD THE FORM</button>
@@ -57,7 +57,7 @@
                     <img src="~/images/course_3.jpg" alt="Image" class="img-fluid">
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <button type="button" asp-action="Create" class="btn btn-primary btn-block btnFillForm">FILL THE FORM ONLINE</button>
+                            <button type="button" asp-action="Create" class="btn btn-primary btn-block btnFillForm" data-toggle="modal" data-target="#myModal">FILL THE FORM ONLINE</button>
                         </div>
                         <div class="col-md-12">
                             <button type="button" class="btn btn-outline-primary btn-block">DOWNLOAD THE FORM</button>
@@ -81,12 +81,6 @@
         <div class="modal fade" id="myModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
                         <div class="card" id="admissionForm">
                             <div class="card-header bg-primary text-dark font-weight-bold">ADMISSION FORM</div>
                             <div class="card-body">
@@ -217,22 +211,11 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
-
+         </div>
     </div>
-
 </div>
-</div>
-
-
 <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
     <div class="container">
         <div class="row">
