@@ -66,7 +66,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a asp-area="Admin" asp-controller="Registrations" asp-action="Index" class="nav-link">
                                 <i class="nav-icon far fa-registered"></i>
                                 <p>
                                     Student Registration
@@ -279,7 +279,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a asp-area="Admin" asp-controller="SpeSubjects" asp-action="Index" class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Specialized Subject
@@ -288,17 +288,17 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link ml-3">
+                                    <a asp-area="Admin" asp-controller="SpeSubjects" asp-action="Create" class="nav-link ml-3">
                                         <i class="nav-icon far fa-plus-square"></i>
                                         <p>
-                                            Insert Specialized Subject
+                                            Insert Subject
                                         </p>
                                     </a>
                                 </li>
                             </ul>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link ml-3">
+                                    <a asp-area="Admin" asp-controller="SpeSubjects" asp-action="Index" class="nav-link ml-3">
                                         <i class="nav-icon fas fa-th-list"></i>
                                         <p>
                                             Specialized Subject List
@@ -308,7 +308,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a asp-area="Admin" asp-controller="OpSubjects" asp-action="Index" class="nav-link">
                                 <i class="nav-icon fas fa-volleyball-ball"></i>
                                 <p>
                                     Optional Subject
@@ -317,7 +317,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link ml-3">
+                                    <a asp-area="Admin" asp-controller="OpSubjects" asp-action="Create" class="nav-link ml-3">
                                         <i class="nav-icon far fa-plus-square"></i>
                                         <p>
                                             Insert Optional Subject
@@ -327,7 +327,7 @@
                             </ul>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link ml-3">
+                                    <a asp-area="Admin" asp-controller="OpSubjects" asp-action="Index" class="nav-link ml-3">
                                         <i class="nav-icon fas fa-th-list"></i>
                                         <p>
                                             Optional Subject List
@@ -528,123 +528,6 @@
                                 </li>
                             </ul>
                         </li>
-                        @*<li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-stream"></i>
-                                <p>
-                                    Stream
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/admin/streams/create" class="nav-link ml-3">
-                                        <i class="nav-icon far fa-plus-square"></i>
-                                        <p>
-                                            Insert Stream
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/admin/streams/" class="nav-link ml-3">
-                                        <i class="nav-icon fas fa-th-list"></i>
-                                        <p>
-                                            Stream List
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chalkboard"></i>
-                                <p>
-                                    Field
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/admin/fields/create" class="nav-link ml-3">
-                                        <i class="nav-icon far fa-plus-square"></i>
-                                        <p>
-                                            Insert Field
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/admin/fields/" class="nav-link ml-3">
-                                        <i class="nav-icon fas fa-th-list"></i>
-                                        <p>
-                                            Field List
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>*@
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Specialized Subject
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="" class="nav-link ml-3">
-                                        <i class="nav-icon far fa-plus-square"></i>
-                                        <p>
-                                            Insert Specialized Subject
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="" class="nav-link ml-3">
-                                        <i class="nav-icon fas fa-th-list"></i>
-                                        <p>
-                                            Specialized Subject List
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-volleyball-ball"></i>
-                                <p>
-                                    Optional Subject
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="" class="nav-link ml-3">
-                                        <i class="nav-icon far fa-plus-square"></i>
-                                        <p>
-                                            Insert Optional Subject
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="" class="nav-link ml-3">
-                                        <i class="nav-icon fas fa-th-list"></i>
-                                        <p>
-                                            Optional Subject List
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
                         <li class="nav-item">
                             <a href="/admin/feedbacks/" class="nav-link">
                                 <i class="nav-icon fas fa-comments"></i>

@@ -1,0 +1,33 @@
+﻿@model ITMCollege.Models.OpSubject
+@{
+    ViewBag.Title = "Delete Optional Subject";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+
+}
+<div class="card" id="admissionForm">
+    <div class="card-header bg-dark font-weight-bold">DELETE OPTIONAL SUBJECT</div>
+    <div class="card-body">
+        <form asp-action="Delete" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="OpSubjectId">Subject ID</label><span class="text-danger pl-1">*</span>
+                        <input asp-for="SubjectId" id="OpSubjectId" value="@Model.SubjectId" readonly class="form-control form-control-lg">
+                        <span id="OpSubjectNameErr" class="text-danger font-italic"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="OpSubjectName">Optional Subject Name</label><span class="text-danger pl-1">*</span>
+                        <input asp-for="SubjectName" id="OpSubjectName" value="@Model.SubjectName" readonly class="form-control form-control-lg">
+                        <span id="OpSubjectNameErr" class="text-danger font-italic"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="OpSubjects" asp-action="Index">Back to Optional Subject list</a>
+                        <a class="btn btn-danger" asp-area="Admin" asp-controller="OpSubjects" asp-action="Delete" asp-route-id="@Model.SubjectId" asp-route-SubjectName="@Model.SubjectName">Delete</a>
+                    </div>   
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

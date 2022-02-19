@@ -31,6 +31,10 @@ namespace ITMCollegeAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Registration>> GetRegistration(long id)
         {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
             var registration = await _context.Registrations.FindAsync(id);
 
             if (registration == null)
@@ -43,37 +47,7 @@ namespace ITMCollegeAPI.Controllers
 
         // PUT: api/Registrations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRegistration(long id, Registration registration)
-        {
-            if (id != registration.RegistrationId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(registration).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RegistrationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Registrations
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
         public async Task<ActionResult<Registration>> PostRegistration(Registration registration)
         {
@@ -82,23 +56,6 @@ namespace ITMCollegeAPI.Controllers
 
             return CreatedAtAction("GetRegistration", new { id = registration.RegistrationId }, registration);
         }
-
-        // DELETE: api/Registrations/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRegistration(long id)
-        {
-            var registration = await _context.Registrations.FindAsync(id);
-            if (registration == null)
-            {
-                return NotFound();
-            }
-
-            _context.Registrations.Remove(registration);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
         private bool RegistrationExists(long id)
         {
             return _context.Registrations.Any(e => e.RegistrationId == id);

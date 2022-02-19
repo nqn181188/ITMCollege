@@ -1,0 +1,68 @@
+﻿@model ITMCollege.Models.SpeSubject
+@{
+    ViewBag.Title = "Insert Specialized Subject";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+
+}
+<div class="card">
+    <div class="card-header bg-dark font-weight-bold">INSERT SPECIALIZED SUBJECT</div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="SpeSubjectName">Specialized Subject Name</label><span class="text-danger pl-1">*</span>
+                        <input asp-for="SubjectName" id="SpeSubjectName" class="form-control form-control-lg">
+                        <span id="SpeSubjectNameErr" class="text-danger font-italic"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="eaddress">Stream</label><span class="text-danger pl-1">*</span>
+                            <select class="form-control" onchange="getField(this)" id="StreamId">
+                                @foreach (var item in ViewBag.StreamList)
+                                {
+                                    <option value="@item.StreamId">@item.StreamName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label for="eaddress">Field</label><span class="text-danger pl-1">*</span>
+                            <select asp-for="FieldId" class="form-control" id="fieldList">
+                                @foreach (var item in ViewBag.FieldList)
+                                {
+                                    <option value="@item.FieldId">@item.FieldName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="submit" value="INSERT" class="btn btn-outline-primary" id="btnInsert" onclick="ValidateSpeSubjectForm()">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/ValidateFormAdminSystem.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    function getField(obj) {
+        var dropDown = document.getElementById("StreamId");
+        var streamId = dropDown.options[dropDown.selectedIndex].value;
+        $.ajax({
+            type: "POST",
+            url: "/Client/Admissions/GetFields",
+            data: { 'streamId': streamId },
+            success: function (res) {
+                $("#fieldList").empty();
+                $.each(res, function (index, value) {
+                    $("#fieldList").append('<option value="' + value.fieldId + '">' + value.fieldName + '</option >');
+                });
+            }
+        });
+    }
+</script>
+}

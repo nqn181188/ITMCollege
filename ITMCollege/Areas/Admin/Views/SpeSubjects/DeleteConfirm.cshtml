@@ -1,0 +1,38 @@
+﻿@model ITMCollege.Areas.Admin.Models.SpeSubjects
+@{
+    ViewBag.Title = "Delete Specialized Subject";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+
+}
+<div class="card" id="admissionForm">
+    <div class="card-header bg-dark font-weight-bold">DELETE SPECIALIZED SUBJECT</div>
+    <div class="card-body">
+        <form asp-action="Delete" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="OpSubjectId">Specialized Subject Name</label><span class="text-danger pl-1">*</span>
+                        <input id="OpSubjectId" value="@Model.SubjectName" name="SubjectName" readonly class="form-control form-control-lg">
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="OpSubjectName">Stream</label><span class="text-danger pl-1">*</span>
+                        <input asp-for="Stream.StreamName" id="OpSubjectName" value="@Model.Stream.StreamName" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="OpSubjectName">Field</label><span class="text-danger pl-1">*</span>
+                        <input asp-for="Field.FieldName" id="OpSubjectName" value="@Model.Field.FieldName" readonly class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="SpeSubjects" asp-action="Index">Back to Optional Subject list</a>
+                        <a class="btn btn-danger" asp-area="Admin" asp-controller="SpeSubjects" asp-action="Delete" asp-route-id="@Model.SubjectId" asp-route-SubjectName="@Model.SubjectName">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

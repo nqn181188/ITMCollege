@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ITMCollege.Models.OpSubject>
+@{
+    ViewBag.Title = "Admission List";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Optional Subject List</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/Admin/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item active">Optinal Subject</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <form id="filter-products" class="form-inline">
+                <div class="row mx-auto">
+                    <div class="d-inline use-chosen">
+                        <input name="name" type="text" class="form-control search-name" value="" id="name" placeholder="Search by name...">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped project ">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center align-middle" style="width: 5%">No.</th>
+                        <th class="text-center align-middle" style="width: 10%">Optional Subject Name</th>
+                        <th class="text-center align-middle" style="width: 10%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int no = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td class="text-center align-middle">
+                                <span>@(no++)</span>
+                            </td>
+                            <td class="text-center align-middle">@item.SubjectName</td>
+                            <td class="text-center align-middle">
+                                <a class="btn btn-primary" asp-area="Admin" asp-controller="OpSubjects" asp-action="Edit" asp-route-id="@item.SubjectId">Edit</a>
+                                <a class="btn btn-danger" asp-area="Admin" asp-controller="OpSubjects" asp-action="DeleteConfirm" asp-route-id="@item.SubjectId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

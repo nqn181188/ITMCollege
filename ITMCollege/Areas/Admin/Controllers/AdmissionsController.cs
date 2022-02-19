@@ -38,6 +38,10 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: AdmissionsController/Details/5
         public ActionResult Edit(int id)
         {
+            if (id == 0)
+            {
+                return NotFound();
+            }
             var res = client.GetStringAsync(uriAdmission+id).Result;
             var data = JsonConvert.DeserializeObject<Admission>(res);
             ViewBag.StreamName = JsonConvert.DeserializeObject<Stream>(client.GetStringAsync(uriStream + data.StreamId).Result).StreamName;
@@ -64,32 +68,13 @@ namespace ITMCollege.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _notyf.Warning(e.Message);
                 return View();
             }
         }
-
         // GET: AdmissionsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AdmissionsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
         [HttpPost]
         public IEnumerable<Field> GetFields(int streamId)
         {

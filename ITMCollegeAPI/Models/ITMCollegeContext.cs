@@ -330,10 +330,10 @@ namespace ITMCollegeAPI.Models
 
                 entity.Property(e => e.SpeSubjectId).HasColumnName("SpeSubjectID");
 
-                entity.HasOne(d => d.OpSubject)
-                    .WithMany(p => p.Registrations)
-                    .HasForeignKey(d => d.OpSubjectId)
-                    .HasConstraintName("FK__Registrat__OpSub__4BAC3F29");
+                //entity.HasOne(d => d.OpSubject)
+                //    .WithMany(p => p.Registrations)
+                //    .HasForeignKey(d => d.OpSubjectId)
+                //    .HasConstraintName("FK__Registrat__OpSub__4BAC3F29");
 
                 //entity.HasOne(d => d.RegNumNavigation)
                 //    .WithMany(p => p.Registrations)
@@ -342,10 +342,10 @@ namespace ITMCollegeAPI.Models
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("FK__Registrat__RegNu__49C3F6B7");
 
-                entity.HasOne(d => d.SpeSubject)
+                /*entity.HasOne(d => d.SpeSubject)
                     .WithMany(p => p.Registrations)
                     .HasForeignKey(d => d.SpeSubjectId)
-                    .HasConstraintName("FK__Registrat__SpeSu__4AB81AF0");
+                    .HasConstraintName("FK__Registrat__SpeSu__4AB81AF0");*/
             });
 
             modelBuilder.Entity<SpeSubject>(entity =>
@@ -361,11 +361,11 @@ namespace ITMCollegeAPI.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.Field)
-                    .WithMany(p => p.SpeSubjects)
-                    .HasForeignKey(d => d.FieldId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__SpeSubjec__Field__403A8C7D");
+                //entity.HasOne(d => d.Field)
+                //    .WithMany(p => p.SpeSubjects)
+                //    .HasForeignKey(d => d.FieldId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__SpeSubjec__Field__403A8C7D");
             });
 
             modelBuilder.Entity<Stream>(entity =>

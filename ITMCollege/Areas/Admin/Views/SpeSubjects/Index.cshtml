@@ -1,0 +1,105 @@
+﻿@model IEnumerable<ITMCollege.Areas.Admin.Models.SpeSubjects>
+@{
+    ViewBag.Title = "Specialized Subject List";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Specialized Subject List</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/Admin/Home/Index">Home</a></li>
+                    <li class="breadcrumb-item active">Specialized Subject</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <form id="filter-products" class="form-inline">
+                <div class="row mx-auto">
+                    <div class="d-inline use-chosen">
+                        <input name="name" type="text" class="form-control search-name" value="" id="name" placeholder="Search by name...">
+                    </div>
+                    <div class="d-inline px-2">
+                        <select class="form-control use-chosen" name="brand_id" id="StreamId" onchange="getField(this)">
+                            <option value=''>Stream</option>
+                            @foreach (var item in ViewBag.StreamList)
+                            {
+                                <option value='@item.StreamId'>@item.StreamName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="d-inline px-2">
+                        <select class="form-control use-chosen" name="price" id="fieldList">
+                            <option value="">Field</option>
+                            @foreach (var item in ViewBag.FieldList)
+                            {
+                                <option value='@item.FieldId'>@item.FieldName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped project ">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center align-middle" style="width: 5%">No.</th>
+                        <th class="text-center align-middle" style="width: 25%">Specialized Subject Name</th>
+                        <th class="text-center align-middle" style="width: 25%">Stream</th>
+                        <th class="text-center align-middle" style="width: 25%">Field</th>
+                        <th class="text-center align-middle" style="width: 20%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int no = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td class="text-center align-middle">
+                                <span>@(no++)</span>
+                            </td>
+                            <td class="text-center align-middle">@item.SubjectName</td>
+                            <td class="text-center align-middle">@item.Stream.StreamName </td>
+                            <td class="text-center align-middle">@item.Field.FieldName</td>
+                            <td class="text-center align-middle">
+                                <a class="btn btn-primary" asp-area="Admin" asp-controller="SpeSubjects" asp-action="Edit" asp-route-id="@item.SubjectId">Edit</a>
+                                <a class="btn btn-danger" asp-area="Admin" asp-controller="SpeSubjects" asp-action="DeleteConfirm" asp-route-id="@item.SubjectId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+        function getField(obj) {
+            var dropDown = document.getElementById("StreamId");
+            var streamId = dropDown.options[dropDown.selectedIndex].value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/SpeSubjects/GetFields",
+                data: { 'streamId': streamId },
+                success: function (res) {
+                    $("#fieldList").empty();
+                    $.each(res, function (index, value) {
+                        $("#fieldList").append('<option value="' + value.fieldId + '">' + value.fieldName + '</option >');
+                    });
+                }
+            });
+        }
+    </script>
+}

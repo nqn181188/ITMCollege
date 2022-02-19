@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 namespace ITMCollege
 {
@@ -26,7 +27,7 @@ namespace ITMCollege
         public void ConfigureServices(IServiceCollection services)
         {
            
-            services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+            services.AddNotyf(config => { config.DurationInSeconds = 4; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -92,6 +93,7 @@ namespace ITMCollege
                     areaName: "Admin",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseNotyf();
         }
     }
 }
