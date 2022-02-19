@@ -135,7 +135,7 @@ namespace ITMCollege.Areas.Client.Controllers
 
         public async Task<IActionResult> Download()
         {
-            var path = System.IO.Path.Combine(_hostingEnvironment.WebRootPath,"DownloadFile", "test.txt");
+            var path = System.IO.Path.Combine(_hostingEnvironment.WebRootPath,"DownloadFile", "test.docx");
             //var path = @"E:\FPT\Sem3-Eproject\College-WebSite\ITM-College\ITMCollege\wwwroot\DownloadFile\test.txt";
             var memory = new System.IO.MemoryStream();
             using (var stream = new System.IO.FileStream(path, System.IO.FileMode.Open))
