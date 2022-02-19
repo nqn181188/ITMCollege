@@ -73,7 +73,7 @@ namespace ITMCollege
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseNotyf();
             app.UseRouting();
 
             app.UseAuthorization();

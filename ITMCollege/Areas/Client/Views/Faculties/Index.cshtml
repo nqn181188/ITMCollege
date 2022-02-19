@@ -51,6 +51,9 @@
               <div class="feature-1-content">
                 <h2>@item.FalcultyName</h2>
                 <span class="position mb-3 d-block">@item.Degree</span>    
+                <span class="position mb-3 d-block">                 
+                @Html.DisplayFor(modelItem => item.Dob)         
+                </span>   
                 <p>@item.Dep.DepName</p>
               </div>
             </div>

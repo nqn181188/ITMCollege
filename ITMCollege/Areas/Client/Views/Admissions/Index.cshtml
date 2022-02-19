@@ -31,7 +31,7 @@
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">FILL THE FORM ONLINE</button>
                     </div>
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-outline-primary btn-block">DOWNLOAD THE FORM</button>
+                        <button type="button" id="button-download-file" class="btn btn-outline-primary btn-block">DOWNLOAD THE FORM</button>
                     </div>
                 </div>
 
@@ -263,4 +263,33 @@
             });
         }
     </script>
+
+<script>
+    $("#button-download-file").click(function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/Client/Admissions/Download", true);
+        xhr.responseType = "blob";
+        xhr.onload = function (e) {
+            if (this.status == 200) {
+                var blob = this.response;
+
+                /* Get filename from Content-Disposition header */
+                var filename = "";
+                var disposition = xhr.getResponseHeader('Content-Disposition');
+                if (disposition && disposition.indexOf('attachment') !== -1) {
+                    var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                    var matches = filenameRegex.exec(disposition);
+                    if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                }
+
+                // This does the trick
+                var a = document.createElement('a');
+                a.href = window.URL.createObjectURL(blob);
+                a.download = filename;
+                a.dispatchEvent(new MouseEvent('click'));
+            }
+        }
+        xhr.send();
+    });
+</script>
 }
