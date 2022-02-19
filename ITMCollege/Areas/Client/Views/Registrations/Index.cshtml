@@ -1,0 +1,175 @@
+﻿@model ITMCollege.ViewModel.RegistrationViewModel
+@{
+    ViewBag.Title = "Student Registration";
+    Layout = "~/Views/Shared/Client/_Layout.cshtml";
+}
+
+<div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: src(~/Images/bg_1.jpg)">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-7">
+                <h2 class="mb-0">STUDENT REGISTRATION</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="custom-breadcrumns border-bottom">
+    <div class="container">
+        <a asp-area="Client" asp-controller="Home" asp-action="Index">Home</a>
+        <span class="mx-3 icon-keyboard_arrow_right"></span>
+        <span class="current">Student Registration</span>
+    </div>
+</div>
+<div class="site-section">
+    
+    <div class="container">
+        <div class="container my-5 card">
+            <div class="card-header bg-white">
+                <form>
+                    <div class="row mx-auto">
+                        <div class="col-md-6">
+                            <input name="RegNum" type="text" class="form-control search-name" id="regnum" placeholder="STxxxxxxxx - Example : ST12345678">
+                            <span id="regNumErr" class="text-danger font-italic  small"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="btnCheck" class="btn btn-primary" value="Check Admission Status" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card" id="registrationForm">
+            <div class="card-header bg-primary text-dark font-weight-bold">REGISTRATION FORM</div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="fullname">Full Name</label>
+                                <input asp-for="FullName" type="text" id="fullname" class="form-control form-control-lg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="Dob">Date Of Birth</label>
+                                <input asp-for="DateOfBirth" type="text" id="Dob" class="form-control form-control-lg" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="d-block" for="gender">Gender</label>
+                                <div class="custom-control custom-radio d-inline-block pr-4">
+                                    <input type="radio" class="custom-control-input" id="male" name="Gender" />
+                                    <label class="custom-control-label" for="male">Male</label>
+                                </div>
+                                <div class="custom-control custom-radio d-inline-block">
+                                    <input type="radio" class="custom-control-input" id="female" name="Gender" />
+                                    <label class="custom-control-label" for="female">Female</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="resadd">Residential Address</label>
+                                <input asp-for="ResAddress" type="text" id="resadd" class="form-control form-control-lg" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="peradd">Permanent Address</label>
+                                <input asp-for="PerAddress" type="text" id="resadd" class="form-control form-control-lg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="email">Email Address</label>
+                                <input asp-for="Email" type="text" id="email" class="form-control form-control-lg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="stream">Stream</label>
+                                <input asp-for="Stream.StreamName" type="text" id="resadd" class="form-control form-control-lg" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="peradd">Field</label>
+                                <input asp-for="Field.FieldName" type="text" id="resadd" class="form-control form-control-lg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="SpeSubject">Stream</label><span class="text-danger pl-1">*</span>
+                                <select name="SpeSubjectId" class="form-control" id="SpeSubject">
+                                    <option value="">--Choose Specialized Subject--</option>
+                                    @*@foreach (var item in ViewBag.SpeSubjectList)
+                                    {
+                                        <option value="@item.SubjectId">@item.SubjectName</option>
+                                    }*@
+                                </select>
+                                <span id="SpeSubjectErr" class="text-danger font-italic"></span>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="opsubject">Field</label><span class="text-danger pl-1">*</span>
+                                <select name="FieldId" class="form-control" id="opsubject">
+                                    <option value="">--Choose Optional Subject--</option>
+                                    @*@foreach (var item in ViewBag.OpSubjectList)
+                                    {
+                                        <option value="@item.SubjectId">@item.SubjectName</option>
+                                    }*@
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="EmerName">Emergency Name</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="EmergencyName" type="text" id="EmerName" class="form-control form-control-lg" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="EmerPhone">Emergency Phone</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="EmergencyPhone" type="text" id="EmerPhone" class="form-control form-control-lg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="EmerAddress">Emergency Address</label><span class="text-danger pl-1">*</span>
+                                <input asp-for="EmergencyAddress" type="text" id="EmerAddress" class="form-control form-control-lg" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="submit" value="REGISTRATION" onclick="ValidateRegistraionForm(event)" class="btn btn-primary btn-lg px-5" id="btnAd">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                <span class="icon flaticon-mortarboard"></span>
+                <h3>Our Philosphy</h3>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea? Dolore, amet reprehenderit.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                <span class="icon flaticon-school-material"></span>
+                <h3>Academics Principle</h3>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
+                    Dolore, amet reprehenderit.
+                </p>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                <span class="icon flaticon-library"></span>
+                <h3>Key of Success</h3>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
+                    Dolore, amet reprehenderit.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/ValidateForm.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

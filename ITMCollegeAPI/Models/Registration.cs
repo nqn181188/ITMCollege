@@ -15,9 +15,5 @@ namespace ITMCollegeAPI.Models
         public string EmergencyName { get; set; }
         public string EmergencyAddress { get; set; }
         public string EmergencyPhone { get; set; }
-
-        public virtual OpSubject OpSubject { get; set; }
-        public virtual Admission RegNumNavigation { get; set; }
-        public virtual SpeSubject SpeSubject { get; set; }
     }
 }

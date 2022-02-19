@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ITMCollege.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,14 @@ namespace ITMCollege.Areas.Client.Controllers
         private readonly string uriStream = "http://localhost:20646/api/streams/";
         private readonly string uriField = "http://localhost:20646/api/fields/";
         private readonly string uriAdmission = "http://localhost:20646/api/admissions/";
+        private readonly string uriSpeSubject = "http://localhost:20646/api/spesubjects/";
+        private readonly string uriOpSubject = "http://localhost:20646/api/opsubjects/";
         HttpClient client = new HttpClient();
+        //Get Registraion Controller
+        public ActionResult Index()
+        {
+            return View();
+        }
         // GET: RegistrationsController
         public ActionResult Create()
         {

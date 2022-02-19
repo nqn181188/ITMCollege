@@ -96,5 +96,17 @@ namespace ITMCollegeAPI.Controllers
         {
             return _context.SpeSubjects.Any(e => e.SubjectId == id);
         }
+        [HttpGet("GetSpecialSubjectsByFieldId/{id}")]
+        public async Task<ActionResult<SpeSubject>> GetSpeacialSubjects(int fieldid)
+        {
+            var speSubject = await _context.SpeSubjects.Where(s => s.FieldId == fieldid).ToListAsync();
+
+            if (speSubject == null)
+            {
+                return NotFound(); ;
+            }
+
+            return Ok(speSubject);
+        }
     }
 }

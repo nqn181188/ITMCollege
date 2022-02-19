@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -7,6 +9,8 @@ namespace ITMCollege.Models
 {
     public partial class Registration
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long RegistrationId { get; set; }
         public string RegNum { get; set; }
         public string Image { get; set; }
@@ -15,9 +19,5 @@ namespace ITMCollege.Models
         public string EmergencyName { get; set; }
         public string EmergencyAddress { get; set; }
         public string EmergencyPhone { get; set; }
-
-        public virtual OpSubject OpSubject { get; set; }
-        public virtual Admission RegNumNavigation { get; set; }
-        public virtual SpeSubject SpeSubject { get; set; }
     }
 }
