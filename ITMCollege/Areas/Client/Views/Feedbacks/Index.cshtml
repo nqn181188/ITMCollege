@@ -56,39 +56,46 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <div class="col-md-6 form-group">
-                <label asp-for="FirstName">First Name</label>
+                <label asp-for="FirstName">First Name<span style="color:red;">(*)</span></label>
                 <input asp-for="FirstName" class="form-control form-control-lg" placeholder="FirstName">
+                <span asp-validation-for="FirstName" class="text-danger" ></span>
             </div>
             <div class="col-md-6 form-group">
-                <label asp-for="LastName">Last Name</label>
+                <label asp-for="LastName">Last Name<span style="color:red;">(*)</span></label>
                 <input asp-for="LastName" class="form-control form-control-lg" placeholder="LastName">
+                <span asp-validation-for="LastName" class="text-danger" ></span>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 form-group">
-                <label asp-for="Email">Email Address</label>
+                <label asp-for="Email">Email Address<span style="color:red;">(*)</span></label>
                 <input asp-for="Email" class="form-control form-control-lg" placeholder="Email">
+                <span asp-validation-for="Email" class="text-danger" ></span>
             </div>
             <div class="col-md-6 form-group">
-                <label asp-for="Subject">Subject</label>
+                <label asp-for="Subject">Subject<span style="color:red;">(*)</span></label>
                 <input asp-for="Subject" class="form-control form-control-lg" placeholder="Subject">
+                <span asp-validation-for="Subject" class="text-danger" ></span>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 form-group">
-                <label asp-for="Message">Message</label>
+                <label asp-for="Message">Message<span style="color:red;">(*)</span></label>
                @* <input asp-for="Message" class="form-control">*@
                 <textarea asp-for="Message" cols="40" rows="15" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger" ></span>
             </div>
         </div>
 
         <div class="row">
             <div class="col-12">
                 <input type="submit" value="Send Message" class="btn btn-primary btn-lg px-5">
-
-
             </div>
         </div>
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

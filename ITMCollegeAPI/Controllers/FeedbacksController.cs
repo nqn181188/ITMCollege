@@ -24,7 +24,7 @@ namespace ITMCollegeAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Feedback>>> GetFeedbacks()
         {
-            return await _context.Feedbacks.ToListAsync();
+            return await _context.Feedbacks.OrderByDescending(i => i.FeedbackId).ToListAsync();
         }
 
         // GET: api/Feedbacks/5

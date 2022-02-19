@@ -1,6 +1,8 @@
-﻿using ITMCollege.Models;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using ITMCollege.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +14,17 @@ namespace ITMCollege.Areas.Client.Controllers
     [Area("Client")]
     public class FeedbacksController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+        private readonly INotyfService _notyf;
+
         private readonly string uri = "http://localhost:20646/api/feedbacks/";
         private HttpClient httpclient = new HttpClient();
 
+        public FeedbacksController(ILogger<HomeController> logger, INotyfService notyf)
+        {
+            _logger = logger;
+            _notyf = notyf;
+        }
         // GET: FeedbacksController
         public ActionResult Index()
         {
@@ -44,11 +54,13 @@ namespace ITMCollege.Areas.Client.Controllers
                 var response = httpclient.PostAsJsonAsync<Feedback>(uri, feedback).Result;
                 if (response.IsSuccessStatusCode)
                 {
+                    _notyf.Success("Submit Succesfully");
                     httpclient.Dispose();
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    _notyf.Success("Submit Failed");
                     return RedirectToAction("Index");
                 }
 

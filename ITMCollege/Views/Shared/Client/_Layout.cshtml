@@ -90,5 +90,6 @@
     <script src="~/js/jquery.mb.YTPlayer.min.js"></script>
     <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
 </body>
 </html>
