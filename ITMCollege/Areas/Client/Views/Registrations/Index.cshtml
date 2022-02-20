@@ -1,4 +1,4 @@
-﻿@model ITMCollege.ViewModel.RegistrationViewModel
+﻿@model ITMCollege.Models.Registration
 @{
     ViewBag.Title = "Student Registration";
     Layout = "~/Views/Shared/Client/_Layout.cshtml";
@@ -41,27 +41,27 @@
         <div class="card" id="registrationForm">
             <div class="card-header bg-primary text-dark font-weight-bold">REGISTRATION FORM</div>
             <div class="card-body">
-                <form asp-action="Create" method="post">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="fullname">Full Name</label>
-                                <input asp-for="FullName" type="text" id="fullname" class="form-control form-control-lg" />
+                                <input type="text" readonly id="fullname" class="form-control form-control-lg" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="Dob">Date Of Birth</label>
-                                <input asp-for="DateOfBirth" type="text" id="Dob" class="form-control form-control-lg" />
+                                <input type="text" readonly id="Dob" class="form-control form-control-lg" />
                             </div>
                             <div class="col-md-6 form-group">
                                 <label class="d-block" for="gender">Gender</label>
                                 <div class="custom-control custom-radio d-inline-block pr-4">
-                                    <input type="radio" class="custom-control-input" id="male" name="Gender" />
+                                    <input type="radio" class="custom-control-input" id="male" disabled/>
                                     <label class="custom-control-label" for="male">Male</label>
                                 </div>
                                 <div class="custom-control custom-radio d-inline-block">
-                                    <input type="radio" class="custom-control-input" id="female" name="Gender" />
+                                    <input type="radio" class="custom-control-input" id="female" disabled/>
                                     <label class="custom-control-label" for="female">Female</label>
                                 </div>
                             </div>
@@ -69,71 +69,80 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="resadd">Residential Address</label>
-                                <input asp-for="ResAddress" type="text" id="resadd" class="form-control form-control-lg" />
+                                <input type="text" id="resadd" readonly class="form-control form-control-lg" />
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="peradd">Permanent Address</label>
-                                <input asp-for="PerAddress" type="text" id="resadd" class="form-control form-control-lg" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 form-group">
-                                <label for="email">Email Address</label>
-                                <input asp-for="Email" type="text" id="email" class="form-control form-control-lg" />
+                                <input type="text" id="peradd" readonly class="form-control form-control-lg" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="stream">Stream</label>
-                                <input asp-for="Stream.StreamName" type="text" id="resadd" class="form-control form-control-lg" />
+                                <input type="text" id="stream" readonly class="form-control form-control-lg" />
                             </div>
                             <div class="col-md-6 form-group">
-                                <label for="peradd">Field</label>
-                                <input asp-for="Field.FieldName" type="text" id="resadd" class="form-control form-control-lg" />
+                                <label for="field">Field</label>
+                                <input type="text" id="field" readonly class="form-control form-control-lg" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label for="SpeSubject">Stream</label><span class="text-danger pl-1">*</span>
-                                <select name="SpeSubjectId" class="form-control" id="SpeSubject">
+                                <label for="email">Email Address</label>
+                                <input type="text" id="email" readonly class="form-control form-control-lg" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="image">Image</label><span class="text-danger pl-1">*</span>
+                                <div class="custom-file ">
+                                    <input name="file" type="file" class="custom-file-input form-control form-control-lg" id="image">
+                                    <label class="custom-file-label" id="imageLabel" for="image">Choose file....</label>
+                                </div>
+                                <span id="ImageErr" class="text-danger font-italic"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <input type="hidden" asp-for="RegNum" id="RegNum"/>
+                            <div class="col-md-6 form-group">
+                                <label for="SpeSubject">Specialzed Subject</label><span class="text-danger pl-1">*</span>
+                                <select asp-for="SpeSubjectId" class="form-control" id="SpeSubject">
                                     <option value="">--Choose Specialized Subject--</option>
-                                    @*@foreach (var item in ViewBag.SpeSubjectList)
-                                    {
-                                        <option value="@item.SubjectId">@item.SubjectName</option>
-                                    }*@
                                 </select>
                                 <span id="SpeSubjectErr" class="text-danger font-italic"></span>
                             </div>
                             <div class="col-md-6 form-group">
-                                <label for="opsubject">Field</label><span class="text-danger pl-1">*</span>
-                                <select name="FieldId" class="form-control" id="opsubject">
+                                <label for="opsubject">Optional Subject</label><span class="text-danger pl-1">*</span>
+                                <select asp-for="OpSubjectId" class="form-control" id="opsubject">
                                     <option value="">--Choose Optional Subject--</option>
-                                    @*@foreach (var item in ViewBag.OpSubjectList)
+                                    @foreach (var item in ViewBag.OpSubjectList)
                                     {
                                         <option value="@item.SubjectId">@item.SubjectName</option>
-                                    }*@
+                                    }
                                 </select>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="EmerName">Emergency Name</label><span class="text-danger pl-1">*</span>
                                 <input asp-for="EmergencyName" type="text" id="EmerName" class="form-control form-control-lg" />
+                                <span id="EmerNameErr" class="text-danger font-italic"></span>
                             </div>
                             <div class="col-md-6 form-group">
                                 <label for="EmerPhone">Emergency Phone</label><span class="text-danger pl-1">*</span>
                                 <input asp-for="EmergencyPhone" type="text" id="EmerPhone" class="form-control form-control-lg" />
+                                <span id="EmerPhoneErr" class="text-danger font-italic"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="EmerAddress">Emergency Address</label><span class="text-danger pl-1">*</span>
                                 <input asp-for="EmergencyAddress" type="text" id="EmerAddress" class="form-control form-control-lg" />
+                                <span id="EmerAddressErr" class="text-danger font-italic"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <input type="submit" value="REGISTRATION" onclick="ValidateRegistraionForm(event)" class="btn btn-primary btn-lg px-5" id="btnAd">
+                                <input type="submit" value="REGISTRATION" class="btn btn-primary btn-lg px-5" id="btnReg">
                             </div>
                         </div>
                     </div>
@@ -170,7 +179,7 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/js/ValidateForm.js"></script>
-    <script src="~/js/studentregistration.js"></script>
+    <script src="~/js/StudentRegistration.js"></script>
+    <script src="~/js/ValidateFormClient.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
