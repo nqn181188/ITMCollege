@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,33 +15,41 @@ namespace ITMCollege.Areas.Client.Controllers
     [Area("Client")]
     public class RegistrationsController : Controller
     {
-        private readonly string uriStream = "http://localhost:20646/api/streams/";
-        private readonly string uriField = "http://localhost:20646/api/fields/";
         private readonly string uriAdmission = "http://localhost:20646/api/admissions/";
         private readonly string uriSpeSubject = "http://localhost:20646/api/spesubjects/";
         private readonly string uriOpSubject = "http://localhost:20646/api/opsubjects/";
         private readonly string uriResgistration = "http://localhost:20646/api/registrations/";
         HttpClient client = new HttpClient();
         //Get Registraion Controller
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Create()
         {
             ViewBag.OpSubjectList = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(client.GetStringAsync(uriOpSubject).Result);
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Registration reg,IFormFile file)
+        public ActionResult Create(Registration reg,IFormFile file,string fullName)
         {
             try
             {
+                string fileName = fullName.Replace(" ","")+"_"+ Path.GetFileName(file.FileName);
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images/registration", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyToAsync(stream);
+                }
+                reg.Image = fileName;
                 var res = client.PostAsJsonAsync(uriResgistration, reg).Result;
                 if (res.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return RegistrationNotification(reg.RegNum, 1);
+                    TempData["regstatus"] = 0;
+                    return RedirectToAction("RegistrationNotification", new { regNum = reg.RegNum });
                 }
                 else
                 {
-                    return RegistrationNotification(reg.RegNum, 1);
+                    TempData["regstatus"] = 1;
+                    return RedirectToAction("RegistrationNotification", new { regNum = reg.RegNum });
                 }
             }
             catch
@@ -92,9 +101,13 @@ namespace ITMCollege.Areas.Client.Controllers
             var data = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(res);
             return Json(data);
         }
-        private ActionResult RegistrationNotification(string regNum, int regStatus)
+        public ActionResult RegistrationNotification(string regNum)
         {
-
+            if (TempData["regstatus"] != null)
+            {
+                ViewBag.RegStatus = TempData["regstatus"];
+            }
+            ViewBag.RegNum = regNum;
             return View();
         }
     }

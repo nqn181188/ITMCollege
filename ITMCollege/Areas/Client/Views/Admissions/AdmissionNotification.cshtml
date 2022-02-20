@@ -23,7 +23,7 @@
 </div>
 <div></div>
 <div class="container">
-    @if (ViewBag.adStatus==0)
+    @if (ViewBag.adStatus == 0)
     {
         <div class="alert-primary mt-5">
             <p class="px-2 font-weight-bold font-italic">Congratulations, you have successfully admitted.</p>
@@ -33,8 +33,10 @@
         <p class="font-italic py-2">Please note the above Registration Number to check <strong class="font-weight-bold">Admission Status</strong> and complete <strong class="font-weight-bold">Student Registration</strong></p>
     }
     else
-    { 
-
+    {
+        <div class="alert-danger mt-5">
+            <p class="px-2 font-weight-bold font-italic">Fail admitted . Please try again later.</p>
+        </div>
     }
 
 

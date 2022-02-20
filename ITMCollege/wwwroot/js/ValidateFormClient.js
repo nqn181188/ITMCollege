@@ -70,6 +70,7 @@ $("#btnReg").click(function (e) {
         if (regex.test($("#EmerPhone").val()) == false) {
             $("#EmerPhoneErr").append("Emergency Phone is invalid");
             $("#EmerPhone").addClass("input-err");
+            e.preventDefault();
         }
     }
     if ($("#EmerAddress").val() == "") {

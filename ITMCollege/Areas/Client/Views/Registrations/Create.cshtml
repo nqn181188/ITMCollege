@@ -21,7 +21,7 @@
     </div>
 </div>
 <div class="site-section">
-    
+
     <div class="container">
         <div class="container my-5 card">
             <div class="card-header bg-white">
@@ -41,27 +41,27 @@
         <div class="card" id="registrationForm">
             <div class="card-header bg-primary text-dark font-weight-bold">REGISTRATION FORM</div>
             <div class="card-body">
-                <form asp-action="Registration" method="post" enctype="multipart/form-data">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="fullname">Full Name</label>
-                                <input type="text" readonly id="fullname" class="form-control form-control-lg" />
+                                <input type="text" readonly id="fullname" name="fullName" class="form-control form-control-lg" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label for="Dob">Date Of Birth</label>
-                                <input type="text" readonly id="Dob"class="form-control form-control-lg" />
+                                <input type="text" readonly id="Dob" class="form-control form-control-lg" />
                             </div>
                             <div class="col-md-6 form-group">
                                 <label class="d-block" for="gender">Gender</label>
                                 <div class="custom-control custom-radio d-inline-block pr-4">
-                                    <input type="radio" class="custom-control-input" id="male" disabled/>
+                                    <input type="radio" class="custom-control-input" id="male" disabled />
                                     <label class="custom-control-label" for="male">Male</label>
                                 </div>
                                 <div class="custom-control custom-radio d-inline-block">
-                                    <input type="radio" class="custom-control-input" id="female" disabled/>
+                                    <input type="radio" class="custom-control-input" id="female" disabled />
                                     <label class="custom-control-label" for="female">Female</label>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <input type="hidden" asp-for="RegNum" id="RegNum"/>
+                            <input type="hidden" asp-for="RegNum" id="RegNum" />
                             <div class="col-md-6 form-group">
                                 <label for="SpeSubject">Specialzed Subject</label><span class="text-danger pl-1">*</span>
                                 <select asp-for="SpeSubjectId" class="form-control" id="SpeSubject">
@@ -113,10 +113,10 @@
                                 <label for="opsubject">Optional Subject</label><span class="text-danger pl-1">*</span>
                                 <select asp-for="OpSubjectId" class="form-control" id="opsubject">
                                     <option value="">--Choose Optional Subject--</option>
-                                    @foreach (var item in ViewBag.OpSubjectList)
+                                    @*@foreach (var item in ViewBag.OpSubjectList)
                                     {
                                         <option value="@item.SubjectId">@item.SubjectName</option>
-                                    }
+                                    }*@
                                 </select>
                             </div>
                         </div>

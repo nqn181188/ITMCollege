@@ -6,6 +6,7 @@ $("#btnSubmit").click(function (e) {
     e.preventDefault();
     $("#regNumErr").empty();
     $("#regnum").removeClass("input-err");
+    $("#SpeSubject option[value!='']").remove();
     var regNum = $("#regnum").val();
     var regex = /^ST\d{8,8}$/;
     if (regNum == "") {
@@ -53,17 +54,18 @@ $("#btnSubmit").click(function (e) {
                             $("#field").val(res.field);
                             $("#email").val(res.email);
                             $("#RegNum").val(res.regNum);
+                            $.ajax({
+                                type: "POST",
+                                url: "/Client/Registrations/GetSpeSubjectList",
+                                data: { 'FieldId': parseInt(res.fieldId) },
+                                success: function (SpeSubjectList) {
+                                    $.each(SpeSubjectList, function (index, value) {
+                                        $("#SpeSubject").append('<option value="' + value.subjectId + '">' + value.subjectName + '</option>');
+                                    });
+                                },
+                            });
                         }
-                        $.ajax({
-                            type: "POST",
-                            url: "/Client/Registrations/GetSpeSubjectList",
-                            data: { 'FieldId': parseInt(res.fieldId) },
-                            success: function (SpeSubjectList) {
-                                $.each(SpeSubjectList, function (index,value) {
-                                    $("#SpeSubject").append('<option value="' + value.subjectId + '">' + value.subjectName + '</option>');
-                                });
-                            },
-                        });
+
                     }
                 },
                 error: function () {
