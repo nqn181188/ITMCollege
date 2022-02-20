@@ -69,10 +69,10 @@ namespace ITMCollege.Controllers
         [HttpPost]
         public IActionResult Login(string userName, string password)
         {
-            //string pattern = @"^[A-Za-z\d#$!@%&*?]{1,30}$";
-            //Match match = Regex.Match(password, pattern);
-            //if (match.Success)
-            //{
+            string pattern = @"^[A-Za-z\d#$!@%&*?]{1,30}$";
+            Match match = Regex.Match(userName + password, pattern) ;
+            if (match.Success)
+            {
                 var account = JsonConvert.DeserializeObject<Account>(httpclient.GetStringAsync(uriacc+ "GetAccountByUsername/" + userName).Result);
                 if (account.IsActive == true)
                 {
@@ -100,13 +100,14 @@ namespace ITMCollege.Controllers
                     _notyf.Warning("Account is not active yet.");
                     return View();
                 }
-                
-            //}
-            //else
-            //{
-            //    _notyf.Warning(@"The field Password must match the regular expression '^[A-Za-z\d#$!@%&*?]{1,30}$'. ");
-            //    return RedirectToAction("Login");
-            //}
+
+            }
+            else
+            {
+                _notyf.Warning(@"The field Password must match the regular expression '^[A-Za-z\d#$!@%&*?]{1,30}$'. ");
+                TempData["LoginMess"] = @"The field Password must match the regular expression '^[A-Za-z\d#$!@%&*?]{1,30}$'. ";
+                return View();
+            }
         }
        
         public IActionResult Logout()

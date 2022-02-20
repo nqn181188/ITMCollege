@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
@@ -31,7 +33,7 @@
                 <form asp-action="Login">
                     <h2 class="text-danger">@ViewBag.LoginMess</h2>
                     <div class="input-group mb-3">
-                        <input asp-for="Username" name="userName" type="text" class="form-control" placeholder="Username" required />
+                        <input asp-for="Username" name="userName" type="text" class="form-control" placeholder="Username" required onkeyup="CheckValidText(this.value)" />
                         <span asp-validation-for="Username" class="text-danger"></span>
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -40,7 +42,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input asp-for="Password" name="password" type="password" class="form-control" placeholder="Password" required onchange="CheckValidPassword(this.value)" />
+                        <input asp-for="Password" name="password" type="password" class="form-control" placeholder="Password" required onkeyup="CheckValidText(this.value)" />
                         <span asp-validation-for="Username" class="text-danger"></span>
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -73,19 +75,37 @@
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
     @await Component.InvokeAsync("Notyf")
 
 
-@*<script type="text/javascript">
-        function CheckValidPassword(password) {
+<script type="text/javascript">
+        function CheckValidText(text) {
             var a = /^[A-Za-z\d#$!@@%&*?]{1,30}$/;
-            if (password.match(a)) {
+            if (text.match(a)) {
             } else {
-                alert("Password invalid");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": true,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": true,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["error"]("Username or Password must match the regular expression '^[A-Za-z\d#$!@@%&*?]{1,30}$'.")
             }
         }
-</script>*@
+</script>
 </body>
 </html>
