@@ -53,7 +53,7 @@ CREATE TABLE Admissions
 	StreamID int foreign key references Streams(StreamID) not null,
 	FieldID int foreign key references Fields(FieldID) not null,
 	Email varchar(255) not null,
-	Sport varchar(255),
+	Sport varchar(255) null,
 	ExUniversity varchar(100),
 	ExEnrollNum varchar(20),
 	ExCenter varchar(50),
@@ -160,18 +160,16 @@ INSERT into Fields VALUES ( N'Art & Art History', 7)
 INSERT into Fields VALUES ( N'Film', 7)
 INSERT into Fields VALUES ( N'Multimedia Design', 7)
 
-
-
-INSERT into courses VALUES ( N'Software Engineering', N'Start date : 10/3//2022. Duration : 4 Years. Fee : 40000USD',1,1,'')
-INSERT into courses VALUES ( N'Finance', N'Start date : 3/3//2022. Duration : 4 Years. Fee : 45000USD',2,7,'')
-INSERT into courses VALUES ( N'Higher Education', N'Start date : 01/3//2022. Duration : 3.5 Years. Fee : 40000USD',3,11,'')
-INSERT into courses VALUES ( N'Automotive Engineering', N'Start date : 06/3//2022. Duration : 4.5 Years. Fee : 50000USD',4,15,'')
-INSERT into courses VALUES ( N'Homeland Security', N'Start date : 09/3//2022. Duration : 4 Years. Fee : 40000USD',5,18,'')
-INSERT into courses VALUES ( N'Nursing', N'Start date : 03/3//2022. Duration : 4 Years. Fee : 40000USD',6,20,'')
-INSERT into courses VALUES ( N'Film', N'Start date : 02/3//2022. Duration : 4 Years. Fee : 44000USD',7,25,'')
-INSERT into courses VALUES ( N'Marketing', N'Start date : 11/3//2022. Duration : 4 Years. Fee : 50000USD',2,8,'')
-INSERT into courses VALUES ( N'Software Engineering', N'Start date : 15/3//2022. Duration : 4 Years. Fee : 55000USD',1,4,'')
-INSERT into courses VALUES ( N'Education', N'Start date : 19/3//2022. Duration : 4 Years. Fee : 42000USD',3,10,'')
+INSERT into courses VALUES ( N'Software Engineering', N'Start date : 10/3/2022. Duration : 4 Years. Fee : 40000USD',1,1,'Images/Course/course_8.jpeg')
+INSERT into courses VALUES ( N'Finance', N'Start date : 3/3/2022. Duration : 4 Years. Fee : 45000USD',2,7,'Images/Course/course_19.jpg')
+INSERT into courses VALUES ( N'Higher Education', N'Start date : 01/3/2022. Duration : 3.5 Years. Fee : 40000USD',3,11,'Images/Course/course_9.jpg')
+INSERT into courses VALUES ( N'Automotive Engineering', N'Start date : 06/3/2022. Duration : 4.5 Years. Fee : 50000USD',4,15,'Images/Course/course_11.jpg')
+INSERT into courses VALUES ( N'Homeland Security', N'Start date : 09/3/2022. Duration : 4 Years. Fee : 40000USD',5,18,'Images/Course/course_18.jpg')
+INSERT into courses VALUES ( N'Nursing', N'Start date : 03/3/2022. Duration : 4 Years. Fee : 40000USD',6,20,'Images/Course/course_17.jpg')
+INSERT into courses VALUES ( N'Film', N'Start date : 02/3/2022. Duration : 4 Years. Fee : 44000USD',7,25,'Images/Course/course_13.jpg')
+INSERT into courses VALUES ( N'Marketing', N'Start date : 11/3/2022. Duration : 4 Years. Fee : 50000USD',2,8,'Images/Course/course_5.jpg')
+INSERT into courses VALUES ( N'Software Engineering', N'Start date : 15/3/2022. Duration : 4 Years. Fee : 55000USD',1,4,'Images/Course/course_6.jpg')
+INSERT into courses VALUES ( N'Education', N'Start date : 19/3/2022. Duration : 4 Years. Fee : 42000USD',3,10,'Images/Course/course_3.jpg')
 
 
 Insert into Departments VALUES ( N'Computers & Technology', N'Computer technology involves expanding existing computer capacities.',N'Images/Department/department1.jpg')

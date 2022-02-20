@@ -14,6 +14,7 @@ namespace ITMCollege.Models
         [Required]
         public string LastName { get; set; }
         [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required]
         public string Subject { get; set; }
