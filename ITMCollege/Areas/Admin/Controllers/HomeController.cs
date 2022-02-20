@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ITMCollege.Controllers
@@ -68,32 +69,42 @@ namespace ITMCollege.Controllers
         [HttpPost]
         public IActionResult Login(string userName, string password)
         {
-            var account = JsonConvert.DeserializeObject<Account>(httpclient.GetStringAsync(uriacc+ "GetAccountByUsername/" + userName).Result);
-            if (account.IsActive == true)
+            string pattern = @"^[A-Za-z\d#$!@%&*?]{1,30}$";
+            Match match = Regex.Match(password, pattern);
+            if (match.Success)
             {
-                var checkLogin = httpclient.GetStringAsync(uriacc + userName + "/" + password).Result;
-                if (checkLogin == "true")
+                var account = JsonConvert.DeserializeObject<Account>(httpclient.GetStringAsync(uriacc+ "GetAccountByUsername/" + userName).Result);
+                if (account.IsActive == true)
                 {
-                    _notyf.Success("Login Succesfully");
-                    //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
-                    //{
-                    HttpContext.Session.SetString("username", account.Username);
-                    HttpContext.Session.SetString("fullname", account.Fullname);
-                    HttpContext.Session.SetString("role", account.Role==1 ? "Admin" : "User");
-                    //}
-                    httpclient.Dispose();
-                    return RedirectToAction("Index");
+                    var checkLogin = httpclient.GetStringAsync(uriacc + userName + "/" + password).Result;
+                    if (checkLogin == "true")
+                    {
+                        _notyf.Success("Login Succesfully");
+                        //if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyUsername)))
+                        //{
+                        HttpContext.Session.SetString("username", account.Username);
+                        HttpContext.Session.SetString("fullname", account.Fullname);
+                        HttpContext.Session.SetString("role", account.Role==1 ? "Admin" : "User");
+                        //}
+                        httpclient.Dispose();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        _notyf.Warning("Invalid User ID or Password.");
+                        return RedirectToAction("Login");
+                    }
                 }
                 else
                 {
-                    _notyf.Warning("Invalid User ID or Password.");
-                    return View("Login");
+                    _notyf.Warning("Your account hasn't active yet.");
+                    return RedirectToAction("Login");
                 }
             }
             else
             {
-                ViewData["LoginMess"] = "Your account hasn't active yet.";
-                return View("Login");
+                _notyf.Warning(@"The field Password must match the regular expression '^[A-Za-z\d#$!@%&*?]{1,30}$'. ");
+                return RedirectToAction("Login");
             }
         }
        
