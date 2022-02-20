@@ -24,8 +24,8 @@
         <div class="card-header bg-white">
             <form>
                 <div class="row mx-auto">
-                    <div class="col-md-6">
-                        <input name="RegNum" type="text" class="form-control search-name" id="regnum" placeholder="STxxxxxxxx - Example : ST12345678">
+                    <div class="col-md-9">
+                        <input name="RegNum" type="text" class="form-control search-name" id="regnum" placeholder="Enter Registration Number...">
                         <span id="regNumErr" class="text-danger font-italic  small"></span>
                     </div>
                     <div class="col-md-3">
@@ -73,6 +73,7 @@
         });
         $("#btnCheck").click(function (e) {
             e.preventDefault();
+            $("#regnum").removeClass("input-err");
             $("#regNumErr").empty();
             $("#adStatus").empty();
             $("#fullname").val('');
@@ -116,10 +117,12 @@
                 }
                 else {
                     $("#AdmissionStatus").hide();
-                    $("#regNumErr").append("Registration Number must be in STxxxxxxxx pattern. Example : ST12345678");
+                    $("#regnum").addClass("input-err");
+                    $("#regNumErr").append("Registration Number must follow the pattern STxxxxxxxx. Example : ST12345678");
                 }
             } else {
                 $("#AdmissionStatus").hide();
+                $("#regnum").addClass("input-err");
                 $("#regNumErr").append("Registration Number can not be blank.");
             }
             

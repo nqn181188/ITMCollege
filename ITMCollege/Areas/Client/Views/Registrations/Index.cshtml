@@ -27,12 +27,12 @@
             <div class="card-header bg-white">
                 <form>
                     <div class="row mx-auto">
-                        <div class="col-md-6">
-                            <input name="RegNum" type="text" class="form-control search-name" id="regnum" placeholder="STxxxxxxxx - Example : ST12345678">
+                        <div class="col-md-9">
+                            <input name="RegNum" type="text" class="form-control search-name" id="regnum" placeholder="Enter Registration Number...">
                             <span id="regNumErr" class="text-danger font-italic  small"></span>
                         </div>
                         <div class="col-md-3">
-                            <input id="btnCheck" class="btn btn-primary" value="Check Admission Status" />
+                            <input id="btnSubmit" class="btn btn-primary" value="Submit" />
                         </div>
                     </div>
                 </form>
@@ -171,5 +171,6 @@
 </div>
 @section Scripts{
     <script src="~/js/ValidateForm.js"></script>
+    <script src="~/js/studentregistration.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
