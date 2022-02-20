@@ -17,9 +17,11 @@ namespace ITMCollege.Models
         [Required]
         public string Description { get; set; }
         [Required]
+        [RegularExpression(@"^[A-Za-z\d#$!@%&*?]{1,}$")]
         [Display(Name = "Stream")]
         public int StreamId { get; set; }
         [Required]
+        [RegularExpression(@"^[A-Za-z\d#$!@%&*?]{1,}$")]
         [Display(Name = "Field")]
         public int FieldId { get; set; }
         public string Image { get; set; }

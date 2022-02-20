@@ -19,6 +19,7 @@ namespace ITMCollege.Models
         //[BindProperty]
         public string Username { get; set; }
         [Required]
+        [RegularExpression(@"^[A-Za-z\d#$!@%&*?]{1,30}$")]
         public string Password { get; set; }
         [Required]
         public byte Role { get; set; }
