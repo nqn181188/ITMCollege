@@ -51,10 +51,16 @@ namespace ITMCollegeAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Registration>> PostRegistration(Registration registration)
         {
-            _context.Registrations.Add(registration);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetRegistration", new { id = registration.RegistrationId }, registration);
+            try
+            {
+                _context.Registrations.Add(registration);
+                await _context.SaveChangesAsync();
+                return Ok(registration);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
         private bool RegistrationExists(long id)
         {

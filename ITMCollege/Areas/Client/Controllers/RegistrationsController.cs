@@ -19,6 +19,7 @@ namespace ITMCollege.Areas.Client.Controllers
         private readonly string uriAdmission = "http://localhost:20646/api/admissions/";
         private readonly string uriSpeSubject = "http://localhost:20646/api/spesubjects/";
         private readonly string uriOpSubject = "http://localhost:20646/api/opsubjects/";
+        private readonly string uriResgistration = "http://localhost:20646/api/registrations/";
         HttpClient client = new HttpClient();
         //Get Registraion Controller
         public ActionResult Index()
@@ -32,49 +33,11 @@ namespace ITMCollege.Areas.Client.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: RegistrationsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: RegistrationsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: RegistrationsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: RegistrationsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                var res = client.PostAsJsonAsync(uriResgistration, reg).Result;
+                if (res.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    RegistrationNotification(reg.RegNum, 1);
+                }
             }
             catch
             {
@@ -124,6 +87,11 @@ namespace ITMCollege.Areas.Client.Controllers
             var res = client.GetStringAsync(uriOpSubject).Result;
             var data = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(res);
             return Json(data);
+        }
+        private ActionResult RegistrationNotification(string regNum, string regStatus)
+        {
+            
+            return View
         }
     }
 
