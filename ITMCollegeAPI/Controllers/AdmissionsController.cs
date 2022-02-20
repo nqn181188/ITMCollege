@@ -154,8 +154,18 @@ namespace ITMCollegeAPI.Controllers
             ad.Status = item.Status;
             return ad;
         }
-
-      
-
+        [HttpHead("GetAdmissionStatus/{regnum}")]
+        public async Task<ActionResult<byte>> GetAdmissionStatus(string regNum)
+        {
+            var admission = await _context.Admissions.FirstOrDefaultAsync(a=>a.RegNum.Equals(regNum));
+            if (admission == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(admission.Status);
+            }
+        }
     }
 }

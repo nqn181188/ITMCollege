@@ -22,6 +22,7 @@
     <Folder Include="wwwroot\Images\Faculty\" />
     <Folder Include="wwwroot\Images\Facility\" />
     <Folder Include="wwwroot\Images\Course\" />
+    <Folder Include="wwwroot\Images\Registration\" />
   </ItemGroup>
 
 </Project>

@@ -13,11 +13,17 @@ namespace ITMCollege.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long RegistrationId { get; set; }
         public string RegNum { get; set; }
+        [Required]
         public string Image { get; set; }
+        [Required]
         public int? SpeSubjectId { get; set; }
+        [Required]
         public int? OpSubjectId { get; set; }
+        [Required]
         public string EmergencyName { get; set; }
+        [Required]
         public string EmergencyAddress { get; set; }
+        [Required]
         public string EmergencyPhone { get; set; }
     }
 }

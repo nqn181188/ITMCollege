@@ -1,4 +1,5 @@
-﻿using ITMCollege.Models;
+﻿using ITMCollege.Areas.Admin.Models;
+using ITMCollege.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -22,18 +23,12 @@ namespace ITMCollege.Areas.Client.Controllers
         //Get Registraion Controller
         public ActionResult Index()
         {
+            ViewBag.OpSubjectList = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(client.GetStringAsync(uriOpSubject).Result);
             return View();
         }
-        // GET: RegistrationsController
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: RegistrationsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Registration reg,IFormFile file)
         {
             try
             {
@@ -86,5 +81,50 @@ namespace ITMCollege.Areas.Client.Controllers
                 return View();
             }
         }
+        [HttpPost]
+        public JsonResult GetAdmissionInfor(string regNum)
+        {
+            var res = client.GetStringAsync(uriAdmission + "GetAdmissionByRegNum/" + regNum).Result;
+            if (res.ToString()=="")
+            {
+                return Json(null);
+            }
+            else
+            {
+                var data = JsonConvert.DeserializeObject<Admissions>(res);
+                var dic = new Dictionary<string, string>
+                {
+                    {"fullName",data.FullName },
+                    {"dateOfBirth",data.DateOfBirth.ToShortDateString() },
+                    {"gender",data.Gender==true?"true":"false"},
+                    {"resAdd",data.ResAddress},
+                    {"perAdd",data.PerAddress},
+                    {"stream",data.Stream.StreamName},
+                    {"field",data.Field.FieldName},
+                    {"email",data.Email},
+                    {"status",data.Status.ToString()},
+                    {"fieldId",data.FieldId.ToString()},
+                    {"regNum",data.RegNum},
+
+
+                };
+                return Json(dic);
+            }
+        }
+        [HttpPost]
+        public JsonResult GetSpeSubjectList(int fieldId)
+        {
+            var res = client.GetStringAsync(uriSpeSubject + "GetSpecialSubjectsByFieldId/" + fieldId).Result;
+            var data = JsonConvert.DeserializeObject<IEnumerable<SpeSubject>>(res);
+            return Json(data);
+        }
+        [HttpPost]
+        public JsonResult GetOpSubjectList()
+        {
+            var res = client.GetStringAsync(uriOpSubject).Result;
+            var data = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(res);
+            return Json(data);
+        }
     }
+
 }
