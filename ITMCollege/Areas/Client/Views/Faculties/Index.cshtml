@@ -22,15 +22,24 @@
   <br>
   <br>
  
-    <form asp-action="Details" >
-    <select class="form-control" id="exampleFormControlSelect1" name="id">
-    @foreach(var item in ViewBag.listdep)
-    {
-        <option value="@item.DepId">@item.DepName</option>
-    }  
-    </select>
-    <input type="submit" value="Filter"  class="btn btn-primary rounded-0 px-4" />
-    </form>
+  <div class="container ">
+    <form asp-action="Details">
+      <div class="row mx-auto">
+          <div class="col-md-9">
+              <select class="d-inline form-control" id="exampleFormControlSelect1" name="id">
+                  <option value="">Select Department</option>
+                  @foreach (var item in ViewBag.listdep)
+                  {
+                      <option value="@item.DepId">@item.DepName</option>
+                  }
+              </select>
+          </div>
+          <div class="col-md-3">
+              <input type="submit" value="Filter" class="btn btn-primary rounded-0 px-4 d-inline" />
+          </div>
+      </div>
+  </form>
+  </div>
   
  
  <div class="site-section">
