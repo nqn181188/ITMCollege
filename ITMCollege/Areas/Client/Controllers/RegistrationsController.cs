@@ -33,7 +33,7 @@ namespace ITMCollege.Areas.Client.Controllers
         {
             try
             {
-                string fileName = fullName.Replace(" ","")+"_"+ Path.GetFileName(file.FileName);
+                string fileName = fullName.Replace(" ","")+"-"+Guid.NewGuid().ToString()+ Path.GetExtension(file.FileName);
                 string filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images/registration", fileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {

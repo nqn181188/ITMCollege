@@ -1,5 +1,4 @@
-﻿
-//Validate Admission Form
+﻿//Validate Admission Form
 $("#btnAd").click(function () {
     $("span").empty();
     $("input").removeClass("input-err");

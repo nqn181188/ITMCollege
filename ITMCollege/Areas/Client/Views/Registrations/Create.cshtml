@@ -113,10 +113,10 @@
                                 <label for="opsubject">Optional Subject</label><span class="text-danger pl-1">*</span>
                                 <select asp-for="OpSubjectId" class="form-control" id="opsubject">
                                     <option value="">--Choose Optional Subject--</option>
-                                    @*@foreach (var item in ViewBag.OpSubjectList)
+                                    @foreach (var item in ViewBag.OpSubjectList)
                                     {
                                         <option value="@item.SubjectId">@item.SubjectName</option>
-                                    }*@
+                                    }
                                 </select>
                             </div>
                         </div>

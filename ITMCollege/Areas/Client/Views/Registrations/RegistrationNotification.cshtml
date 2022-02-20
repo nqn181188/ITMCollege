@@ -24,14 +24,14 @@
 <div class="container">
     @if (ViewBag.RegStatus == 0)
     {
-        <div class="alert-primary mt-5">
-            <p class="px-2 font-weight-bold font-italic py-2">Congratulations, Registration with Registration Number <span class="text-danger font-weight-bold">@ViewBag.RegNum</span> is successfull.</p>
+        <div class="alert-primary my-5">
+            <p class="px-2 font-weight-bold font-italic py-3">Congratulations, Registration with Registration Number <span class="text-danger font-weight-bold">@ViewBag.RegNum</span> is successfull.</p>
         </div>
     }
     else
     {
-        <div class="alert-danger mt-5">
-            <p class="px-2 font-weight-bold font-italic">Fail resgistration . Please try again later.</p>
+        <div class="alert-danger my-5">
+            <p class="px-2 font-weight-bold font-italic py-3">Fail resgistration . Please try again later.</p>
         </div>
     }
 
