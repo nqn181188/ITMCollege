@@ -36,7 +36,11 @@ namespace ITMCollege.Areas.Client.Controllers
                 var res = client.PostAsJsonAsync(uriResgistration, reg).Result;
                 if (res.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    RegistrationNotification(reg.RegNum, 1);
+                    return RegistrationNotification(reg.RegNum, 1);
+                }
+                else
+                {
+                    return RegistrationNotification(reg.RegNum, 1);
                 }
             }
             catch
@@ -88,10 +92,10 @@ namespace ITMCollege.Areas.Client.Controllers
             var data = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(res);
             return Json(data);
         }
-        private ActionResult RegistrationNotification(string regNum, string regStatus)
+        private ActionResult RegistrationNotification(string regNum, int regStatus)
         {
-            
-            return View
+
+            return View();
         }
     }
 

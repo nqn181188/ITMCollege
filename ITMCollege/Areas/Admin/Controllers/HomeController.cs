@@ -69,10 +69,10 @@ namespace ITMCollege.Controllers
         [HttpPost]
         public IActionResult Login(string userName, string password)
         {
-            string pattern = @"^[A-Za-z\d#$!@%&*?]{1,30}$";
-            Match match = Regex.Match(password, pattern);
-            if (match.Success)
-            {
+            //string pattern = @"^[A-Za-z\d#$!@%&*?]{1,30}$";
+            //Match match = Regex.Match(password, pattern);
+            //if (match.Success)
+            //{
                 var account = JsonConvert.DeserializeObject<Account>(httpclient.GetStringAsync(uriacc+ "GetAccountByUsername/" + userName).Result);
                 if (account.IsActive == true)
                 {
@@ -84,7 +84,7 @@ namespace ITMCollege.Controllers
                         //{
                         HttpContext.Session.SetString("username", account.Username);
                         HttpContext.Session.SetString("fullname", account.Fullname);
-                        HttpContext.Session.SetString("role", account.Role==1 ? "Admin" : "User");
+                        HttpContext.Session.SetString("role", account.Role == 1 ? "Admin" : "User");
                         //}
                         httpclient.Dispose();
                         return RedirectToAction("Index");
@@ -92,20 +92,21 @@ namespace ITMCollege.Controllers
                     else
                     {
                         _notyf.Warning("Invalid User ID or Password.");
-                        return RedirectToAction("Login");
+                        return View();
                     }
                 }
                 else
                 {
-                    _notyf.Warning("Your account hasn't active yet.");
-                    return RedirectToAction("Login");
+                    _notyf.Warning("Account is not active yet.");
+                    return View();
                 }
-            }
-            else
-            {
-                _notyf.Warning(@"The field Password must match the regular expression '^[A-Za-z\d#$!@%&*?]{1,30}$'. ");
-                return RedirectToAction("Login");
-            }
+                
+            //}
+            //else
+            //{
+            //    _notyf.Warning(@"The field Password must match the regular expression '^[A-Za-z\d#$!@%&*?]{1,30}$'. ");
+            //    return RedirectToAction("Login");
+            //}
         }
        
         public IActionResult Logout()
