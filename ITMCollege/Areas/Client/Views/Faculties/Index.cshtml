@@ -27,7 +27,7 @@
       <div class="row mx-auto">
           <div class="col-md-9">
               <select class="d-inline form-control" id="exampleFormControlSelect1" name="id">
-                  <option value="">Select Department</option>
+                  <option value=0>Select Department</option>
                   @foreach (var item in ViewBag.listdep)
                   {
                       <option value="@item.DepId">@item.DepName</option>

@@ -38,7 +38,14 @@ namespace ITMCollege.Areas.Client.Controllers
         public ActionResult Details(int id)
         {
             var listfacul = JsonConvert.DeserializeObject<IEnumerable<Faculty>>(httpclient.GetStringAsync(uri).Result);
-            ViewBag.listfacul = listfacul.Where(o => o.DepId == id);
+            if (id == 0)
+            {
+                ViewBag.listfacul = listfacul;
+            }
+            else
+            {
+                ViewBag.listfacul = listfacul.Where(o => o.DepId == id);
+            }
             ViewBag.listdep = JsonConvert.DeserializeObject<IEnumerable<Department>>(httpclient.GetStringAsync(uri2).Result);
             return View();
         }
