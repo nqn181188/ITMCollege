@@ -112,6 +112,7 @@ namespace ITMCollege.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
+            _notyf.Success("Logout Succesfully");
             return View("Login");
         }
 
