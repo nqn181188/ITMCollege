@@ -4,94 +4,92 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Client/_Layout.cshtml";
 }
+
+<div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: @Url.Content("~/Images/bg_1.jpg")">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-7">
+                <h2 class="mb-0">Contact</h2>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="custom-breadcrumns border-bottom">
     <div class="container">
-        <a href="/">Home</a>
+        <a asp-area="Client" asp-controller="Home" asp-action="Index">Home</a>
         <span class="mx-3 icon-keyboard_arrow_right"></span>
         <span class="current">Contact</span>
     </div>
 </div>
-
 <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                <p class="mbr-text">
-                    <br> 
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>@Html.ActionLink("Ho Chi Minh","Index",new { status="hcm" })
-                    <br>
-                    <br>Email: ITMCollecge@gmail.com
-                    <br>Phone: +1 (0) 000 0000 001
-                    <br>Fax: +1 (0) 000 0000 002
-                    <br>Address:590 CMT8,Ho Chi Minh
-                    <br>
-                    <br>@Html.ActionLink("Ha Noi","Index",new { status="hanoi" })
-                    <br>
-                    <br>Email: ITMCollecge@gmail.com
-                    <br>Phone: +1 (0) 000 0000 003
-                    <br>Fax: +1 (0) 000 0000 004
-                    <br>Address:Dai Lo Thanh Long,H.Thach That, Ha Noi
-                </p>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                 <br>
-                 <br>
-                 <br>
-                 <br>
-                 <br>
-                 <br>
-                 <br>
-                <div><iframe src="@ViewBag.googlemap" width="750" height="500" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
-            </div>
+    <div class="row my-5">
+        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+            <p class="mbr-text">
+             
+                <br>@Html.ActionLink("Ho Chi Minh", "Index", new { status = "hcm" })
+                <br>
+                <br>Email: ITMCollecge@gmail.com
+                <br>Phone: +1 (0) 000 0000 001
+                <br>Fax: +1 (0) 000 0000 002
+                <br>Address:590 CMT8,Ho Chi Minh
+                <br>
+                <br>@Html.ActionLink("Ha Noi", "Index", new { status = "hanoi" })
+                <br>
+                <br>Email: ITMCollecge@gmail.com
+                <br>Phone: +1 (0) 000 0000 003
+                <br>Fax: +1 (0) 000 0000 004
+                <br>Address:Dai Lo Thanh Long,H.Thach That, Ha Noi
+            </p>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+         
+            <div><iframe src="@ViewBag.googlemap" width="750" height="500" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
         </div>
     </div>
+</div>
 
-<div class="site-section" >
+<div class="site-section">
     <div class="container">
         <form asp-action="Create">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row">
-            <div class="col-md-6 form-group">
-                <label asp-for="FirstName">First Name<span style="color:red;">(*)</span></label>
-                <input asp-for="FirstName" class="form-control form-control-lg" placeholder="FirstName">
-                <span asp-validation-for="FirstName" class="text-danger" ></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label asp-for="FirstName">First Name<span style="color:red;">(*)</span></label>
+                    <input asp-for="FirstName" class="form-control form-control-lg" placeholder="FirstName">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="LastName">Last Name<span style="color:red;">(*)</span></label>
+                    <input asp-for="LastName" class="form-control form-control-lg" placeholder="LastName">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
             </div>
-            <div class="col-md-6 form-group">
-                <label asp-for="LastName">Last Name<span style="color:red;">(*)</span></label>
-                <input asp-for="LastName" class="form-control form-control-lg" placeholder="LastName">
-                <span asp-validation-for="LastName" class="text-danger" ></span>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label asp-for="Email">Email Address<span style="color:red;">(*)</span></label>
+                    <input asp-for="Email" class="form-control form-control-lg" placeholder="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="Subject">Subject<span style="color:red;">(*)</span></label>
+                    <input asp-for="Subject" class="form-control form-control-lg" placeholder="Subject">
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 form-group">
-                <label asp-for="Email">Email Address<span style="color:red;">(*)</span></label>
-                <input asp-for="Email" class="form-control form-control-lg" placeholder="Email">
-                <span asp-validation-for="Email" class="text-danger" ></span>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <label asp-for="Message">Message<span style="color:red;">(*)</span></label>
+                    @* <input asp-for="Message" class="form-control">*@
+                    <textarea asp-for="Message" cols="40" rows="15" class="form-control"></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
             </div>
-            <div class="col-md-6 form-group">
-                <label asp-for="Subject">Subject<span style="color:red;">(*)</span></label>
-                <input asp-for="Subject" class="form-control form-control-lg" placeholder="Subject">
-                <span asp-validation-for="Subject" class="text-danger" ></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 form-group">
-                <label asp-for="Message">Message<span style="color:red;">(*)</span></label>
-               @* <input asp-for="Message" class="form-control">*@
-                <textarea asp-for="Message" cols="40" rows="15" class="form-control"></textarea>
-                <span asp-validation-for="Message" class="text-danger" ></span>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-12">
-                <input type="submit" value="Send Message" class="btn btn-primary btn-lg px-5">
+            <div class="row">
+                <div class="col-12">
+                    <input type="submit" value="Send Message" class="btn btn-primary btn-lg px-5">
+                </div>
             </div>
-        </div>
         </form>
     </div>
 </div>
