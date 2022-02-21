@@ -27,18 +27,25 @@ namespace ITMCollege.Areas.Admin.Controllers
         HttpClient client = new HttpClient();
 
         // GET: SpeSubjectsController
-        public ActionResult Index()
+        public ActionResult Index(int pg=1)
         {
             var res = client.GetStringAsync(uriSpeSubject).Result;
-            var data = JsonConvert.DeserializeObject<IEnumerable<SpeSubjects>>(res);
+            var list = JsonConvert.DeserializeObject<IEnumerable<SpeSubjectViewModel>>(res);
             var streamList = JsonConvert.DeserializeObject<IEnumerable<Stream>>(client.GetStringAsync(uriStream).Result);
             ViewBag.StreamList = streamList;
-            ViewBag.FieldList = JsonConvert.DeserializeObject<IEnumerable<Field>>(client.GetStringAsync(uriField + "GetFieldsByStreamId/" + streamList.First().StreamId).Result);
-            foreach(var item in data)
+            foreach(var item in list)
             {
                 item.Field = JsonConvert.DeserializeObject<Field>(client.GetStringAsync(uriField+item.FieldId).Result);
                 item.Stream= JsonConvert.DeserializeObject<Stream>(client.GetStringAsync(uriStream + item.Field.StreamId).Result);
             }
+            const int pageSize = 10;
+            if (pg < 1)
+                pg = 1;
+            int rescCount = list.Count();
+            var pager = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = list.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
             return View(data);
         }
 
@@ -94,7 +101,7 @@ namespace ITMCollege.Areas.Admin.Controllers
                 {
                     var res = client.GetStringAsync(uriSpeSubject+id).Result;
                     var data = JsonConvert.DeserializeObject<SpeSubject>(res);
-                    SpeSubjects subject = new SpeSubjects();
+                    SpeSubjectViewModel subject = new SpeSubjectViewModel();
                     if (data == null)
                     {
                         return NotFound();
@@ -119,7 +126,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // POST: SpeSubjectsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(SpeSubjects subject)
+        public ActionResult Edit(SpeSubjectViewModel subject)
         {
             if (subject == null)
             {
@@ -163,7 +170,7 @@ namespace ITMCollege.Areas.Admin.Controllers
                 {
                     var res = client.GetStringAsync(uriSpeSubject + id).Result;
                     var data = JsonConvert.DeserializeObject<SpeSubject>(res);
-                    SpeSubjects subject = new SpeSubjects();
+                    SpeSubjectViewModel subject = new SpeSubjectViewModel();
                     if (data == null)
                     {
                         return NotFound();
@@ -218,7 +225,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             client.Dispose();
             return data;
         }
-        private SpeSubjects GetSpeSubjectsFromSpeSubject(SpeSubjects subject, SpeSubject data)
+        private SpeSubjectViewModel GetSpeSubjectsFromSpeSubject(SpeSubjectViewModel subject, SpeSubject data)
         {
             subject.SubjectId = data.SubjectId;
             subject.SubjectName = data.SubjectName;

@@ -16,16 +16,25 @@ namespace ITMCollege.Areas.Admin.Controllers
     {
         private readonly INotyfService _notyf;
         private readonly string uriOpSubject = "http://localhost:20646/api/opsubjects/";
+        private readonly string uriRegistration = "http://localhost:20646/api/registrations/";
         HttpClient client = new HttpClient();
         public OpSubjectsController(INotyfService notyf)
         {
             this._notyf = notyf;
         }
         // GET: OpSubjectsController
-        public ActionResult Index()
+        public ActionResult Index(int pg=1)
         {
             var res = client.GetStringAsync(uriOpSubject).Result;
-            var data = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(res);
+            var list = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(res);
+            const int pageSize = 10;
+            if (pg < 1)
+                pg = 1;
+            int rescCount = list.Count();
+            var pager = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = list.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
             return View(data);
         }
 

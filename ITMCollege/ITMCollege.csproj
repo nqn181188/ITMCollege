@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ViewModel\" />
     <Folder Include="wwwroot\Images\Faculty\" />
     <Folder Include="wwwroot\Images\Facility\" />
     <Folder Include="wwwroot\Images\Course\" />

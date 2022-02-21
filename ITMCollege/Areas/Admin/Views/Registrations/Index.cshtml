@@ -1,6 +1,6 @@
-﻿@model IEnumerable<ITMCollege.Areas.Admin.Models.SpeSubjectViewModel>
+﻿@model IEnumerable<ITMCollege.Areas.Admin.Models.RegistrationViewModel>
 @{
-    ViewBag.Title = "Specialized Subject List";
+    ViewBag.Title = "Registration List";
     Layout = "~/Views/Shared/Admin/_Layout.cshtml";
     Pager pager = new Pager();
     int pageNo = 0;
@@ -14,12 +14,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Specialized Subject List</h1>
+                <h1>Registration List</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/Admin/Home/Index">Home</a></li>
-                    <li class="breadcrumb-item active">Specialized Subject</li>
+                    <li class="breadcrumb-item"><a href="">Home</a></li>
+                    <li class="breadcrumb-item active">Registration</li>
                 </ol>
             </div>
         </div>
@@ -58,10 +58,13 @@
                 <thead class="thead-dark">
                     <tr>
                         <th class="text-center align-middle" style="width: 5%">No.</th>
-                        <th class="text-center align-middle" style="width: 25%">Specialized Subject Name</th>
-                        <th class="text-center align-middle" style="width: 25%">Stream</th>
-                        <th class="text-center align-middle" style="width: 25%">Field</th>
-                        <th class="text-center align-middle" style="width: 20%">Action</th>
+                        <th class="text-center align-middle" style="width: 5%">Registration Number</th>
+                        <th class="text-center align-middle" style="width: 15%">Full Name</th>
+                        <th class="text-center align-middle" style="width: 20%">Stream</th>
+                        <th class="text-center align-middle" style="width: 20%">Field</th>
+                        <th class="text-center align-middle" style="width: 15%">Specialized Subject</th>
+                        <th class="text-center align-middle" style="width: 15%">Optinal Subject</th>
+                        <th class="text-center align-middle" style="width: 5%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,12 +78,14 @@
                             <td class="text-center align-middle">
                                 <span>@(no++)</span>
                             </td>
-                            <td class="text-center align-middle">@item.SubjectName</td>
-                            <td class="text-center align-middle">@item.Stream.StreamName </td>
+                            <td class="text-center align-middle">@item.RegNum</td>
+                            <td class="text-center align-middle">@item.FullName </td>
+                            <td class="text-center align-middle">@item.Stream.StreamName</td>
                             <td class="text-center align-middle">@item.Field.FieldName</td>
+                            <td class="text-center align-middle">@item.SpeSubject.SubjectName</td>
+                            <td class="text-center align-middle">@item.OpSubject.SubjectName</td>
                             <td class="text-center align-middle">
-                                <a class="btn btn-primary" asp-area="Admin" asp-controller="SpeSubjects" asp-action="Edit" asp-route-id="@item.SubjectId">Edit</a>
-                                <a class="btn btn-danger" asp-area="Admin" asp-controller="SpeSubjects" asp-action="DeleteConfirm" asp-route-id="@item.SubjectId">Delete</a>
+                                <a class="btn btn-primary" asp-area="Admin" asp-controller="Registrations" asp-action="Details" asp-route-id="@item.RegistrationId">Details</a>
                             </td>
                         </tr>
                     }

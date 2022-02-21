@@ -33,7 +33,7 @@ namespace ITMCollege.Areas.Client.Controllers
         {
             try
             {
-                string fileName = fullName.Replace(" ","")+"-"+Guid.NewGuid().ToString()+ Path.GetExtension(file.FileName);
+                string fileName = fullName.Replace(" ","")+"-"+Guid.NewGuid().ToString()+ Path.GetFileName(file.FileName);
                 string filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/images/registration", fileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
@@ -67,7 +67,7 @@ namespace ITMCollege.Areas.Client.Controllers
             }
             else
             {
-                var data = JsonConvert.DeserializeObject<Admissions>(res);
+                var data = JsonConvert.DeserializeObject<AdmissionViewModel>(res);
                 var dic = new Dictionary<string, string>
                 {
                     {"fullName",data.FullName },
@@ -109,6 +109,18 @@ namespace ITMCollege.Areas.Client.Controllers
             }
             ViewBag.RegNum = regNum;
             return View();
+        }
+        public JsonResult GetRegistrationByRegNum (string regnum)
+        {
+            var res = client.GetStringAsync(uriResgistration + "GetRegistrationByRegNum/" + regnum).Result;
+            if (res.ToString() == "")
+            {
+                return Json(null);
+            }
+            else
+            {
+                return Json(JsonConvert.DeserializeObject<Registration>(res));
+            }
         }
     }
 

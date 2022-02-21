@@ -170,7 +170,7 @@ namespace ITMCollege.Areas.Client.Controllers
             var res = client.GetStringAsync(uriAdmission+ "GetAdmissionByRegNum/"+regnum).Result;
             if (res.ToString()!="")
             {
-                var data = JsonConvert.DeserializeObject<Admissions>(res);
+                var data = JsonConvert.DeserializeObject<AdmissionViewModel>(res);
                 var dic = new Dictionary<string, string>
                 {
                     {"fullName",data.FullName },

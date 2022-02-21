@@ -21,58 +21,75 @@ $("#btnSubmit").click(function (e) {
         } else {
             $.ajax({
                 type: "POST",
-                url: "/Client/Registrations/GetAdmissionInfor",
-                data: { 'regNum': regNum },
-                success: function (res) {
-                    if (!res) {
+                url: "/Client/Registrations/GetRegistrationByRegNum",
+                data: { 'RegNum': regNum },
+                success: function (Registration) {
+                    if (Registration) {
                         $("#registrationForm").hide();
                         $("#regnum").addClass("input-err");
-                        $("#regNumErr").append("Registration Number is not exits.");
+                        $("#regNumErr").append("Registration Number " + regNum + " has been complete the registration.");
                     } else {
-                        if (res.status == "0") {
-                            $("#registrationForm").hide();
-                            $("#regnum").addClass("input-err");
-                            $("#regNumErr").append("Admission Status is WAITING. Please wait until the status is ACCEPTED .");
-                        }
-                        if (res.status == "2") {
-                            $("#registrationForm").hide();
-                            $("#regnum").addClass("input-err");
-                            $("#regNumErr").append("Admission Status is REJECTED. You cannot registration in ITM College.");
-                        }
-                        if (res.status == "1") {
-                            $("#registrationForm").show();
-                            $("#fullname").val(res.fullName);
-                            $("#Dob").val(res.dateOfBirth);
-                            if (res.gender == "true") {
-                                $("#male").prop("checked", true);
-                            } else {
-                                $("#female").prop("checked", true);
-                            }
-                            $("#resadd").val(res.resAdd);
-                            $("#peradd").val(res.perAdd);
-                            $("#stream").val(res.stream);
-                            $("#field").val(res.field);
-                            $("#email").val(res.email);
-                            $("#RegNum").val(res.regNum);
-                            $.ajax({
-                                type: "POST",
-                                url: "/Client/Registrations/GetSpeSubjectList",
-                                data: { 'FieldId': parseInt(res.fieldId) },
-                                success: function (SpeSubjectList) {
-                                    $.each(SpeSubjectList, function (index, value) {
-                                        $("#SpeSubject").append('<option value="' + value.subjectId + '">' + value.subjectName + '</option>');
-                                    });
-                                },
-                            });
-                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "/Client/Registrations/GetAdmissionInfor",
+                            data: { 'regNum': regNum },
+                            success: function (res) {
+                                if (!res) {
+                                    $("#registrationForm").hide();
+                                    $("#regnum").addClass("input-err");
+                                    $("#regNumErr").append("Registration Number is not exits.");
+                                } else {
+                                    if (res.status == "0") {
+                                        $("#registrationForm").hide();
+                                        $("#regnum").addClass("input-err");
+                                        $("#regNumErr").append("Admission Status is WAITING. Please wait until the status is ACCEPTED .");
+                                    }
+                                    if (res.status == "2") {
+                                        $("#registrationForm").hide();
+                                        $("#regnum").addClass("input-err");
+                                        $("#regNumErr").append("Admission Status is REJECTED. You cannot registration in ITM College.");
+                                    }
+                                    if (res.status == "1") {
+                                        $("#registrationForm").show();
+                                        $("#fullname").val(res.fullName);
+                                        $("#Dob").val(res.dateOfBirth);
+                                        if (res.gender == "true") {
+                                            $("#male").prop("checked", true);
+                                        } else {
+                                            $("#female").prop("checked", true);
+                                        }
+                                        $("#resadd").val(res.resAdd);
+                                        $("#peradd").val(res.perAdd);
+                                        $("#stream").val(res.stream);
+                                        $("#field").val(res.field);
+                                        $("#email").val(res.email);
+                                        $("#RegNum").val(res.regNum);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Client/Registrations/GetSpeSubjectList",
+                                            data: { 'FieldId': parseInt(res.fieldId) },
+                                            success: function (SpeSubjectList) {
+                                                $.each(SpeSubjectList, function (index, value) {
+                                                    $("#SpeSubject").append('<option value="' + value.subjectId + '">' + value.subjectName + '</option>');
+                                                });
+                                            },
+                                        });
+                                    }
 
+                                }
+                            },
+                            error: function () {
+                                alert("Error. Please try again later.")
+                            },
+
+                        });
                     }
                 },
                 error: function () {
-                    alert("Error. Please try again later.")
+                    alert("Error. Please try again later.");
                 },
-
             });
+            
         }
     }
 });

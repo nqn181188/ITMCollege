@@ -25,13 +25,21 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly string uriAdmission = "http://localhost:20646/api/admissions/";
         HttpClient client = new HttpClient();
         // GET: AdmissionsController
-        public ActionResult Index()
+        public ActionResult Index(int pg = 1)
         {
             var res = client.GetStringAsync(uriAdmission).Result;
-            var data = JsonConvert.DeserializeObject<IEnumerable<Admissions>>(res);
+            var list = JsonConvert.DeserializeObject<IEnumerable<AdmissionViewModel>>(res);
             var streamList = JsonConvert.DeserializeObject<IEnumerable<Stream>>
                             (client.GetStringAsync(uriStream).Result);
             ViewBag.StreamList = streamList;
+            const int pageSize = 10;
+            if (pg < 1)
+                pg = 1;
+            int rescCount = list.Count();
+            var pager = new Pager(rescCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = list.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
             return View(data);
         }
 

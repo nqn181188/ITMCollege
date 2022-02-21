@@ -47,7 +47,7 @@ namespace ITMCollegeAPI.Controllers
 
         // PUT: api/Registrations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        
+
         [HttpPost]
         public async Task<ActionResult<Registration>> PostRegistration(Registration registration)
         {
@@ -65,6 +65,34 @@ namespace ITMCollegeAPI.Controllers
         private bool RegistrationExists(long id)
         {
             return _context.Registrations.Any(e => e.RegistrationId == id);
+        }
+        [HttpGet("GetRegistrationByRegNum/{RegNum}")]
+        public async Task<ActionResult<Registration>> GetRegistration(string RegNum)
+        {
+            if (string.IsNullOrEmpty(RegNum))
+            {
+                return BadRequest();
+            }
+            var registration = await _context.Registrations.FirstOrDefaultAsync(r => r.RegNum.Equals(RegNum));
+
+            if (registration == null)
+            {
+                return Ok(null);
+            }
+
+            return Ok(registration);
+        }
+        [HttpGet("CheckOpSubjectExist/{id}")]
+        public async Task<IActionResult> CheckOpSubjectExits(int id)
+        {
+            if( await _context.Registrations.AnyAsync(e => e.OpSubjectId == id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

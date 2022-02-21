@@ -2,6 +2,13 @@
 @{
     ViewBag.Title = "Admission List";
     Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 <section class="content-header">
     <div class="container-fluid">
@@ -40,7 +47,7 @@
                 </thead>
                 <tbody>
                     @{
-                        int no = 1;
+                        int no = 1+(pageNo-1)*10;
                     }
                     @foreach (var item in Model)
                     {
@@ -59,5 +66,8 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <partial name="_pager" model="@pager" />
     </div>
 </section>

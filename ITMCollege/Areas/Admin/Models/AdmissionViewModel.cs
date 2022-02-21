@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ITMCollege.Areas.Admin.Models
 {
-    public class Admissions
+    public class AdmissionViewModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

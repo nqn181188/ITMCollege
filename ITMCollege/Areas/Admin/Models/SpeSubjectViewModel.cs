@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ITMCollege.Areas.Admin.Models
 {
-    public class SpeSubjects
+    public class SpeSubjectViewModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
