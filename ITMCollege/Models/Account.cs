@@ -12,11 +12,13 @@ namespace ITMCollege.Models
 
         public int AccountId { get; set; }
         [Required]
+        [RegularExpression(@"^[A-Za-z]{1,50}$")]
         public string Fullname { get; set; }
         [Required]
         //[PageRemote(ErrorMessage = "Username already exists", AdditionalFields = "__RequestVerificationToken",
         //HttpMethod = "post", PageHandler = "CheckEmail")]
         //[BindProperty]
+        [RegularExpression(@"^[A-Za-z\d#$!@%&*?]{1,30}$")]
         public string Username { get; set; }
         [Required]
         [RegularExpression(@"^[A-Za-z\d#$!@%&*?]{1,30}$")]

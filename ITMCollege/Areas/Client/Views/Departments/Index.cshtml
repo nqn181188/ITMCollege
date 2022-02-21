@@ -12,31 +12,43 @@
     }
 }
 
-  <br> 
-  <br>
-  <br>
-  <br>
-  <br>
-   <br>
+
+<div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: @Url.Content("~/Images/bg_1.jpg")">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-7">
+                <h2 class="mb-0">Department</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="custom-breadcrumns border-bottom">
+    <div class="container">
+        <a asp-area="Client" asp-controller="Home" asp-action="Index">Home</a>
+        <span class="mx-3 icon-keyboard_arrow_right"></span>
+        <span class="current">Department</span>
+    </div>
+</div>
 <div class="site-section">
     <div class="container">
-         <partial name="_pager" model="@pager" />
+        <partial name="_pager" model="@pager" />
         <div class="row">
-            @foreach(var item in Model){
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="course-1-item">
-                    <figure class="thumnail">
-                        <a href="/departments/details/@item.DepId"><img width="340" height="200" src="~/@item.Image" alt="Image" ></a>
-                        <div class="category"><h3>@item.DepName</h3></div>
-                    </figure>
-                    <div class="course-1-content pb-4">
-                        <p><a href="/departments/details/@item.DepId" class="btn btn-primary rounded-0 px-4">Detail</a></p>
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="course-1-item">
+                        <figure class="thumnail">
+                            <a href="/departments/details/@item.DepId"><img width="340" height="200" src="~/@item.Image" alt="Image"></a>
+                            <div class="category"><h3>@item.DepName</h3></div>
+                        </figure>
+                        <div class="course-1-content pb-4">
+                            <p><a href="/departments/details/@item.DepId" class="btn btn-primary rounded-0 px-4">Detail</a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
 
         </div>
-         <partial name="_pager" model="@pager" />
+        <partial name="_pager" model="@pager" />
     </div>
 </div>

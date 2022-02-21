@@ -12,12 +12,20 @@
         pageNo = pager.CurrentPage;
     }
 }
-
+<div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: @Url.Content("~/Images/bg_1.jpg")">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-7">
+                <h2 class="mb-0">Course</h2>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="custom-breadcrumns border-bottom">
     <div class="container">
-        <a href="/">Home</a>
+        <a asp-area="Client" asp-controller="Home" asp-action="Index">Home</a>
         <span class="mx-3 icon-keyboard_arrow_right"></span>
-        <span class="current">Courses</span>
+        <span class="current">Course</span>
     </div>
 </div>
 
@@ -37,12 +45,12 @@
                         <div class="course-1-content pb-4">
                             <h2>How to learn @item.Field.FieldName more effectily</h2>
                             @*<div class="rating text-center mb-3">
-                                <span class="icon-star2 text-warning"></span>
-                                <span class="icon-star2 text-warning"></span>
-                                <span class="icon-star2 text-warning"></span>
-                                <span class="icon-star2 text-warning"></span>
-                                <span class="icon-star2 text-warning"></span>
-                            </div>*@
+                                    <span class="icon-star2 text-warning"></span>
+                                    <span class="icon-star2 text-warning"></span>
+                                    <span class="icon-star2 text-warning"></span>
+                                    <span class="icon-star2 text-warning"></span>
+                                    <span class="icon-star2 text-warning"></span>
+                                </div>*@
                             <div class="desc mb-4">@item.Description</div>
                             <p><a href="/courses/details/@item.CourseId" class="btn btn-primary rounded-0 px-4">Course details</a></p>
                         </div>
