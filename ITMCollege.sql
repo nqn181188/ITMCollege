@@ -193,3 +193,12 @@ Insert into Facultys VALUES (N'Katalyna',N'12/03/1992',N'Advisor',5,N'Images/Fac
 Insert into Facultys VALUES (N'Rowan',N'25/05/1979',N'Master',6,N'Images/Faculty/faculty10.jpg')
 Insert into Facultys VALUES (N'Wanna Bike',N'03/05/1989',N'Advisor',6,N'Images/Faculty/faculty11.jpg')
 Insert into Facultys VALUES (N'Dieter',N'04/08/1992',N'Master',7,N'Images/Faculty/faculty12.jpg')
+
+Insert into Facilities VALUES (N'Pools',1,N'Images/Facility/facilities1.jpg')
+Insert into Facilities VALUES (N'Canteen',1,N'Images/Facility/facilities2.jpg')
+Insert into Facilities VALUES (N'Gyms',1,N'Images/Facility/facilities3.jpg')
+Insert into Facilities VALUES (N'Library',1,N'Images/Facility/facilities4.jpg')
+Insert into Facilities VALUES (N'Meeting-Hall',1,N'Images/Facility/facilities5.jpg')
+Insert into Facilities VALUES (N'Hostel',1,N'Images/Facility/facilities6.jpg')
+Insert into Facilities VALUES (N'Administrator Office',1,N'Images/Facility/facilities7.jpg')
+Insert into Facilities VALUES (N'Classroom',1,N'Images/Facility/facilities8.jpg')
