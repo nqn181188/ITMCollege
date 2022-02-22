@@ -23,10 +23,10 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
 
-        private readonly string uri = "http://localhost:20646/api/courses/";
+        private readonly string uriCourse = "http://localhost:20646/api/courses/";
         private readonly string uriField = "http://localhost:20646/api/fields/";
         private readonly string uriStream = "http://localhost:20646/api/streams/";
-        private readonly string uri11 = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
+        private readonly string uri = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
         private HttpClient httpclient = new HttpClient();
 
         public CoursesController(ILogger<HomeController> logger, INotyfService notyf)
@@ -57,7 +57,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             }
             ViewBag.StreamList = streamList;
             
-            var list = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri).Result);
+            var list = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uriCourse).Result);
             foreach (var item in list)
             {
                 item.Field = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uriField + item.FieldId).Result);
@@ -89,14 +89,14 @@ namespace ITMCollege.Areas.Admin.Controllers
       
         public ActionResult Details(int id)
         {
-            var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uriCourse + id).Result);
             httpclient.Dispose();
             return View(model);
         }
 
         public JsonResult getfieldsFromDatabaseByStream(int id)
         {
-            var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri11 + id).Result);
+            var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri + id).Result);
             httpclient.Dispose();
             return Json(new SelectList(model,"FieldId","FieldName"));
         }
@@ -137,7 +137,7 @@ namespace ITMCollege.Areas.Admin.Controllers
                     _notyf.Warning("Image file invalid");
                     return RedirectToAction(nameof(Create));
                 }
-                var data = httpclient.PostAsJsonAsync<Course>(uri, course).Result;
+                var data = httpclient.PostAsJsonAsync<Course>(uriCourse, course).Result;
                 if (data.IsSuccessStatusCode)
                 {
                     _notyf.Success("Create Succesfully");
@@ -163,7 +163,7 @@ namespace ITMCollege.Areas.Admin.Controllers
 
             var data = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uriStream).Result);
             ViewBag.ListStream = new SelectList(data, "StreamId", "StreamName");
-            var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uriCourse + id).Result);
             httpclient.Dispose();
             return View(model);
         }
@@ -186,14 +186,14 @@ namespace ITMCollege.Areas.Admin.Controllers
                     }
                     course.Image = "Images/Course/" + fileName;
                     _notyf.Success("Edit Succesfully");
-                    var model = httpclient.PutAsJsonAsync(uri + id, course).Result;
+                    var model = httpclient.PutAsJsonAsync(uriCourse + id, course).Result;
                     httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     _notyf.Success("Edit Succesfully");
-                    var model = httpclient.PutAsJsonAsync(uri + id, course).Result;
+                    var model = httpclient.PutAsJsonAsync(uriCourse + id, course).Result;
                     httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
@@ -207,7 +207,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: CoursesController/Delete/5
         public ActionResult Delete(int id)
         {
-            var data = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);
+            var data = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uriCourse + id).Result);
             return View(data);
 
         }
@@ -220,7 +220,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             try
             {
                 _notyf.Success("Delete Succesfully");
-                var data = httpclient.DeleteAsync(uri + id).Result;
+                var data = httpclient.DeleteAsync(uriCourse + id).Result;
                 httpclient.Dispose();
                 return RedirectToAction(nameof(Index));
             }

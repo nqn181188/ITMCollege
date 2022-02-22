@@ -22,7 +22,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
 
-        private readonly string uri1 = "http://localhost:20646/api/courses/GetCoursesByFieldId/";
+        private readonly string uri = "http://localhost:20646/api/courses/GetCoursesByFieldId/";
         private readonly string uriField = "http://localhost:20646/api/fields/";
         private readonly string uriStream = "http://localhost:20646/api/streams/";
         private HttpClient httpclient = new HttpClient();
@@ -175,7 +175,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FieldsController/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri1 + id).Result);
+            var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri + id).Result);
             if (model.Count() < 1)
             {
                 var data = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uriField + id).Result);

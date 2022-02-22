@@ -41,8 +41,6 @@
         </div>
     </form>
 </div>
-
-<partial name="_pager" model="@pager" />
 <table class="table">
     <thead>
         <tr>
@@ -59,13 +57,15 @@
         </tr>
     </thead>
     <tbody>
-        @{ var count = 0;}
+        @{
+            int no = 1 + (pageNo - 1) * 6;
+        }
         @foreach (var item in Model)
         {
             <tr>
-                @{ count++;}
+             
                 <td>
-                    @count
+                    <span>@(no++)</span>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FieldName)
@@ -82,8 +82,33 @@
         }
     </tbody>
 </table>
-<partial name="_pager" model="@pager" />
-
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(pageNo==1?"disabled":"")">
+            <a class="page-link " asp-action="Index" asp-route-page="1" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchStatus="@ViewBag.searchStatus">First</a>
+        </li>
+        <li class="page-item @(pageNo==1?"disabled":"")">
+            <a class="page-link" asp-action="Index" asp-route-page="@(pageNo-1)" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchStatus="@ViewBag.searchStatus">Previous</a>
+        </li>
+        @{
+            int j = 1;
+        }
+        @for (int i = pageNo; j <= 10; i++)
+        {
+            j++;
+            if (i <= ViewBag.TotalPage)
+            {
+                <li class="page-item @(pageNo==i?"active":"")"><a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchName="@ViewBag.searchName">@i</a></li>
+            }
+        }
+        <li class="page-item @(pageNo==ViewBag.TotalPage?"disabled":"")">
+            <a class="page-link" asp-action="Index" asp-route-page="@(pageNo+1)" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchStatus="@ViewBag.searchStatus">Next</a>
+        </li>
+        <li class="page-item @(pageNo==ViewBag.TotalPage?"disabled":"")">
+            <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.TotalPage" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchStatus="@ViewBag.searchStatus">Last</a>
+        </li>
+    </ul>
+</nav>
 @section Scripts {
     <script>
         $(document).ready(function () {

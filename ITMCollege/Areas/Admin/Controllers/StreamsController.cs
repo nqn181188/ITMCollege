@@ -21,8 +21,8 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly INotyfService _notyf;
 
-        private readonly string uri = "http://localhost:20646/api/streams/";
-        private readonly string uri11 = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
+        private readonly string uriStream = "http://localhost:20646/api/streams/";
+        private readonly string uri = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
         private HttpClient httpclient = new HttpClient();
 
         public StreamsController(ILogger<HomeController> logger, INotyfService notyf)
@@ -37,7 +37,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            var model = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri).Result);
+            var model = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uriStream).Result);
             httpclient.Dispose();
             const int pageSize = 10;
             if (pg < 1)
@@ -54,7 +54,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: StreamsController/Details/5
         public ActionResult Details(int id)
         {
-            var model = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uriStream + id).Result);
             httpclient.Dispose();
             return View(model);
         }
@@ -77,7 +77,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             try
             {
 
-                var data = httpclient.PostAsJsonAsync<ITMCollege.Models.Stream>(uri, st).Result;
+                var data = httpclient.PostAsJsonAsync<ITMCollege.Models.Stream>(uriStream, st).Result;
                 if (data.IsSuccessStatusCode)
                 {
                     _notyf.Success("Create Succesfully");
@@ -97,7 +97,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: StreamsController/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uriStream + id).Result);
             httpclient.Dispose();
             return View(model);
         }
@@ -112,7 +112,7 @@ namespace ITMCollege.Areas.Admin.Controllers
                 if (stream != null)
                 {
                     _notyf.Success("Edit Succesfully");
-                    var model = httpclient.PutAsJsonAsync(uri + id, stream).Result;
+                    var model = httpclient.PutAsJsonAsync(uriStream + id, stream).Result;
                     httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
@@ -132,10 +132,10 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: StreamsController/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri11 + id).Result);
+            var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri + id).Result);
             if (model.Count() < 1)
             {
-                var data = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uri + id).Result);
+                var data = JsonConvert.DeserializeObject<ITMCollege.Models.Stream>(httpclient.GetStringAsync(uriStream + id).Result);
                 return View(data);
             }
             else
@@ -154,7 +154,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             {
                 
                     _notyf.Success("Delete Succesfully");
-                    var data = httpclient.DeleteAsync(uri + id).Result;
+                    var data = httpclient.DeleteAsync(uriStream + id).Result;
                     httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
             
