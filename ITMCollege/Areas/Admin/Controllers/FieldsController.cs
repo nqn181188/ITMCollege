@@ -3,6 +3,7 @@ using ITMCollege.Areas.Client.Controllers;
 using ITMCollege.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -22,8 +23,8 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly INotyfService _notyf;
 
         private readonly string uri1 = "http://localhost:20646/api/courses/GetCoursesByFieldId/";
-        private readonly string uri = "http://localhost:20646/api/fields/";
-        private readonly string uri2 = "http://localhost:20646/api/streams/";
+        private readonly string uriField = "http://localhost:20646/api/fields/";
+        private readonly string uriStream = "http://localhost:20646/api/streams/";
         private HttpClient httpclient = new HttpClient();
 
         public FieldsController(ILogger<HomeController> logger, INotyfService notyf)
@@ -32,30 +33,70 @@ namespace ITMCollege.Areas.Admin.Controllers
             _notyf = notyf;
         }
         // GET: FieldsController
-        public ActionResult Index(int pg = 1)
+        public ActionResult Index(int searchStream, int searchField, int page)
         {
             if (HttpContext.Session.GetString("username") == null)
             {
                 return RedirectToAction("Login", "Home");
             }
-            var model = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uri).Result);
-            httpclient.Dispose();
-            const int pageSize = 5;
-            if (pg < 1)
-                pg = 1;
-            int rescCount = model.Count();
-            var pager = new Pager(rescCount, pg, pageSize);
-            int recSkip = (pg - 1) * pageSize;
-            var data = model.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            ViewBag.searchStream = searchStream;
+            List<SelectListItem> streamList = new List<SelectListItem>();
+            var streams = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uriStream).Result);
+            streamList.Add(new SelectListItem { Text = "---Choose Stream---", Value = "0" });
+            foreach (var item in streams)
+            {
+                streamList.Add(new SelectListItem { Text = $"{item.StreamName}", Value = $"{item.StreamId}" });
+            }
+            foreach (var item in streamList)
+            {
+                item.Selected = item.Value.Equals(searchStream.ToString()) ? true : false;
+            }
+            ViewBag.StreamList = streamList;
+
+            var list = JsonConvert.DeserializeObject<IEnumerable<Field>>(httpclient.GetStringAsync(uriField).Result);
+          
+
+            if (searchStream != 0)
+            {
+                list = list.Where(a => a.StreamId == searchStream);
+            }
+          
+
+
+            const int pageSize = 6;
+            page = page > 1 ? page : 1;
+            int resCount = list.Count();
+            var pager = new Pager(resCount, page, pageSize);
+            int recSkip = (page - 1) * pageSize;
+            var data = list.Skip(recSkip).Take(pager.PageSize).ToList();
             this.ViewBag.Pager = pager;
-            //return View(model);
+            ViewBag.TotalPage = (int)resCount / pageSize + 1;
+            httpclient.Dispose();
             return View(data);
+
+          
+          
         }
 
+        [HttpPost]
+        public IEnumerable<Field> GetFieldByStreamId(int StreamId)
+        {
+            var res = httpclient.GetStringAsync(uriField + "GetFieldsByStreamId/" + StreamId).Result;
+            var data = JsonConvert.DeserializeObject<IEnumerable<Field>>(res);
+            if (data == null)
+            {
+                return null;
+            }
+            else
+            {
+                return data;
+            }
+        }
         // GET: FieldsController/Details/5
         public ActionResult Details(int id)
         {
-            var model = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uri + id).Result);
+            var model = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uriField + id).Result);
             httpclient.Dispose();
             return View(model);
         }
@@ -67,7 +108,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
+            ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uriStream).Result);
             httpclient.Dispose();
             return View();
         }
@@ -80,7 +121,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             try
             {
                
-                var data = httpclient.PostAsJsonAsync<Field>(uri, field).Result;
+                var data = httpclient.PostAsJsonAsync<Field>(uriField, field).Result;
                 if (data.IsSuccessStatusCode)
                 {
                     _notyf.Success("Create Succesfully");
@@ -98,8 +139,8 @@ namespace ITMCollege.Areas.Admin.Controllers
         // GET: FieldsController/Edit/5
         public ActionResult Edit(int id)
         {
-            ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uri2).Result);
-            var model = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uri + id).Result);
+            ViewBag.ListStream = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(httpclient.GetStringAsync(uriStream).Result);
+            var model = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uriField + id).Result);
             httpclient.Dispose();
             return View(model);
         }
@@ -114,7 +155,7 @@ namespace ITMCollege.Areas.Admin.Controllers
                 if (field != null)
                 {
                     _notyf.Success("Edit Succesfully");
-                    var model = httpclient.PutAsJsonAsync(uri + id, field).Result;
+                    var model = httpclient.PutAsJsonAsync(uriField + id, field).Result;
                     httpclient.Dispose();
                     return RedirectToAction(nameof(Index));
                 }
@@ -137,7 +178,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri1 + id).Result);
             if (model.Count() < 1)
             {
-                var data = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uri + id).Result);
+                var data = JsonConvert.DeserializeObject<Field>(httpclient.GetStringAsync(uriField + id).Result);
                 return View(data);
             }
             else
@@ -157,7 +198,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             try
             {
                 _notyf.Success("Delete Succesfully");
-                var data = httpclient.DeleteAsync(uri + id).Result;
+                var data = httpclient.DeleteAsync(uriField + id).Result;
                 httpclient.Dispose();
                 return RedirectToAction(nameof(Index));
             }

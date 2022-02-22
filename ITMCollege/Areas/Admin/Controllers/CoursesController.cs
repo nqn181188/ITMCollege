@@ -25,9 +25,8 @@ namespace ITMCollege.Areas.Admin.Controllers
 
         private readonly string uri = "http://localhost:20646/api/courses/";
         private readonly string uriField = "http://localhost:20646/api/fields/";
-        private readonly string uri11 = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
         private readonly string uriStream = "http://localhost:20646/api/streams/";
-        private readonly string uriAdmission = "http://localhost:20646/api/admissions/";
+        private readonly string uri11 = "http://localhost:20646/api/fields/GetFieldsByStreamId/";
         private HttpClient httpclient = new HttpClient();
 
         public CoursesController(ILogger<HomeController> logger, INotyfService notyf)
@@ -42,7 +41,7 @@ namespace ITMCollege.Areas.Admin.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri).Result);
+           
             ViewBag.searchStream = searchStream;
             ViewBag.searchField = searchField;
             List<SelectListItem> streamList = new List<SelectListItem>();
@@ -87,28 +86,7 @@ namespace ITMCollege.Areas.Admin.Controllers
         }
 
         
-        //public ActionResult Index(int pg=1)
-        //{
-        //    if (HttpContext.Session.GetString("username") == null)
-        //    {
-        //        return RedirectToAction("Login", "Home");
-        //    }
-        //    var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri).Result);
-        //    httpclient.Dispose();
-
-        //    const int pageSize = 5;
-        //    if (pg < 1)
-        //        pg = 1;
-        //    int rescCount = model.Count();
-        //    var pager = new Pager(rescCount, pg, pageSize);
-        //    int recSkip = (pg - 1) * pageSize;
-        //    var data = model.Skip(recSkip).Take(pager.PageSize).ToList();
-        //    this.ViewBag.Pager = pager;
-        //    //return View(model);
-        //    return View(data);
-        //}
-
-        // GET: CoursesController/Details/5
+      
         public ActionResult Details(int id)
         {
             var model = JsonConvert.DeserializeObject<Course>(httpclient.GetStringAsync(uri + id).Result);

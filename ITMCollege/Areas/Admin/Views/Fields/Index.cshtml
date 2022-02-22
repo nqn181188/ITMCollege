@@ -18,6 +18,30 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div class="card-header">
+    <form asp-action="Index" id="filter-products" class="form-inline">
+        <div class="row mx-auto">
+
+            <div class="d-inline px-2">
+                <select class="form-control use-chosen form-control-sm" id="StreamList" name="searchStream">
+                    @foreach (var item in ViewBag.StreamList)
+                    {
+                        <option value='@item.Value'>@item.Text</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="d-inline px-2">
+                <button type="submit" class="btn btn-primary btn-sm" id="btnFilter">Filter</button>
+                <button type="reset" class="btn btn-outline-primary btn-sm" id="btnReset">Reset</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+
 <partial name="_pager" model="@pager" />
 <table class="table">
     <thead>
@@ -35,26 +59,56 @@
         </tr>
     </thead>
     <tbody>
-               @{ var count = 0;}
-@foreach (var item in Model) {
-        <tr>
-            @{ count++;}
-            <td>
-                @count
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FieldName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stream.StreamName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.FieldId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.FieldId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.FieldId })
-            </td>
-        </tr>
-}
+        @{ var count = 0;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                @{ count++;}
+                <td>
+                    @count
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FieldName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stream.StreamName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.FieldId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.FieldId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.FieldId })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <partial name="_pager" model="@pager" />
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#StreamList").val(@ViewBag.searchStream).change();
+            $("#StatusList").val(@ViewBag.searchStatus).change();
+        });
+        $("#StreamList").change(function () {
+            $("#FieldList option[value!='0']").remove();
+            var StreamId = $(this).val();
+            if (StreamId != "0") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Fields/GetFieldByStreamId",
+                    data: { 'StreamId': StreamId },
+                    success: function (res) {
+                        if (res) {
+                            $.each(res, function (index, value) {
+                                    $("#FieldList").append('<option value="' + value.fieldId + '">' + value.fieldName + '</option>');
+                            });
+                        }
+                        $("#FieldList").val(@ViewBag.searchField).change();
+                    },
+
+                });
+            }
+        });
+    </script>
+}

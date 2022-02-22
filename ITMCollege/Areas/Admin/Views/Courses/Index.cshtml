@@ -117,7 +117,7 @@
             if (StreamId != "0") {
                 $.ajax({
                     type: "POST",
-                    url: "/Admin/Registrations/GetFieldByStreamId",
+                    url: "/Admin/Fields/GetFieldByStreamId",
                     data: { 'StreamId': StreamId },
                     success: function (res) {
                         if (res) {
