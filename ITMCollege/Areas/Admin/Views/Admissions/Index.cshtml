@@ -28,56 +28,58 @@
 <section class="content">
     <div class="card">
         <div class="card-header">
-            <form id="filter-products" class="form-inline">
+            <form asp-action="Index" id="filter-products" class="form-inline">
                 <div class="row mx-auto">
-                    <div class="d-inline use-chosen">
-                        <input name="name" type="text" class="form-control search-name" value="" id="name" placeholder="Search by name...">
+                    <div class="d-inline use-chosen px-2">
+                        <input name="searchRegNum" type="text" class="form-control search-name form-control-sm" value="@ViewBag.searchRegNum" id="searchRegNum" placeholder="Registration Number..">
                     </div>
                     <div class="d-inline px-2">
-                        <select class="form-control use-chosen" id="StreamList">
-                            <option value="">---Choose Stream----</option>
+                        <select class="form-control use-chosen form-control-sm" id="StreamList" name="searchStream">
                             @foreach (var item in ViewBag.StreamList)
                             {
-                                <option value='@item.StreamId'>@item.StreamName</option>
+                                <option value='@item.Value'>@item.Text</option>
                             }
                         </select>
                     </div>
                     <div class="d-inline px-2">
-                        <select class="form-control use-chosen" id="FieldList">
-                            <option value="">---Choose Field---</option>
+                        <select class="form-control use-chosen form-control-sm" id="FieldList" name="searchField">
+                            <option value="0">---Choose Field---</option>
                         </select>
                     </div>
                     <div class="d-inline px-2">
-                        <select class="form-control use-chosen" name="paginate">
-                            <option value="">Status</option>
-                            <option value="">Waiting</option>
-                            <option value="">Rejected</option>
-                            <option value="">Accepted</option>
+                        <select class="form-control use-chosen form-control-sm" name="searchStatus" id="StatusList">
+                            @foreach (var item in ViewBag.StatusList)
+                            {
+                                <option value='@item.Value'>@item.Text</option>
+                            }
+
                         </select>
                     </div>
                     <div class="d-inline px-2">
-                        <button class="btn btn-primary" id="btnFilter">Filter</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="btnFilter">Filter</button>
+                        <button type="reset" class="btn btn-outline-primary btn-sm" id="btnReset">Reset</button>
+
                     </div>
                 </div>
             </form>
         </div>
         <div class="card-body p-0">
-            <table class="table table-striped project ">
+            <table class="table table-striped project table-sm">
                 <thead class="thead-dark">
                     <tr>
                         <th class="text-center align-middle" style="width: 5%">No.</th>
-                        <th class="text-center align-middle" style="width: 10%">Registration Number</th>
-                        <th class="text-center align-middle" style="width: 15%">Full Name</th>
-                        <th class="text-center align-middle" style="width: 15%">Email</th>
-                        <th class="text-center align-middle" style="width: 20%">Stream</th>
-                        <th class="text-center align-middle" style="width: 20%">Field</th>
+                        <th class="text-center align-middle" style="width: 5%">Registration Number</th>
+                        <th class="text-center align-middle" style="width: 20%">Full Name</th>
+                        <th class="text-center align-middle" style="width: 10%">Email</th>
+                        <th class="text-center align-middle" style="width: 25%">Stream</th>
+                        <th class="text-center align-middle" style="width: 25%">Field</th>
                         <th class="text-center align-middle" style="width: 5%">Status</th>
-                        <th class="text-center align-middle" style="width: 10%">Action</th>
+                        <th class="text-center align-middle" style="width: 5%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @{
-                        int no = 1+(pageNo-1)*10;
+                        int no = 1 + (pageNo - 1) * 10;
                     }
                     @foreach (var item in Model)
                     {
@@ -114,17 +116,44 @@
             </table>
         </div>
     </div>
-    <div class="row d-flex justify-content-center">
-        <partial name="_pager" model="@pager" />
-    </div>    
-
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(pageNo==1?"disabled":"")">
+                <a class="page-link " asp-action="Index" asp-route-page="1" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchStatus="@ViewBag.searchStatus">First</a>
+            </li>
+            <li class="page-item @(pageNo==1?"disabled":"")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(pageNo-1)" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchStatus="@ViewBag.searchStatus">Previous</a>
+            </li>
+            @{
+                int j = 1;
+            }
+            @for (int i = pageNo; j <= 10; i++)
+            {
+                j++;
+                if (i <= ViewBag.TotalPage)
+                {
+                    <li class="page-item @(pageNo==i?"active":"")"><a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchName="@ViewBag.searchName">@i</a></li>
+                }
+            }
+            <li class="page-item @(pageNo==ViewBag.TotalPage?"disabled":"")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(pageNo+1)" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchStatus="@ViewBag.searchStatus">Next</a>
+            </li>
+            <li class="page-item @(pageNo==ViewBag.TotalPage?"disabled":"")">
+                <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.TotalPage" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchStatus="@ViewBag.searchStatus">Last</a>
+            </li>
+        </ul>
+    </nav>
 </section>
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            $("#StreamList").val(@ViewBag.searchStream).change();
+            $("#StatusList").val(@ViewBag.searchStatus).change();
+        });
         $("#StreamList").change(function () {
-            $("#FieldList option[value!='']").remove();
+            $("#FieldList option[value!='0']").remove();
             var StreamId = $(this).val();
-            if (StreamId != "") {
+            if (StreamId != "0") {
                 $.ajax({
                     type: "POST",
                     url: "/Admin/Registrations/GetFieldByStreamId",
@@ -132,9 +161,10 @@
                     success: function (res) {
                         if (res) {
                             $.each(res, function (index, value) {
-                                $("#FieldList").append('<option value="' + value.fieldId + '">' + value.fieldName + '</option>');
+                                    $("#FieldList").append('<option value="' + value.fieldId + '">' + value.fieldName + '</option>');
                             });
                         }
+                        $("#FieldList").val(@ViewBag.searchField).change();
                     },
 
                 });

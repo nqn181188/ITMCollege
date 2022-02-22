@@ -23,18 +23,23 @@ namespace ITMCollege.Areas.Admin.Controllers
             this._notyf = notyf;
         }
         // GET: OpSubjectsController
-        public ActionResult Index(int pg=1)
+        public ActionResult Index(string searchName, int searchStream, int searchField, int page)
         {
+            ViewBag.searchName = searchName;
             var res = client.GetStringAsync(uriOpSubject).Result;
             var list = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(res);
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                list = list.Where(s => s.SubjectName.Contains(searchName));
+            }
             const int pageSize = 10;
-            if (pg < 1)
-                pg = 1;
-            int rescCount = list.Count();
-            var pager = new Pager(rescCount, pg, pageSize);
-            int recSkip = (pg - 1) * pageSize;
+            page = page > 1 ? page : 1;
+            int resCount = list.Count();
+            var pager = new Pager(resCount, page, pageSize);
+            int recSkip = (page - 1) * pageSize;
             var data = list.Skip(recSkip).Take(pager.PageSize).ToList();
             this.ViewBag.Pager = pager;
+            ViewBag.TotalPage = (int)resCount / pageSize + 1;
             return View(data);
         }
 

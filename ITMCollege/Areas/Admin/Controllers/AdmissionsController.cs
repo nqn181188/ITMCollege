@@ -3,13 +3,13 @@ using ITMCollege.Areas.Admin.Models;
 using ITMCollege.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 namespace ITMCollege.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -25,22 +25,63 @@ namespace ITMCollege.Areas.Admin.Controllers
         private readonly string uriAdmission = "http://localhost:20646/api/admissions/";
         HttpClient client = new HttpClient();
         // GET: AdmissionsController
-        public ActionResult Index(int pg = 1)
+        public ActionResult Index(string searchRegNum, int searchStream, int searchField, string searchStatus,int page)
         {
+            ViewBag.searchRegNum = searchRegNum;
+            ViewBag.searchStream = searchStream;
+            ViewBag.searchField = searchField;
+            ViewBag.searchStatus = searchStatus;
+            List<SelectListItem> streamList = new List<SelectListItem>();
+            var streams = JsonConvert.DeserializeObject<IEnumerable<Stream>>(client.GetStringAsync(uriStream).Result);
+            streamList.Add(new SelectListItem { Text="---Choose Stream---",Value="0" });
+            foreach (var item in streams)
+            {
+                streamList.Add(new SelectListItem { Text=$"{item.StreamName}",Value=$"{item.StreamId}"});
+            }
+            foreach(var item in streamList)
+            {
+                item.Selected=item.Value.Equals(searchStream.ToString())?true:false;
+            }
+            ViewBag.StreamList = streamList;
+            List<SelectListItem> statusList = new List<SelectListItem>();
+            statusList.Add(new SelectListItem { Text = "---Choose Status---", Value = "" });
+            statusList.Add(new SelectListItem { Text = "Waiting", Value = "0" });
+            statusList.Add(new SelectListItem { Text = "Accepted", Value = "1" });
+            statusList.Add(new SelectListItem { Text = "Rejected", Value = "2" });
+            foreach (var item in statusList)
+            {
+                item.Selected = item.Value.Equals(searchStatus) ? true : false;
+            }
+            ViewBag.StatusList = statusList;
             var res = client.GetStringAsync(uriAdmission).Result;
             var list = JsonConvert.DeserializeObject<IEnumerable<AdmissionViewModel>>(res);
-            var streamList = JsonConvert.DeserializeObject<IEnumerable<Stream>>
-                            (client.GetStringAsync(uriStream).Result);
-            ViewBag.StreamList = streamList;
+            if (!string.IsNullOrEmpty(searchRegNum))
+            {
+                list = list.Where(a => a.RegNum.Contains(searchRegNum));
+            }
+            if (searchStream!=0)
+            {
+                list = list.Where(a => a.StreamId == searchStream);
+            }
+            if (searchField!=0)
+            {
+                list = list.Where(a => a.FieldId == searchField);
+            }
+            if (!string.IsNullOrEmpty(searchStatus))
+            {
+                list = list.Where(a => a.Status == Byte.Parse(searchStatus));
+            }
+            
             const int pageSize = 10;
-            if (pg < 1)
-                pg = 1;
-            int rescCount = list.Count();
-            var pager = new Pager(rescCount, pg, pageSize);
-            int recSkip = (pg - 1) * pageSize;
+            page = page>1?page:1;
+            int resCount = list.Count();
+            var pager = new Pager(resCount, page, pageSize);
+            int recSkip = (page - 1) * pageSize;
             var data = list.Skip(recSkip).Take(pager.PageSize).ToList();
             this.ViewBag.Pager = pager;
+            ViewBag.TotalPage = (int)resCount / pageSize + 1;
             return View(data);
+            
         }
 
         // GET: AdmissionsController/Details/5

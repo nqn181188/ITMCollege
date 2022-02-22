@@ -1,0 +1,99 @@
+﻿@model ITMCollege.Areas.Admin.Models.RegistrationViewModel
+@{
+    ViewBag.Title = "Edit Admission";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+
+<div class="card" id="admissionForm pr-3">
+    <div class="card-header bg-dark text-dark font-weight-bold">REGISTRATION DETAILS</div>
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="fullname">Full Name</label>
+                        <input value="@Model.FullName" type="text" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Date Of Birth</label>
+                        <input value="@Model.DateOfBirth.ToShortDateString()" readonly type="text" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="d-block" for="gender">Gender</label>
+                        <div class="custom-control custom-radio d-inline-block pr-4">
+                            <input type="radio" class="custom-control-input" value="true" @(Model.Gender == true ? "checked" : "") disabled>
+                            <label class="custom-control-label" for="male">Male</label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline-block">
+                            <input type="radio" class="custom-control-input" value="false" @(Model.Gender == false ? "checked" : "") disabled>
+                            <label class="custom-control-label" for="female">Female</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="email">Email</label>
+                        <input value="@Model.Email" type="text" readonly class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="DateOfBirth">Registration Number</label>
+                        <input value="@Model.RegNum" readonly class="form-control form-control-lg">
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <label for="resaddress">Residential Address</label>
+                        <input value="@Model.ResAddress" asp-for="ResAddress" type="text" readonly id="resaddress" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="peraddress">Permanent Address</label>
+                        <input value="@Model.PerAddress" asp-for="PerAddress" type="text" readonly id="peraddress" class="form-control form-control-lg">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="eaddress">Stream</label>
+                        <input value="@Model.Stream.StreamName" readonly type="text" id="resaddress" class="form-control form-control-lg" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="eaddress">Field</label>
+                        <input value="@Model.Field.FieldName" readonly type="text" id="resaddress" class="form-control form-control-lg" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Specialized Subject</label>
+                        <input value="@Model.SpeSubject.SubjectName" readonly type="text" class="form-control form-control-lg" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Optional Subject</label>
+                        <input value="@Model.OpSubject.SubjectName" readonly type="text" class="form-control form-control-lg" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Emergency Name</label>
+                        <input value="@Model.EmergencyName" readonly type="text" class="form-control form-control-lg" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Emergency Phone</label>
+                        <input value="@Model.EmergencyPhone" readonly type="text" class="form-control form-control-lg" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label>Emergency Address</label>
+                        <input value="@Model.EmergencyAddress" readonly type="text" class="form-control form-control-lg" />
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <div class="col-md-12"><label>Image</label></div>
+                        <img class="rounded" src="@Url.Content($"~/images/registration/NguyenAnhThu-1b3acbf1-8747-42ad-8e5c-521676cb4f4d2021-06-16_14-51-54.jpg")" style="width:200px;height:300px"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Registrations" asp-action="Index">Back to Registration List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

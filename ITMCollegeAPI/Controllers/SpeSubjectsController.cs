@@ -103,7 +103,7 @@ namespace ITMCollegeAPI.Controllers
 
             if (speSubject == null)
             {
-                return NotFound(); ;
+                return null;
             }
 
             return Ok(speSubject);

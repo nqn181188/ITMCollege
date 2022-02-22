@@ -27,8 +27,11 @@ namespace ITMCollege.Areas.Admin.Controllers
         HttpClient client = new HttpClient();
 
         // GET: SpeSubjectsController
-        public ActionResult Index(int pg=1)
+        public ActionResult Index(string searchName,int searchStream, int searchField, int page)
         {
+            ViewBag.searchName = searchName;
+            ViewBag.searchStream = searchStream;
+            ViewBag.searchField = searchField;
             var res = client.GetStringAsync(uriSpeSubject).Result;
             var list = JsonConvert.DeserializeObject<IEnumerable<SpeSubjectViewModel>>(res);
             var streamList = JsonConvert.DeserializeObject<IEnumerable<Stream>>(client.GetStringAsync(uriStream).Result);
@@ -38,14 +41,26 @@ namespace ITMCollege.Areas.Admin.Controllers
                 item.Field = JsonConvert.DeserializeObject<Field>(client.GetStringAsync(uriField+item.FieldId).Result);
                 item.Stream= JsonConvert.DeserializeObject<Stream>(client.GetStringAsync(uriStream + item.Field.StreamId).Result);
             }
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                list = list.Where(s=>s.SubjectName.Contains(searchName));
+            }
+            if (searchStream != 0)
+            {
+                list = list.Where(s => s.Stream.StreamId == searchStream) ;
+            }
+            if (searchField != 0)
+            {
+                list = list.Where(s => s.FieldId == searchField);
+            }
             const int pageSize = 10;
-            if (pg < 1)
-                pg = 1;
-            int rescCount = list.Count();
-            var pager = new Pager(rescCount, pg, pageSize);
-            int recSkip = (pg - 1) * pageSize;
+            page = page > 1 ? page : 1;
+            int resCount = list.Count();
+            var pager = new Pager(resCount, page, pageSize);
+            int recSkip = (page - 1) * pageSize;
             var data = list.Skip(recSkip).Take(pager.PageSize).ToList();
             this.ViewBag.Pager = pager;
+            ViewBag.TotalPage = (int)resCount / pageSize + 1;
             return View(data);
         }
 

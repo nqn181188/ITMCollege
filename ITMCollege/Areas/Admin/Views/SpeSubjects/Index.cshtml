@@ -30,12 +30,12 @@
         <div class="card-header">
             <form id="filter-products" class="form-inline">
                 <div class="row mx-auto">
-                    <div class="d-inline use-chosen">
-                        <input name="name" type="text" class="form-control search-name" value="" id="name" placeholder="Search by name...">
+                    <div class="d-inline use-chosen px-2">
+                        <input name="name" type="text" class="form-control search-name form-control-sm" value="@ViewBag.searchName" id="name" placeholder="Search by name...">
                     </div>
                     <div class="d-inline px-2">
-                        <select class="form-control use-chosen" id="StreamList">
-                            <option value="">---Choose Stream----</option>
+                        <select class="form-control use-chosen form-control-sm" id="StreamList" name="searchStream">
+                            <option value="0">---Choose Stream----</option>
                             @foreach (var item in ViewBag.StreamList)
                             {
                                 <option value='@item.StreamId'>@item.StreamName</option>
@@ -43,12 +43,13 @@
                         </select>
                     </div>
                     <div class="d-inline px-2">
-                        <select class="form-control use-chosen" id="FieldList">
-                            <option value="">---Choose Field---</option>
+                        <select class="form-control use-chosen form-control-sm" id="FieldList" name="searchField">
+                            <option value="0">---Choose Field---</option>
                         </select>
                     </div>
                     <div class="d-inline px-2">
-                        <button class="btn btn-primary" id="btnFilter">Filter</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="btnFilter">Filter</button>
+                        <button type="reset" class="btn btn-outline-primary btn-sm" id="btnReset">Reset</button>
                     </div>
                 </div>
             </form>
@@ -66,7 +67,7 @@
                 </thead>
                 <tbody>
                     @{
-                        int no = 1+(pageNo-1)*10;
+                        int no = 1 + (pageNo - 1) * 10;
                     }
                     @foreach (var item in Model)
                     {
@@ -88,16 +89,43 @@
             </table>
         </div>
     </div>
-    <div class="row d-flex justify-content-center">
-        <partial name="_pager" model="@pager" />
-    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(pageNo == 1 ? "disabled" : "")">
+                <a class="page-link " asp-action="Index" asp-route-page="1" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchName="@ViewBag.searchName">First</a>
+            </li>
+            <li class="page-item @(pageNo == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(pageNo - 1)" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchName="@ViewBag.searchName">Previous</a>
+            </li>
+            @{
+                int j = 1;
+            }
+            @for (int i = pageNo; j <= 10; i++)
+            {
+                j++;
+                if (i <= ViewBag.TotalPage)
+                {
+                    <li class="page-item @(pageNo==i?"active":"")"><a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchName="@ViewBag.searchName">@i</a></li>
+                }
+            }
+            <li class="page-item @(pageNo==ViewBag.TotalPage?"disabled":"")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(pageNo+1)" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchName="@ViewBag.searchName">Next</a>
+            </li>
+            <li class="page-item @(pageNo==ViewBag.TotalPage?"disabled":"")">
+                <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.TotalPage" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchName="@ViewBag.searchName">Last</a>
+            </li>
+        </ul>
+    </nav>
 </section>
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            $("#StreamList").val(@ViewBag.searchStream).change();
+        });
         $("#StreamList").change(function () {
-            $("#FieldList option[value!='']").remove();
+            $("#FieldList option[value!='0']").remove();
             var StreamId = $(this).val();
-            if (StreamId != "") {
+            if (StreamId != "0") {
                 $.ajax({
                     type: "POST",
                     url: "/Admin/Registrations/GetFieldByStreamId",
@@ -107,6 +135,7 @@
                             $.each(res, function (index, value) {
                                 $("#FieldList").append('<option value="' + value.fieldId + '">' + value.fieldName + '</option>');
                             });
+                            $("#FieldList").val(@ViewBag.searchField).change();
                         }
                     },
 
