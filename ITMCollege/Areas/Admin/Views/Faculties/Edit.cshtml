@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label asp-for="Degree" class="control-label"></label>
                 @*<input asp-for="Degree" class="form-control" />*@
-                 <select asp-for="Degree" name="Degree">
+                 <select class="form-control" asp-for="Degree" name="Degree">
                     <option  value="Master" >Master</option>
                     <option  value="Advisor" >Advisor</option>
                 </select>
@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label asp-for="DepId" class="control-label"></label>
                 @*<input asp-for="DepId" class="form-control" />*@
-                <select asp-for="DepId" name="DepId">
+                <select class="form-control" asp-for="DepId" name="DepId">
                     @foreach(var item in @ViewBag.ListDep)
                     {
                         <option class="list list-danger" value="@item.DepId">@item.DepName</option>

@@ -40,7 +40,7 @@ namespace ITMCollege.Areas.Client
         {
             var model = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uri).Result);
             httpclient.Dispose();
-            const int pageSize = 6;
+            const int pageSize = 9;
             if (pg < 1)
                 pg = 1;
             int rescCount = model.Count();
