@@ -26,7 +26,6 @@ namespace ITMCollegeAPI.Controllers
         public async Task<ActionResult<List<Admissions>>> GetAdmissions()
         {
             var listAdmission = await _context.Admissions.ToListAsync();
-
             List<Admissions> list = new List<Admissions>();
             list = GetFullInfoAdmissions(listAdmission);
             return list;

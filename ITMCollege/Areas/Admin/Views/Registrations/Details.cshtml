@@ -82,14 +82,17 @@
                         <label>Emergency Address</label>
                         <input value="@Model.EmergencyAddress" readonly type="text" class="form-control form-control-lg" />
                     </div>
-                    
+
                 </div>
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <div class="col-md-12"><label>Image</label></div>
-                        <img class="rounded" src="@Url.Content($"~/images/registration/NguyenAnhThu-1b3acbf1-8747-42ad-8e5c-521676cb4f4d2021-06-16_14-51-54.jpg")" style="width:200px;height:300px"/>
+                @if (Model.Image != "")
+                {
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <div class="col-md-12"><label>Image</label></div>
+                            <img class="rounded" src="@Url.Content($"~/images/registration/{Model.Image}")" style="width:200px;height:300px" />
+                        </div>
                     </div>
-                </div>
+                }
                 <div class="col-md-6">
                     <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Registrations" asp-action="Index">Back to Registration List</a>
                 </div>

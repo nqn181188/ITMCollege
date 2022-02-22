@@ -55,6 +55,10 @@ namespace ITMCollege.Areas.Admin.Controllers
             ViewBag.StatusList = statusList;
             var res = client.GetStringAsync(uriAdmission).Result;
             var list = JsonConvert.DeserializeObject<IEnumerable<AdmissionViewModel>>(res);
+            foreach(var item in list)
+            {
+                item.Field = JsonConvert.DeserializeObject<Field>(client.GetStringAsync(uriField + item.FieldId).Result);
+            }
             if (!string.IsNullOrEmpty(searchRegNum))
             {
                 list = list.Where(a => a.RegNum.Contains(searchRegNum));
