@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label name="StreamId" class="control-label">Stream</label>
-                <select name="StreamId" id="StreamId" asp-for="StreamId" asp-items="@(new SelectList(ViewBag.ListStream,"StreamId","StreamName"))">
+                <select class="form-control" name="StreamId" id="StreamId" asp-for="StreamId" asp-items="@(new SelectList(ViewBag.ListStream,"StreamId","StreamName"))">
                     <option>Select Stream</option>  
                 </select>
                 @*<select name="StreamId">
