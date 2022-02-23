@@ -48,7 +48,7 @@ namespace ITMCollegeAPI.Controllers
 
             if (account == null)
             {
-                return NotFound();
+                return null;
             }
             return account;
         }

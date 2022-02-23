@@ -83,6 +83,11 @@ namespace ITMCollege.Controllers
             if (match.Success)
             {
                 var account = JsonConvert.DeserializeObject<Account>(httpclient.GetStringAsync(uriacc+ "GetAccountByUsername/" + userName).Result);
+                if (account==null)
+                {
+                    _notyf.Warning("Invalid User ID or Password.");
+                    return View();
+                }
                 if (account.IsActive == true)
                 {
                     var checkLogin = httpclient.GetStringAsync(uriacc + userName + "/" + password).Result;
