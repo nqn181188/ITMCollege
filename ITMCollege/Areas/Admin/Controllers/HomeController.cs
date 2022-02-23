@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using ITMCollege.Areas.Admin.Models;
 using ITMCollege.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +29,9 @@ namespace ITMCollege.Controllers
         private readonly string urifaci = "http://localhost:20646/api/facilities/";
         private readonly string urifeed = "http://localhost:20646/api/feedbacks/";
         private readonly string uriacc = "http://localhost:20646/api/accounts/";
+        private readonly string uriAdmission = "http://localhost:20646/api/admissions/";
+        private readonly string uriCourse = "http://localhost:20646/api/courses/";
+        private readonly string uriRegistration = "http://localhost:20646/api/registrations/";
         private HttpClient httpclient = new HttpClient();
 
         public HomeController(ILogger<HomeController> logger, INotyfService notyf)
@@ -47,6 +51,11 @@ namespace ITMCollege.Controllers
             ViewBag.ListFacil = JsonConvert.DeserializeObject<IEnumerable<Facility>>(httpclient.GetStringAsync(urifaci).Result);
             ViewBag.ListFeed = JsonConvert.DeserializeObject<IEnumerable<Feedback>>(httpclient.GetStringAsync(urifeed).Result);
             ViewBag.ListAcc = JsonConvert.DeserializeObject<IEnumerable<Feedback>>(httpclient.GetStringAsync(uriacc).Result);
+            var admissions = JsonConvert.DeserializeObject<IEnumerable<AdmissionViewModel>>(httpclient.GetStringAsync(uriAdmission).Result);
+            ViewBag.TotalAdmissions = admissions.Count();
+            ViewBag.TotalAcceptedAdmissions = admissions.Where(a => a.Status == 1).Count();
+            ViewBag.TotalCourse = JsonConvert.DeserializeObject<IEnumerable<Course>>(httpclient.GetStringAsync(uriCourse).Result).Count() ;
+            ViewBag.TotalRegistration = JsonConvert.DeserializeObject<IEnumerable<Registration>>(httpclient.GetStringAsync(uriRegistration).Result).Count();
             return View();
         }
 
