@@ -39,11 +39,6 @@ namespace ITMCollege.Areas.Client
         // GET: CoursesController
         public ActionResult Index(int searchStream, int searchField, int page)
         {
-            if (HttpContext.Session.GetString("username") == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
             ViewBag.searchStream = searchStream;
             ViewBag.searchField = searchField;
             List<SelectListItem> streamList = new List<SelectListItem>();

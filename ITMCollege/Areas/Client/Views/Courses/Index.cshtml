@@ -162,7 +162,7 @@
             if (StreamId != "0") {
                 $.ajax({
                     type: "POST",
-                    url: "/Admin/Fields/GetFieldByStreamId",
+                    url: "/Client/Admissions/GetFields",
                     data: { 'StreamId': StreamId },
                     success: function (res) {
                         if (res) {
