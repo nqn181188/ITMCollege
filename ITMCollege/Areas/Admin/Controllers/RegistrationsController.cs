@@ -1,4 +1,5 @@
-﻿using ITMCollege.Areas.Admin.Models;
+﻿using ClosedXML.Excel;
+using ITMCollege.Areas.Admin.Models;
 using ITMCollege.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,30 +33,14 @@ namespace ITMCollege.Areas.Admin.Controllers
             ViewBag.searchField = searchField;
             ViewBag.searchSpeSubject = searchSpeSubject;
             ViewBag.searchOpSubject = searchOpSubject;
-            ViewBag.StreamList = JsonConvert.DeserializeObject<IEnumerable<Stream>>(client.GetStringAsync(uriStream).Result);
+            ViewBag.StreamList = JsonConvert.DeserializeObject<IEnumerable<ITMCollege.Models.Stream>>(client.GetStringAsync(uriStream).Result);
             ViewBag.OpSubjectList = JsonConvert.DeserializeObject<IEnumerable<OpSubject>>(client.GetStringAsync(uriOpSubject).Result);
             var registartions = JsonConvert.DeserializeObject<IEnumerable<Registration>>(client.GetStringAsync(uriRegistration).Result);
             List<RegistrationViewModel> registrationViewModels = new();
             foreach(var item in registartions)
             {
                 RegistrationViewModel reg = new RegistrationViewModel();
-                reg.RegistrationId = item.RegistrationId;
-                reg.RegNum = item.RegNum;
-                var admissionInfor = JsonConvert.DeserializeObject<AdmissionViewModel>(client.GetStringAsync(uriAdmission + "GetAdmissionByRegNum/" + item.RegNum).Result);
-                reg.FullName = admissionInfor.FullName;
-                reg.Gender = admissionInfor.Gender;
-                reg.DateOfBirth = admissionInfor.DateOfBirth;
-                reg.ResAddress = admissionInfor.ResAddress;
-                reg.PerAddress = admissionInfor.PerAddress;
-                reg.Email = admissionInfor.Email;
-                reg.Stream = admissionInfor.Stream;
-                reg.Field = admissionInfor.Field;
-                reg.Image = item.Image;
-                reg.SpeSubject = JsonConvert.DeserializeObject<SpeSubject>(client.GetStringAsync(uriSpeSubject+item.SpeSubjectId).Result);
-                reg.OpSubject = item.OpSubjectId == null ? new OpSubject { SubjectId = 0, SubjectName = "None" } : JsonConvert.DeserializeObject<OpSubject>(client.GetStringAsync(uriOpSubject + item.OpSubjectId).Result);
-                reg.EmergencyName = item.EmergencyName;
-                reg.EmergencyPhone = item.EmergencyPhone;
-                reg.EmergencyAddress = item.EmergencyAddress;
+                GetRegistrationViewModelFormRegistration(reg, item);
                 registrationViewModels.Add(reg);
             }
             if (!string.IsNullOrEmpty(searchRegNum))
@@ -106,26 +92,8 @@ namespace ITMCollege.Areas.Admin.Controllers
             }
             else
             {
-                var admissionInfor = JsonConvert.DeserializeObject<AdmissionViewModel>(client.GetStringAsync(uriAdmission + "GetAdmissionByRegNum/" + registration.RegNum).Result);
-                RegistrationViewModel data = new RegistrationViewModel {
-                    RegistrationId = registration.RegistrationId,
-                    RegNum = registration.RegNum,
-                    FullName = admissionInfor.FullName,
-                    Gender = admissionInfor.Gender,
-                    DateOfBirth = admissionInfor.DateOfBirth,
-                    ResAddress = admissionInfor.ResAddress,
-                    PerAddress = admissionInfor.PerAddress,
-                    Email = admissionInfor.Email,
-                    Stream = admissionInfor.Stream,
-                    Field = admissionInfor.Field,
-                    Image = registration.Image,
-                    SpeSubject = JsonConvert.DeserializeObject<SpeSubject>(client.GetStringAsync(uriSpeSubject + registration.SpeSubjectId).Result),
-                    OpSubject= registration.OpSubjectId == null?new OpSubject { SubjectId=0,SubjectName="None"}: JsonConvert.DeserializeObject<OpSubject>(client.GetStringAsync(uriOpSubject + registration.OpSubjectId).Result),
-                    EmergencyName = registration.EmergencyName,
-                    EmergencyPhone = registration.EmergencyPhone,
-                    EmergencyAddress = registration.EmergencyAddress
-
-                };
+                RegistrationViewModel data = new RegistrationViewModel();
+                GetRegistrationViewModelFormRegistration(data, registration);
                 return View(data);
             }
             
@@ -158,6 +126,115 @@ namespace ITMCollege.Areas.Admin.Controllers
             {
                 return data;
             }
+        }
+        public IActionResult DownloadExcelDocument(string searchRegNum, string searchName, int searchStream, int searchField, int searchSpeSubject, int searchOpSubject)
+        {
+            string contentTye = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "Registration.xlsx";
+            try
+            {
+                using(var workbook = new XLWorkbook())
+                {
+                    IXLWorksheet worksheet = workbook.Worksheets.Add("Registration");
+                    worksheet.Cell(1, 1).Value = "No.";
+                    worksheet.Cell(1, 2).Value = "Registration Number";
+                    worksheet.Cell(1, 3).Value = "Full Name";
+                    worksheet.Cell(1, 4).Value = "Data of Birth";
+                    worksheet.Cell(1, 5).Value = "Gender";
+                    worksheet.Cell(1, 6).Value = "Email";
+                    worksheet.Cell(1, 7).Value = "Residential Address";
+                    worksheet.Cell(1, 8).Value = "Permanent Address";
+                    worksheet.Cell(1, 9).Value = "Stream";
+                    worksheet.Cell(1, 10).Value = "Field";
+                    worksheet.Cell(1, 11).Value = "Specialized Subject";
+                    worksheet.Cell(1, 12).Value = "Optional Subject";
+                    worksheet.Cell(1, 13).Value = "Emergency Name";
+                    worksheet.Cell(1, 14).Value = "Emergency Phone";
+                    worksheet.Cell(1, 15).Value = "Emergency Address";
+                    var registartions = JsonConvert.DeserializeObject<IEnumerable<Registration>>(client.GetStringAsync(uriRegistration).Result);
+                    List<RegistrationViewModel> list = new();
+                    foreach (var item in registartions)
+                    {
+                        RegistrationViewModel reg = new();
+                        reg = GetRegistrationViewModelFormRegistration(reg, item);
+                        list.Add(reg);
+                    }
+                    if (!string.IsNullOrEmpty(searchName))
+                    {
+                        list = list.Where(r=>r.FullName.Contains(searchName)).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(searchRegNum))
+                    {
+                        list = list.Where(r => r.FullName.Contains(searchRegNum)).ToList();
+                    }
+                    if (searchStream != 0)
+                    {
+                        list = list.Where(r => r.Stream.StreamId==searchStream).ToList();
+                    }
+                    if (searchField != 0)
+                    {
+                        list = list.Where(r => r.Field.FieldId== searchField).ToList();
+                    }
+                    if (searchSpeSubject != 0)
+                    {
+                        list = list.Where(r => r.SpeSubject.SubjectId== searchSpeSubject).ToList();
+                    }
+                    if (searchOpSubject != 0)
+                    {
+                        list = list.Where(r => r.OpSubject.SubjectId == searchOpSubject).ToList();
+                    }
+                    for (int i = 1; i <= list.Count; i++)
+                    {
+                        worksheet.Cell(i + 1, 1).Value = i;
+                        worksheet.Cell(i + 1, 2).Value = list[i - 1].RegNum;
+                        worksheet.Cell(i + 1, 3).Value = list[i - 1].FullName;
+                        worksheet.Cell(i + 1, 4).Value = list[i - 1].DateOfBirth.ToShortDateString();
+                        worksheet.Cell(i + 1, 5).Value = list[i - 1].Gender == true ? "Male" : "Female";
+                        worksheet.Cell(i + 1, 6).Value = list[i - 1].Email;
+                        worksheet.Cell(i + 1, 7).Value = list[i - 1].ResAddress;
+                        worksheet.Cell(i + 1, 8).Value = list[i - 1].PerAddress;
+                        worksheet.Cell(i + 1, 9).Value = list[i - 1].Stream.StreamName;
+                        worksheet.Cell(i + 1, 10).Value = list[i - 1].Field.FieldName;
+                        worksheet.Cell(i + 1, 11).Value = list[i - 1].SpeSubject.SubjectName;
+                        worksheet.Cell(i + 1, 12).Value = list[i - 1].OpSubject.SubjectName;
+                        worksheet.Cell(i + 1, 13).Value = list[i - 1].EmergencyName;
+                        worksheet.Cell(i + 1, 14).Value = list[i - 1].EmergencyPhone;
+                        worksheet.Cell(i + 1, 15).Value = list[i - 1].EmergencyAddress;
+                    }
+                    using(var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        return File(content, contentTye, fileName);
+                    }
+                }
+                
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest();
+            }
+        }
+        private RegistrationViewModel GetRegistrationViewModelFormRegistration (RegistrationViewModel reg, Registration item)
+        {
+            reg.RegistrationId = item.RegistrationId;
+            reg.RegNum = item.RegNum;
+            var admissionInfor = JsonConvert.DeserializeObject<AdmissionViewModel>(client.GetStringAsync(uriAdmission + "GetAdmissionByRegNum/" + item.RegNum).Result);
+            reg.FullName = admissionInfor.FullName;
+            reg.Gender = admissionInfor.Gender;
+            reg.DateOfBirth = admissionInfor.DateOfBirth;
+            reg.ResAddress = admissionInfor.ResAddress;
+            reg.PerAddress = admissionInfor.PerAddress;
+            reg.Email = admissionInfor.Email;
+            reg.Stream = admissionInfor.Stream;
+            reg.Field = admissionInfor.Field;
+            reg.Image = item.Image;
+            reg.SpeSubject = JsonConvert.DeserializeObject<SpeSubject>(client.GetStringAsync(uriSpeSubject + item.SpeSubjectId).Result);
+            reg.OpSubject = item.OpSubjectId == null ? new OpSubject { SubjectId = 0, SubjectName = "None" } : JsonConvert.DeserializeObject<OpSubject>(client.GetStringAsync(uriOpSubject + item.OpSubjectId).Result);
+            reg.EmergencyName = item.EmergencyName;
+            reg.EmergencyPhone = item.EmergencyPhone;
+            reg.EmergencyAddress = item.EmergencyAddress;
+            return reg;
         }
     }
 }

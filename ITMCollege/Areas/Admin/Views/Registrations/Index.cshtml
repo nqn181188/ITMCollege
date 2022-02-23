@@ -25,7 +25,11 @@
         </div>
     </div>
 </section>
+<div class="col-md-12 my-2 d-flex justify-content-end">
+    <a class="btn btn-success" asp-area="Admin" asp-controller="Registrations" asp-action="DownloadExcelDocument" asp-route-searchName="@ViewBag.searchName" asp-route-searchRegNum="@ViewBag.searchRegNum" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchSpeSubject="@ViewBag.searchSpeSubject" asp-route-searchOpSubject="@ViewBag.searchOpSubject">Export Data to Excel</a>
+</div>
 <section class="content">
+    
     <div class="card">
         <div class="card-header">
             <form id="filter-products">
