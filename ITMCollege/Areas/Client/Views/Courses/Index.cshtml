@@ -29,9 +29,37 @@
     </div>
 </div>
 
+
+
+<div class="card-header">
+    <form asp-action="Index" id="filter-products" class="form-inline">
+        <div class="row mx-auto">
+
+            <div class="d-inline px-2">
+                <select class="form-control use-chosen form-control-sm" id="StreamList" name="searchStream">
+                    @foreach (var item in ViewBag.StreamList)
+                    {
+                        <option value='@item.Value'>@item.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="d-inline px-2">
+                <select class="form-control use-chosen form-control-sm" id="FieldList" name="searchField">
+                    <option value="0">---Choose Field---</option>
+                </select>
+            </div>
+
+            <div class="d-inline px-2">
+                <button type="submit" class="btn btn-primary btn-sm" id="btnFilter">Filter</button>
+                <button type="reset" class="btn btn-outline-primary btn-sm" id="btnReset">Reset</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+
 <div class="site-section">
     <div class="container news-updates">
-        <partial name="_pager" model="@pager" />
         <div class="row">
             @foreach (var item in Model)
             {
@@ -45,12 +73,12 @@
                         <div class="course-1-content pb-4">
                             <h2>How to learn @item.Field.FieldName more effectily</h2>
                             @*<div class="rating text-center mb-3">
-                                    <span class="icon-star2 text-warning"></span>
-                                    <span class="icon-star2 text-warning"></span>
-                                    <span class="icon-star2 text-warning"></span>
-                                    <span class="icon-star2 text-warning"></span>
-                                    <span class="icon-star2 text-warning"></span>
-                                </div>*@
+                                <span class="icon-star2 text-warning"></span>
+                                <span class="icon-star2 text-warning"></span>
+                                <span class="icon-star2 text-warning"></span>
+                                <span class="icon-star2 text-warning"></span>
+                                <span class="icon-star2 text-warning"></span>
+                            </div>*@
                             <div class="desc mb-4">@item.Description</div>
                             <p><a href="/courses/details/@item.CourseId" class="btn btn-primary rounded-0 px-4">Course details</a></p>
                         </div>
@@ -59,7 +87,35 @@
             }
 
         </div>
-        <partial name="_pager" model="@pager" />
+
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(pageNo==1?"disabled":"")">
+                    <a class="page-link " asp-action="Index" asp-route-page="1"  asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" >First</a>
+                </li>
+                <li class="page-item @(pageNo==1?"disabled":"")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(pageNo-1)"  asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" >Previous</a>
+                </li>
+                @{
+                    int j = 1;
+                }
+                @for (int i = pageNo; j <= 10; i++)
+                {
+                    j++;
+                    if (i <= ViewBag.TotalPage)
+                    {
+                        <li class="page-item @(pageNo==i?"active":"")"><a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" asp-route-searchName="@ViewBag.searchName">@i</a></li>
+                    }
+                }
+                <li class="page-item @(pageNo==ViewBag.TotalPage?"disabled":"")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(pageNo+1)"  asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" >Next</a>
+                </li>
+                <li class="page-item @(pageNo==ViewBag.TotalPage?"disabled":"")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@ViewBag.TotalPage"  asp-route-searchStream="@ViewBag.searchStream" asp-route-searchField="@ViewBag.searchField" >Last</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 
@@ -90,3 +146,35 @@
         </div>
     </div>
 </div>
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#StreamList").val(@ViewBag.searchStream).change();
+            $("#StatusList").val(@ViewBag.searchStatus).change();
+        });
+        $("#StreamList").change(function () {
+            $("#FieldList option[value!='0']").remove();
+            var StreamId = $(this).val();
+            if (StreamId != "0") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Fields/GetFieldByStreamId",
+                    data: { 'StreamId': StreamId },
+                    success: function (res) {
+                        if (res) {
+                            $.each(res, function (index, value) {
+                                    $("#FieldList").append('<option value="' + value.fieldId + '">' + value.fieldName + '</option>');
+                            });
+                        }
+                        $("#FieldList").val(@ViewBag.searchField).change();
+                    },
+
+                });
+            }
+        });
+    </script>
+}
